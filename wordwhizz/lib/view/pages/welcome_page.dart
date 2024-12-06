@@ -86,7 +86,10 @@ class WelcomePage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Splashscreen()),
+                                      builder: (context) => Splashscreen(
+                                        navigateTo: RulesPage(),
+                                      ),
+                                    ),
                                   );
                                 },
                                 child: Text("Ayo Mulai", style: button1),

@@ -24,6 +24,20 @@ TextStyle splashTitle2 = TextStyle(
   color: secondaryColor,
 );
 
+TextStyle splashTitle3 = TextStyle(
+  fontFamily: 'BalooChettan2',
+  fontSize: 40.0,
+  fontWeight: FontWeight.bold,
+  color: Colors.white,
+   shadows: [
+    Shadow(
+      offset: Offset(2.0, 2.0), // Horizontal and vertical shadow offset
+      blurRadius: 4.0,          // Shadow blur radius
+      color: Colors.black54,    // Shadow color
+    ),
+  ],
+);
+
 TextStyle splashContent1 = TextStyle(
   fontFamily: 'BalooChettan2',
   fontSize: 19.0,

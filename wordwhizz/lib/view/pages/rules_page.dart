@@ -87,7 +87,12 @@ class RulesPage extends StatelessWidget {
                               height: 60,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  print("Button Pressed");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfilesetupPage(),
+                                      ),
+                                  );
                                 },
                                 child: Text("Selanjutnya", style: button1),
                                 style: ElevatedButton.styleFrom(

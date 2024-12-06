@@ -3,7 +3,10 @@ import 'package:lottie/lottie.dart';
 import 'package:wordwhizz/view/pages/pages.dart';
 
 class Splashscreen extends StatefulWidget {
-  const Splashscreen({super.key});
+  final Widget navigateTo; // Destination page
+
+  // Constructor includes the required navigateTo parameter
+  const Splashscreen({super.key, required this.navigateTo});
 
   @override
   State<Splashscreen> createState() => _SplashscreenState();
@@ -14,11 +17,11 @@ class _SplashscreenState extends State<Splashscreen> {
   void initState() {
     super.initState();
 
-    // Delay navigation to RulesPage after 3 seconds
+    // Delay navigation to the provided destination after 3 seconds
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => RulesPage()),
+        MaterialPageRoute(builder: (context) => widget.navigateTo),
       );
     });
   }
@@ -27,17 +30,13 @@ class _SplashscreenState extends State<Splashscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: content(),
-    );
-  }
-
-  Widget content() {
-    return Center(  
-      child: Lottie.asset(
-        'assets/images/animations/Animation.json', 
-        width: 300, 
-        height: 300,  
-        fit: BoxFit.fill, 
+      body: Center(
+        child: Lottie.asset(
+          'assets/images/animations/Animation.json',
+          width: 300,
+          height: 300,
+          fit: BoxFit.fill,
+        ),
       ),
     );
   }
