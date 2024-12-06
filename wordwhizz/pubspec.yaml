@@ -53,6 +53,7 @@ flutter:
   assets:
     - assets/images/bgsplash.png
     - assets/images/bgsplash2.png
+    - assets/images/bgsplash3.png
     - assets/images/mascott.png
     - assets/images/logo.png
     - assets/images/speechbubble.png

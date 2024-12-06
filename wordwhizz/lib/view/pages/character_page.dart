@@ -17,7 +17,7 @@ class _CharacterPageState extends State<CharacterPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/bgsplash2.png',
+              'assets/images/bgsplash3.png',
               fit: BoxFit.cover,
             ),
           ),
