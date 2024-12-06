@@ -1,11 +1,11 @@
 part of 'pages.dart';
 
-class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+class RulesPage extends StatelessWidget {
+  const RulesPage({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    int _currentIndex = 0;
+    int _currentIndex = 1;
     return Scaffold(
       body: Stack(
         children: [
@@ -20,7 +20,7 @@ class WelcomePage extends StatelessWidget {
             child: ListView(
               children: [
                 SizedBox(height: 20),
-                Padding(
+                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -40,56 +40,56 @@ class WelcomePage extends StatelessWidget {
                     }),
                   ),
                 ),
-                SizedBox(height: 20),
+
+                SizedBox(height: 40),
                 Image.asset(
-                  'assets/images/speechbubble.png',
-                  height: 100,
-                  width: 150,
-                ),
-                Image.asset(
-                  'assets/images/mascott.png',
+                  'assets/images/logo.png',
                   height: 200,
-                  width: 150,
+                  width: 220,
                 ),
                 SizedBox(height: 30),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 430,
+                  width: MediaQuery.of(context).size.width, 
+                  height: MediaQuery.of(context).size.height -200,
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Whizz",
+                            "Selamat Datang",
                             style: splashTitle1,
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 15),
+                          SizedBox(height: 8),
                           Text(
-                            "Ayo belajar Bahasa Inggris kapan saja dan di mana saja dengan cara yang menyenangkan dan interaktif!",
-                            style: splashContent1,
+                            "Ayo Baca Peraturannya!",
+                            style: splashTitle2,
                             textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 10),
+                          SingleChildScrollView(
+                            child: Text(
+                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of",
+                              style: splashContent1,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           SizedBox(height: 30),
                           Align(
                             alignment: Alignment.center,
                             child: Container(
-                              width: 200,
+                              width: 250,
                               height: 60,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Splashscreen()),
-                                  );
+                                  print("Button Pressed");
                                 },
-                                child: Text("Ayo Mulai", style: button1),
+                                child: Text("Selanjutnya", style: button1),
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: primaryColor,
                                   shape: RoundedRectangleBorder(
@@ -102,29 +102,7 @@ class WelcomePage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: 200,
-                              height: 60,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  print("Button Pressed");
-                                },
-                                child: Text("Masuk", style: button2),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: primaryColor, width: 3),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 20),
+                            SizedBox(height: 10),
                         ],
                       ),
                     ),

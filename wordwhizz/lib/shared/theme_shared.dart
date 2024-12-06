@@ -16,6 +16,14 @@ TextStyle splashTitle1 = TextStyle(
   color: secondaryColor,
 );
 
+TextStyle splashTitle2 = TextStyle(
+  fontFamily: 'BalooChettan2',
+  fontSize: 30.0,
+  fontWeight: FontWeight.bold,
+  decoration: TextDecoration.underline,
+  color: secondaryColor,
+);
+
 TextStyle splashContent1 = TextStyle(
   fontFamily: 'BalooChettan2',
   fontSize: 19.0,
