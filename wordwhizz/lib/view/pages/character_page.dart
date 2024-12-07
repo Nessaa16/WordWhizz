@@ -8,7 +8,7 @@ class CharacterPage extends StatefulWidget {
 }
 
 class _CharacterPageState extends State<CharacterPage> {
-  int _currentIndex = 3;
+  String selectedCharacter = "";
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +26,6 @@ class _CharacterPageState extends State<CharacterPage> {
             child: ListView(
               padding: EdgeInsets.all(20.0),
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) {
-                    return AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      height: 8,
-                      width: 8,
-                      decoration: BoxDecoration(
-                        color: _currentIndex == index
-                            ? Color.fromARGB(255, 50, 44, 97)
-                            : Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    );
-                  }),
-                ),
                 SizedBox(height: 30),
 
                 // Logo
@@ -53,7 +36,6 @@ class _CharacterPageState extends State<CharacterPage> {
                     width: 220,
                   ),
                 ),
-                SizedBox(height: 20),
 
                 // Title
                 Text(
@@ -73,7 +55,83 @@ class _CharacterPageState extends State<CharacterPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 30),
+
+                // Character options
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+         
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedCharacter = "Tikus Ksatria";
+                        });
+                      },
+                      child: Image.asset(
+                        'assets/images/tikus.png',
+                        height: 250,
+                        width: 250,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Character2Page(
+                              selectedCharacter: selectedCharacter,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Image.asset(
+                        'assets/images/buttonRight.png',
+                        height: 50,
+                        width: 50,
+                      ),
+                    ),
+                  ],
+                ),
+
+                Positioned(
+                  child: Image.asset(
+                    'assets/images/deskripsiTikus.png',
+                    height: 150,
+                    width: 150,
+                  ),
+                ),
+                
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            selectedCharacter: selectedCharacter,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/button1.png',
+                          height: 60,
+                          width: 250, 
+                        ),
+                        Positioned(
+                          child: Text(
+                            "Pilih", 
+                            style: button1
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

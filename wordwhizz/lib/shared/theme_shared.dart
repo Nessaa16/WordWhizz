@@ -57,3 +57,10 @@ TextStyle button2 = TextStyle(
   fontWeight: FontWeight.w800,
   color: primaryColor,
 );
+
+TextStyle character = TextStyle(
+  fontFamily: 'BalooChettan2',
+  fontSize: 20.0,
+  fontWeight: FontWeight.bold,
+  color: secondaryColor,
+);
