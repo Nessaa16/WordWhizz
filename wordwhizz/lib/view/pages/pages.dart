@@ -7,4 +7,6 @@ part 'profileSetUp_page.dart';
 part 'rules_page.dart';
 part 'character_page.dart';
 part 'character2_page.dart';
+part 'character3_page.dart';
+part 'character4_page.dart';
 part 'profile_page.dart';

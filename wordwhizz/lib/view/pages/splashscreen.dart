@@ -3,9 +3,8 @@ import 'package:lottie/lottie.dart';
 import 'package:wordwhizz/view/pages/pages.dart';
 
 class Splashscreen extends StatefulWidget {
-  final Widget navigateTo; // Destination page
+  final Widget navigateTo; 
 
-  // Constructor includes the required navigateTo parameter
   const Splashscreen({super.key, required this.navigateTo});
 
   @override

@@ -1,15 +1,15 @@
 part of 'pages.dart';
 
-class Character2Page extends StatefulWidget {
-  const Character2Page({super.key, required this.selectedCharacter});
+class Character3Page extends StatefulWidget {
+  const Character3Page({super.key, required this.selectedCharacter});
 
   final String selectedCharacter;
 
   @override
-  State<Character2Page> createState() => _Character2PageState();
+  State<Character3Page> createState() => _Character3PageState();
 }
 
-class _Character2PageState extends State<Character2Page> {
+class _Character3PageState extends State<Character3Page> {
   String selectedCharacter = "";
   int _currentIndex = 3;
 
@@ -101,7 +101,7 @@ class _Character2PageState extends State<Character2Page> {
                       ),
                       padding: EdgeInsets.all(20),
                       child: Text(
-                        "Kucing Penyihir",
+                        "Kerbau Pejuang",
                         style: character,
                       ),
                     ),
@@ -126,11 +126,11 @@ class _Character2PageState extends State<Character2Page> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          selectedCharacter = "Kucing Penyihir";
+                          selectedCharacter = "Kerbau Pejuang";
                         });
                       },
                       child: Image.asset(
-                        'assets/images/kucing.png',
+                        'assets/images/kerbau.png',
                         height: 250,
                         width: 250,
                       ),
@@ -140,7 +140,7 @@ class _Character2PageState extends State<Character2Page> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Character3Page(
+                            builder: (context) => Character4Page(
                               selectedCharacter: selectedCharacter,
                             ),
                           ),
@@ -157,7 +157,7 @@ class _Character2PageState extends State<Character2Page> {
 
                 Positioned(
                   child: Image.asset(
-                    'assets/images/deskripsiKucing.png',
+                    'assets/images/deskripsiKerbau.png',
                     height: 150,
                     width: 150,
                   ),

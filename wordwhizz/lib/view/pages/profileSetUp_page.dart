@@ -218,7 +218,7 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => Splashscreen(
-                                        navigateTo: CharacterPage(),
+                                        navigateTo: CharacterPage(selectedCharacter: '',),
                                       ),
                                       ),
                                   );
