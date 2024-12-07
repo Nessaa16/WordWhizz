@@ -125,7 +125,12 @@ class WelcomePage extends StatelessWidget {
                               height: 60,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  print("Button Pressed");
+                                   Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                      ),
+                                   );
                                 },
                                 child: Text("Masuk", style: button2),
                                 style: ElevatedButton.styleFrom(
