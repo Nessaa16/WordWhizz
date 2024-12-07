@@ -197,33 +197,47 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                     SizedBox(height: 30),
 
                     // Submit Button
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 200,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CharacterPage(),
+                     Align(
+                            alignment: Alignment.center,
+                            child: Container(
+                              height: 70,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets
+                                      .zero,
+                                  backgroundColor: Colors
+                                      .transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        0),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Splashscreen(
+                                        navigateTo: CharacterPage(),
+                                      ),
+                                      ),
+                                  );
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/button1.png',
+                                      height: 70,
+                                    ),
+                                    Positioned(
+                                      child: Text("Daftar", style: button1),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            );
-                          },
-                          child: Text("Daftar", style: button1),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            elevation: 10,
-                            shadowColor: secondaryColor,
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 30),

@@ -1,7 +1,7 @@
 part of 'pages.dart';
 
 class CharacterPage extends StatefulWidget {
-  const CharacterPage({super.key});
+  const CharacterPage({super.key, required String selectedCharacter});
 
   @override
   State<CharacterPage> createState() => _CharacterPageState();
@@ -9,6 +9,7 @@ class CharacterPage extends StatefulWidget {
 
 class _CharacterPageState extends State<CharacterPage> {
   String selectedCharacter = "";
+  int _currentIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,23 @@ class _CharacterPageState extends State<CharacterPage> {
             child: ListView(
               padding: EdgeInsets.all(20.0),
               children: [
+                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(4, (index) {
+                    return AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      height: 8,
+                      width: 8,
+                      decoration: BoxDecoration(
+                        color: _currentIndex == index
+                            ? Color.fromARGB(255, 50, 44, 97)
+                            : Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    );
+                  }),
+                ),
                 SizedBox(height: 30),
 
                 // Logo
@@ -55,12 +73,36 @@ class _CharacterPageState extends State<CharacterPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                SizedBox(height: 10),
+                 // Character Name
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 9.0,
+                                offset: Offset(4, 2),
+                              ),
+                            ],
+                          ),
+                          padding: EdgeInsets.all(20),
+                          child: Text(
+                            "Tikus Ksatria",
+                            style: character
+                          ),
+                        ),
+                      ],
+                    ),
 
                 // Character options
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-         
                     GestureDetector(
                       onTap: () {
                         setState(() {

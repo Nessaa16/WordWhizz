@@ -61,7 +61,13 @@ flutter:
     - assets/images/buttonLeft.png
     - assets/images/buttonRight.png
     - assets/images/deskripsiTikus.png
+    - assets/images/deskripsiKucing.png
+    - assets/images/deskripsiKerbau.png
+    - assets/images/deskripsiRubah.png
     - assets/images/tikus.png
+    - assets/images/kucing.png
+    - assets/images/kerbau.png
+    - assets/images/rubah.png
     - assets/images/animations/Animation.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
