@@ -9,9 +9,28 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _loginKey = GlobalKey<FormState>();
-  final ctrlUsername = TextEditingController();
+  final ctrlEmail = TextEditingController();
   final ctrlPass = TextEditingController();
   bool isHide = true;
+
+  Future<void> _login() async {
+    if (_loginKey.currentState?.validate() ?? false) {
+      final email = ctrlEmail.text;
+      final password = ctrlPass.text;
+
+      try {
+        await AuthService().signin(
+          email: email,
+          password: password,
+          context: context,
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login gagal: ${e.toString()}")),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
             child: ListView(
               padding: EdgeInsets.all(20.0),
               children: [
-               
                 // Logo
                 Center(
                   child: Image.asset(
@@ -61,135 +79,133 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
 
                 // Profile Form
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 10),
+                Form(
+                  key: _loginKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
 
-                    // Nama Pengguna
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      height: 80,
-                      child: TextFormField(
-                        controller: ctrlUsername,
-                        keyboardType: TextInputType.name,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          return (value == null || value.isEmpty)
-                              ? "Nama Pengguna tidak boleh kosong!"
-                              : null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: "Nama Pengguna",
-                          hintText: "Masukkan Nama Pengguna",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(
-                            Icons.person,
-                            color: Colors.grey,
-                            size: 24,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 15),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-
-                    // Password Field
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      height: 80,
-                      child: TextFormField(
-                        obscureText: isHide,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        controller: ctrlPass,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          labelText: "Kata Sandi",
-                          hintText: "Masukkan Kata Sandi",
-                          hintStyle: TextStyle(color: Colors.grey),
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding:
-                              const EdgeInsets.symmetric(vertical: 15),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isHide = !isHide;
-                              });
-                            },
-                            child: Icon(
+                      // Email
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        height: 80,
+                        child: TextFormField(
+                          controller: ctrlEmail,
+                          keyboardType: TextInputType.emailAddress,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Email tidak boleh kosong!";
+                            }
+                            final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
+                            if (!emailRegex.hasMatch(value)) {
+                              return "Masukkan Email yang valid!";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: "Email",
+                            hintText: "Masukkan Email",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(
+                              Icons.mail_outlined,
                               color: Colors.grey,
                               size: 24,
-                              isHide ? Icons.visibility : Icons.visibility_off,
                             ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 15),
                           ),
                         ),
-                        validator: (value) {
-                          return value!.length < 6
-                              ? "Kata Sandi harus berisi minimal 6 kata"
-                              : null;
-                        },
                       ),
-                    ),
-                    SizedBox(height: 30),
+                      SizedBox(height: 20),
 
-                    // Submit Button
-                     Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              height: 70,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets
-                                      .zero,
-                                  backgroundColor: Colors
-                                      .transparent,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        0),
-                                  ),
-                                  elevation: 0,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Splashscreen(
-                                        navigateTo: CharacterPage(selectedCharacter: '',), //home screen harusnya
-                                      ),
-                                      ),
-                                  );
-                                },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/button1.png',
-                                      height: 70,
-                                    ),
-                                    Positioned(
-                                      child: Text("Masuk", style: button1),
-                                    ),
-                                  ],
-                                ),
+                      // Password Field
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                        height: 80,
+                        child: TextFormField(
+                          obscureText: isHide,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          controller: ctrlPass,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText: "Kata Sandi",
+                            hintText: "Masukkan Kata Sandi",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: Colors.grey,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 15),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isHide = !isHide;
+                                });
+                              },
+                              child: Icon(
+                                color: Colors.grey,
+                                size: 24,
+                                isHide
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                               ),
                             ),
                           ),
-                  ],
+                          validator: (value) {
+                            return value!.length < 6
+                                ? "Kata Sandi harus berisi minimal 6 kata"
+                                : null;
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 30),
+
+                      // Submit Button
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          height: 70,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              elevation: 0,
+                            ),
+                            onPressed: _login,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/button1.png',
+                                  height: 70,
+                                ),
+                                Positioned(
+                                  child: Text("Masuk", style: button1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 30),
               ],

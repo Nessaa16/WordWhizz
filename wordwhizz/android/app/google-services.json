@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700651288099",
+    "project_id": "wordwhizz-24087",
+    "storage_bucket": "wordwhizz-24087.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700651288099:android:f25a8dda01052d5873e396",
+        "android_client_info": {
+          "package_name": "com.example.wordwhizz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB25X8FOMD3LeZxdvvuciP0TP7Q1j8lp4s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
