@@ -72,24 +72,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
             child: ListView(
               padding: EdgeInsets.all(20.0),
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) {
-                    return AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      height: 8,
-                      width: 8,
-                      decoration: BoxDecoration(
-                        color: _currentIndex == index
-                            ? Color.fromARGB(255, 50, 44, 97)
-                            : Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    );
-                  }),
-                ),
-                SizedBox(height: 30),
                 Center(
                   child: Image.asset(
                     'assets/images/logo.png',
@@ -147,7 +129,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Nama Pengguna",
                             hintText: "Masukkan Nama Pengguna",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -187,7 +168,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Email",
                             hintText: "Masukkan Email",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -217,7 +197,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Kata Sandi",
                             hintText: "Masukkan Kata Sandi",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -307,7 +286,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: "Tanggal Lahir",
                                 hintText: "DD/MM/YYYY",
                                 hintStyle: TextStyle(color: Colors.grey),
                                 prefixIcon: Icon(Icons.calendar_month_rounded),
