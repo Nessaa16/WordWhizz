@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -73,10 +74,20 @@ class AuthService {
   }
 
   try {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+
+     String uid = userCredential.user!.uid;
+
+     await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'username': username,
+      'email': email,
+      'lives': 2,
+      'coins': 200,
+      'potionbiru': 0,
+      'potionhijau': 0,
+      'potionkuning': 0,
+    });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Akun berhasil dibuat!")),
     );

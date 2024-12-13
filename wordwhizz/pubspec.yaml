@@ -72,6 +72,7 @@ flutter:
     - assets/images/kucing.png
     - assets/images/kerbau.png
     - assets/images/rubah.png
+    - assets/images/forest_background.png
     - assets/images/profile.png
     - assets/images/game.png
     - assets/images/home.png
@@ -91,6 +92,13 @@ flutter:
     - assets/images/backgroundc2.png
     - assets/images/bottomnav_background.png
     - assets/images/animations/Animation.json
+    - assets/images/animations/gacha.json
+    - assets/images/portal.png
+    - assets/images/bg_pulau_story.png
+
+
+
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
