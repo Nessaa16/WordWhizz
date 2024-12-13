@@ -41,7 +41,6 @@ class MinigamesScreen extends StatelessWidget {
                   ),
                 ),
 
-                
                 // Grid of Games
                 Expanded(
                   child: Padding(
@@ -51,11 +50,23 @@ class MinigamesScreen extends StatelessWidget {
                       mainAxisSpacing: 20,
                       crossAxisSpacing: 1,
                       children: [
-                        Image.asset(
-                          'assets/images/tebakgambar.png',
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.contain,
+                        // Add GestureDetector for navigation
+                        GestureDetector(
+                          onTap: () {
+                            // Navigate to the mg_tebakgambar_page.dart
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const TebakGambar(),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/tebakgambar.png',
+                            width: 64,
+                            height: 64,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                         Image.asset(
                           'assets/images/susunkalimat.png',
