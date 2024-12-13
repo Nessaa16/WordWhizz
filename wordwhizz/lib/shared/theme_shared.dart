@@ -64,3 +64,10 @@ TextStyle character = TextStyle(
   fontWeight: FontWeight.bold,
   color: secondaryColor,
 );
+
+TextStyle story_content = const TextStyle(
+  fontFamily: 'BalooChettan2',
+  fontSize: 15.0,
+  // fontWeight: FontWeight.bold,
+  color: Colors.white,
+);
