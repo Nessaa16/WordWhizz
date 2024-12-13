@@ -4,13 +4,12 @@ import 'package:wordwhizz/firebase_options.dart';
 import 'package:wordwhizz/view/pages/pages.dart';
 
 void main() async {
- WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-   options: DefaultFirebaseOptions.currentPlatform,
- );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-
- runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: GachaPage(),
     );
   }
 }
