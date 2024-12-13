@@ -94,7 +94,27 @@ flutter:
     - assets/images/animations/Animation.json
     - assets/images/animations/gacha.json
     - assets/images/portal.png
+    - assets/images/comingsoon.png
+    - assets/images/terjemahkan.png
+    - assets/images/susunkalimat.png
+    - assets/images/tebakgambar.png
+    - assets/images/backgroundminigames1.png
     - assets/images/bg_pulau_story.png
+    - assets/images/mmmg-benar.png
+    - assets/images/mmmg-lanjutkanbenar.png
+    - assets/images/mmmg-salah.png
+    - assets/images/mmmg-lanjutkansalah.png
+    - assets/images/mmmg-beruang.png
+    - assets/images/mmmg-kelinci.png
+    - assets/images/mmmg-anjing.png
+    - assets/images/mmmg-kucing.png
+    - assets/images/mmmg-pilihgambar.png
+    - assets/images/tebakgambarbackground.png
+    - assets/images/0bar.png
+    - assets/images/1bar.png
+    - assets/images/2bar.png
+    - assets/images/3bar.png
+
 
 
 
