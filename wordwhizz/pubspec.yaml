@@ -75,6 +75,10 @@ flutter:
     - assets/images/animations/Animation.json
     - assets/images/animations/gacha.json
     - assets/images/portal.png
+    - assets/images/bg_pulau_story.png
+
+
+
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
