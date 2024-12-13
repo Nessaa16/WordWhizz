@@ -13,3 +13,4 @@ part 'profileSetUp_page.dart';
 part 'rules_page.dart';
 part 'character_page.dart';
 part 'profile_page.dart';
+part 'story_page.dart';
