@@ -7,7 +7,8 @@ class CharacterPage extends StatefulWidget {
   State<CharacterPage> createState() => _CharacterPageState();
 }
 
-class _CharacterPageState extends State<CharacterPage> {
+class _CharacterPageState extends State<CharacterPage>
+    with SingleTickerProviderStateMixin {
   final List<Map<String, String>> _characters = [
     {
       'name': 'Tikus Ksatria',
@@ -32,6 +33,31 @@ class _CharacterPageState extends State<CharacterPage> {
   ];
 
   int _currentIndex = 3;
+  late AnimationController _animationController;
+  late Animation<Offset> _animation;
+ 
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat(reverse: true);
+
+    _animation = Tween<Offset>(
+      begin: Offset(0, 0), 
+      end: Offset(0, -0.05), 
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   void _changeCharacter(int direction) {
     setState(() {
@@ -60,7 +86,8 @@ class _CharacterPageState extends State<CharacterPage> {
               builder: (context, constraints) {
                 return SingleChildScrollView(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
                     child: IntrinsicHeight(
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
@@ -68,10 +95,12 @@ class _CharacterPageState extends State<CharacterPage> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(_characters.length, (index) {
+                              children:
+                                  List.generate(_characters.length, (index) {
                                 return AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 5),
                                   height: 8,
                                   width: 8,
                                   decoration: BoxDecoration(
@@ -126,10 +155,8 @@ class _CharacterPageState extends State<CharacterPage> {
                                 ],
                               ),
                               padding: const EdgeInsets.all(20),
-                              child: Text(
-                                currentCharacter['name']!,
-                                style: character
-                              ),
+                              child: Text(currentCharacter['name']!,
+                                  style: character),
                             ),
 
                             const SizedBox(height: 20),
@@ -146,8 +173,8 @@ class _CharacterPageState extends State<CharacterPage> {
                                     width: 50,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {},
+                                SlideTransition(
+                                  position: _animation,
                                   child: Image.asset(
                                     currentCharacter['image']!,
                                     height: constraints.maxHeight * 0.25,
@@ -183,7 +210,8 @@ class _CharacterPageState extends State<CharacterPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => ProfilePage(
-                                      selectedCharacter: currentCharacter['name']!,
+                                      selectedCharacter:
+                                          currentCharacter['name']!,
                                     ),
                                   ),
                                 );
@@ -223,4 +251,3 @@ class _CharacterPageState extends State<CharacterPage> {
     );
   }
 }
-
