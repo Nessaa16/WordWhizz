@@ -72,13 +72,55 @@ flutter:
     - assets/images/kucing.png
     - assets/images/kerbau.png
     - assets/images/rubah.png
+    - assets/images/forest_background.png
+    - assets/images/profile.png
+    - assets/images/game.png
+    - assets/images/home.png
+    - assets/images/1-1.png
+    - assets/images/1-2.png
+    - assets/images/1-3.png
+    - assets/images/1-4.png
+    - assets/images/2-1.png
+    - assets/images/2-2.png
+    - assets/images/2-3.png
+    - assets/images/2-4.png
+    - assets/images/backarrow.png
+    - assets/images/coin.png
+    - assets/images/heart.png
+    - assets/images/store.png
+    - assets/images/backgroundc1.png
+    - assets/images/backgroundc2.png
+    - assets/images/bottomnav_background.png
     - assets/images/animations/Animation.json
+    - assets/images/animations/gacha.json
+    - assets/images/portal.png
+    - assets/images/comingsoon.png
+    - assets/images/terjemahkan.png
+    - assets/images/susunkalimat.png
+    - assets/images/tebakgambar.png
+    - assets/images/backgroundminigames1.png
+    - assets/images/bg_pulau_story.png
+    - assets/images/mmmg-benar.png
+    - assets/images/mmmg-lanjutkanbenar.png
+    - assets/images/mmmg-salah.png
+    - assets/images/mmmg-lanjutkansalah.png
+    - assets/images/mmmg-beruang.png
+    - assets/images/mmmg-kelinci.png
+    - assets/images/mmmg-anjing.png
+    - assets/images/mmmg-kucing.png
+    - assets/images/mmmg-pilihgambar.png
+    - assets/images/tebakgambarbackground.png
+    - assets/images/0bar.png
+    - assets/images/1bar.png
+    - assets/images/2bar.png
+    - assets/images/3bar.png
     - assets/images/background_mainmenu2.png
     - assets/images/buttonputih.png
     - assets/images/button_mainmenuhijau.png
     - assets/images/buttonmainmenuyellow.png
     - assets/images/playmainmenu2.png
     - assets/images/kuncikuning.png
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
