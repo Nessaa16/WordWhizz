@@ -23,12 +23,14 @@ class MyApp extends StatelessWidget {
       // home: WelcomePage(),
       // home: StoryPage(),
       //home: MainMenuScreen(),
-     home: Chapter2(),
+//      home: Chapter2(),
       // home: MinigamesScreen(),
       // home: MainMenuScreen(),
     //  home: Chapter1(),
     // home: TebakGambar(),
 
+
+      home: MainMenuScreen2(),
     );
   }
 }
