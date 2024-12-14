@@ -11,73 +11,29 @@ class Chapter2 extends StatelessWidget {
           // Background
           Positioned.fill(
             child: Image.asset(
-              'assets/images/backgroundc2.png', // Changed to backgroundc2.png
+              'assets/images/backgroundc2.png', 
               fit: BoxFit.cover,
             ),
           ),
+          // Scrollable Content
           SafeArea(
-            child: Column(
-              children: [
-                // Top Bar
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      // Back Button
-                      GestureDetector(
-                        onTap: () {
-                          // Handle back navigation
-                        },
-                        child: Image.asset(
-                          'assets/images/backarrow.png', // Custom back arrow asset
-                          width: 40, // Set desired width
-                          height: 40, // Set desired height
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      const Spacer(),
-                      // Coins Counter
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/coin.png',
-                            height: 40,
-                          ),
-                          const SizedBox(width: 16),
-                        ],
-                      ),
-                      const SizedBox(width: 16),
-                      // Hearts Counter
-                      Row(
-                        children: [
-                          Image.asset(
-                            'assets/images/heart.png', // Custom heart asset
-                            height: 40, // Set desired height
-                            width: 80, // Set desired width
-                            fit: BoxFit.contain,
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Level Buttons
-                Expanded(
-                  child: Column(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 100, bottom: 100), // Leave space for fixed elements
+              child: Column(
+                children: [
+                  // Level Buttons
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 80, top: 80), // Adjust padding for 2-1
-                            child: LevelButton(
+                            padding: const EdgeInsets.only(left: 80, top: 80),
+                            child: LevelButton2(
                               imagePath: 'assets/images/2-1.png', // Changed to 2-1.png
-                              width: 90,
-                              height: 135,
+                              width: 100,
+                              height: 145,
                             ),
                           ),
                         ],
@@ -86,12 +42,11 @@ class Chapter2 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                right: 80, top: 5), // Adjust padding for 2-2
-                            child: LevelButton(
+                            padding: const EdgeInsets.only(right: 80, top: 5),
+                            child: LevelButton2(
                               imagePath: 'assets/images/2-2.png', // Changed to 2-2.png
-                              width: 90,
-                              height: 135,
+                              width: 100,
+                              height: 145,
                             ),
                           ),
                         ],
@@ -100,12 +55,11 @@ class Chapter2 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                left: 80, top: 5), // Adjust padding for 2-3
-                            child: LevelButton(
+                            padding: const EdgeInsets.only(left: 80, top: 5),
+                            child: LevelButton2(
                               imagePath: 'assets/images/2-3.png', // Changed to 2-3.png
-                              width: 90,
-                              height: 135,
+                              width: 100,
+                              height: 145,
                             ),
                           ),
                         ],
@@ -114,78 +68,158 @@ class Chapter2 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(
-                                right: 80, top: 5), // Adjust padding for 2-4
-                            child: LevelButton(
+                            padding: const EdgeInsets.only(right: 80, top: 5),
+                            child: LevelButton2(
                               imagePath: 'assets/images/2-4.png', // Changed to 2-4.png
-                              width: 90,
-                              height: 135,
+                              width: 100,
+                              height: 145,
                             ),
                           ),
                         ],
                       ),
                     ],
                   ),
+                ],
+              ),
+            ),
+          ),
+          // Fixed Top Bar
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    // Back Button
+                    GestureDetector(
+                      onTap: () {
+                        // Handle back navigation
+                      },
+                      child: Image.asset(
+                        'assets/images/backarrow.png',
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Spacer(),
+                    // Coins Counter
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/coin.png',
+                                height: 35,
+                              ),
+                              const SizedBox(width: 6),
+                              const Text(
+                                '100', // Example coin count
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        // Hearts Counter
+                        Container(
+                          padding: const EdgeInsets.all(3),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/heart.png',
+                                height: 35,
+                              ),
+                              const SizedBox(width: 6),
+                              const Text(
+                                '5', // Example heart count
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-
-                // Bottom Navigation Bar
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // Navigation Bar Background
-                      Image.asset(
-                        'assets/images/bottomnav_background.png',
-                        width: double.infinity,
-                        height: 82,
-                        fit: BoxFit.cover,
-                      ),
-                      // Navigation Icons with Manual Padding
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, right: 230), // Adjust for 'home'
-                        child: Image.asset(
-                          'assets/images/home.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, right: 80), // Adjust for 'game'
-                        child: Image.asset(
-                          'assets/images/game.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, left: 80), // Adjust for 'store'
-                        child: Image.asset(
-                          'assets/images/store.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, left: 230), // Adjust for 'profile'
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ],
+              ),
+            ),
+          ),
+          // Fixed Bottom Navigation Bar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Navigation Bar Background
+                  Image.asset(
+                    'assets/images/bottomnav_background.png',
+                    width: double.infinity,
+                    height: 82,
+                    fit: BoxFit.cover,
                   ),
-                ),
-              ],
+                  // Navigation Icons with Manual Padding
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, right: 230),
+                    child: Image.asset(
+                      'assets/images/home.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, right: 80),
+                    child: Image.asset(
+                      'assets/images/game.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, left: 80),
+                    child: Image.asset(
+                      'assets/images/store.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, left: 230),
+                    child: Image.asset(
+                      'assets/images/profile.png',
+                      width: 32,
+                      height: 32,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -193,6 +227,7 @@ class Chapter2 extends StatelessWidget {
     );
   }
 }
+
 
 class LevelButton2 extends StatelessWidget {
   final String imagePath;

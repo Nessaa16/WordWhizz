@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // home: WelcomePage(),
-      home: StoryPage(),
+      // home: StoryPage(),
       //home: MainMenuScreen(),
-     // home: Chapter2(),
+     home: Chapter2(),
 
     );
   }
