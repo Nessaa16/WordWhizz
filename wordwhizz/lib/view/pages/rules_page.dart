@@ -19,29 +19,6 @@ class RulesPage extends StatelessWidget {
             bottom: false,
             child: ListView(
               children: [
-                SizedBox(height: 20),
-                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) {
-                      return AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
-                        margin: EdgeInsets.symmetric(horizontal: 5),
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                          color: _currentIndex == index
-                              ? const Color.fromARGB(255, 50, 44, 97)
-                              : Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                      );
-                    }),
-                  ),
-                ),
-
-                SizedBox(height: 40),
                 Image.asset(
                   'assets/images/logo.png',
                   height: 200,
