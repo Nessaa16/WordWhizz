@@ -1,7 +1,7 @@
-part of 'pages.dart';
+part of pages;
 
 class MainMenuScreen2 extends StatelessWidget {
-  const MainMenuScreen2 ({super.key});
+  const MainMenuScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,46 +16,50 @@ class MainMenuScreen2 extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Logo section
+              // "Mulai Ceritamu" Section
               Padding(
-                padding: const EdgeInsets.only(top: 100.0), // Top padding for the logo
+                padding: const EdgeInsets.only(
+                    top: 108.0), // Top padding for the logo
                 child: Center(
-                  child: Container(
-                    width: 250,
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'),
-                        fit: BoxFit.contain,
+                  child: SizedBox(
+                    width: 329,
+                    height: 56,
+                    child: Text(
+                      "Mulai Ceritamu",
+                      style: TextStyle(
+                        fontFamily: 'BalooChettan 2',
+                        fontSize: 48.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 4.0,
+                            color: Colors.black54,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
-              // Adjustable space between logo and buttons
-              const SizedBox(height: 50), // Adjust this height to control the distance
-              // Buttons section
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  children: [
-                    _buildCustomButton(
-                      context,
-                      'Bermain',
-                      () {
-                        // Add your play button logic here
-                      },
-                    ),
-                    const SizedBox(height: 16), // Spacing between buttons
-                    _buildCustomButton(
-                      context,
-                      'Keluar',
-                      () {
-                        // Add your exit button logic here
-                      },
-                    ),
-                  ],
-                ),
+              const SizedBox(
+                  height: 28), // Adjust this height to control spacing
+              // Buttons Section
+              Column(
+                children: [
+                  // Chapter 1 Button
+                  _buildCustomButton(context, 'CHAPTER 1', () {
+                    // Add your play button logic here
+                  }, darkGreen, 'assets/images/button_mainmenuhijau.png',
+                      'assets/images/playmainmenu2.png'),
+                  const SizedBox(height: 46), // Spacing between buttons
+                  // Chapter 2 Button
+                  _buildCustomButton(context, 'CHAPTER 2', () {
+                    // Add your exit button logic here
+                  }, yellowColor, 'assets/images/buttonmainmenuyellow.png',
+                      'assets/images/kuncikuning.png'),
+                ],
               ),
             ],
           ),
@@ -64,7 +68,13 @@ class MainMenuScreen2 extends StatelessWidget {
     );
   }
 
-  Widget _buildCustomButton(BuildContext context, String text, VoidCallback onPressed) {
+  Widget _buildCustomButton(
+      BuildContext context,
+      String text,
+      VoidCallback onPressed,
+      Color textColor,
+      String backgroundImage,
+      String iconImage) {
     return GestureDetector(
       onTap: onPressed,
       child: Stack(
@@ -72,18 +82,39 @@ class MainMenuScreen2 extends StatelessWidget {
         children: [
           // Button background image
           Image.asset(
-            'assets/images/button1.png', // Path to your button asset
-            width: MediaQuery.of(context).size.width * 0.8, // 80% of screen width
-            height: 70, // Fixed height for the button
+            backgroundImage,
             fit: BoxFit.contain,
           ),
-          // Button text
-          Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white, // Text color
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+          // Button text with specific alignment
+          Padding(
+            padding: const EdgeInsets.only(
+                bottom: 20), // Change these values to position the text
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              // asset buat iconnya
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    fontFamily: 'BalooChettan 2',
+                    color: textColor,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(0, 3.0),
+                        blurRadius: 0,
+                        color: const Color(0xFFDCDCDC),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 6, left: 17),
+                  child: Image.asset(iconImage,
+                      width: 25, height: 25, fit: BoxFit.contain),
+                )
+              ],
             ),
           ),
         ],
