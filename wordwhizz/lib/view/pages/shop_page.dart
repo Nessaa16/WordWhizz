@@ -107,44 +107,50 @@ class ShopPage extends StatelessWidget {
                   // Sections
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        _buildSection(
-                          'Koin',
-                          [
-                            _buildItem('200', 'IDR 25K',
-                                'assets/images/coins_200.png'),
-                            _buildItem('400', 'IDR 50K',
-                                'assets/images/coins_400.png'),
-                            _buildItem('600', 'IDR 75K',
-                                'assets/images/coins_600.png'),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        _buildSection(
-                          'Nyawa',
-                          [
-                            _buildItem(
-                                'Full', '100 koin', 'assets/images/heart.png'),
-                            _buildItem(
-                                '4', '50 koin', 'assets/images/hearts_4.png'),
-                            _buildItem(
-                                '2', '25 koin', 'assets/images/hearts_2.png'),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        _buildSection(
-                          'Paket',
-                          [
-                            _buildItem('Pemula', '50 koin',
-                                'assets/images/bundlePemula.png'),
-                            _buildItem('Elit', '100 koin',
-                                'assets/images/bundleElit.png'),
-                            _buildItem('Sultan', '200 koin',
-                                'assets/images/bundleSultan.png'),
-                          ],
-                        ),
-                      ],
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center, // Center vertically
+                        crossAxisAlignment:
+                            CrossAxisAlignment.center, // Center horizontally
+                        children: [
+                          _buildSection(
+                            'Koin',
+                            [
+                              _buildItem('200', 'IDR 25K',
+                                  'assets/images/coins_200.png'),
+                              _buildItem('400', 'IDR 50K',
+                                  'assets/images/coins_400.png'),
+                              _buildItem('600', 'IDR 75K',
+                                  'assets/images/coins_600.png'),
+                            ],
+                          ),
+                          SizedBox(height: 47),
+                          _buildSection(
+                            'Nyawa',
+                            [
+                              _buildItem('Full', '100 koin',
+                                  'assets/images/heart.png'),
+                              _buildItem(
+                                  '4', '50 koin', 'assets/images/hearts_4.png'),
+                              _buildItem(
+                                  '2', '25 koin', 'assets/images/hearts_2.png'),
+                            ],
+                          ),
+                          SizedBox(height: 47),
+                          _buildSection(
+                            'Paket',
+                            [
+                              _buildItem('Pemula', '50 koin',
+                                  'assets/images/bundlePemula.png'),
+                              _buildItem('Elit', '100 koin',
+                                  'assets/images/bundleElit.png'),
+                              _buildItem('Sultan', '200 koin',
+                                  'assets/images/bundleSultan.png'),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
@@ -182,64 +188,91 @@ class ShopPage extends StatelessWidget {
   }
 
   Widget _buildSection(String title, List<Widget> items) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/cardShopPage.png'),
-          fit: BoxFit.cover,
+    return SizedBox(
+      width: 342,
+      height: 214,
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/cardShopPage.png'),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(20),
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-          SizedBox(height: 18),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: items,
-          ),
-        ],
+            SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: items,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildItem(String title, String price, String imagePath) {
     return Container(
-      width: 90,
+      width: 85,
+      height: 100,
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage('assets/images/shopPage_whiteCard.png'),
+          fit: BoxFit.cover,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Image.asset(imagePath, height: 40),
-          SizedBox(height: 4),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.lightGreen,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              price,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/button_green.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  price,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
+            ),
+          ),
+          
+          Align(
+            alignment: Alignment.topCenter,
+            child: Image.asset(
+              imagePath,
+              height: 40,
+            ),
+          ),
+          
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],
