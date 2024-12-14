@@ -24,6 +24,10 @@ class MyApp extends StatelessWidget {
       // home: StoryPage(),
       //home: MainMenuScreen(),
      home: Chapter2(),
+      // home: MinigamesScreen(),
+      // home: MainMenuScreen(),
+    //  home: Chapter1(),
+    // home: TebakGambar(),
 
     );
   }

@@ -25,3 +25,5 @@ part 'story_page.dart';
 part 'mainmenu_page1.dart';
 part 'playmenu1_page.dart';
 part 'playmenu2_page.dart';
+part 'mm_minigames_page.dart';
+part 'mg_tebakgambar_page.dart';
