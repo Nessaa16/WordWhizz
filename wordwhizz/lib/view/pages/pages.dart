@@ -17,5 +17,5 @@ part 'character3_page.dart';
 part 'character4_page.dart';
 part 'profile_page.dart';
 
-// STORE PAGE
+// STORE PAGES
 part 'shop_page.dart';
