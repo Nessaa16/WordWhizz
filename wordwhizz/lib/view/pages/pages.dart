@@ -42,4 +42,5 @@ part 'shop_page.dart';
 part 'mainMenu2_page.dart';
 part 'bottomnavbar.dart'; 
 part 'topnavbar.dart'; 
+part 'beforestartgame.dart'; 
 // uji coba 
