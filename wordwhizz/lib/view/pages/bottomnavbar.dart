@@ -3,11 +3,17 @@ part of 'pages.dart';
 // part 'mainMenu2_page.dart';
 
 class BottomNavbar extends StatelessWidget {
-  final List<BottomNavbarItem> items;
+  final void Function()? onHomePressed;
+  final void Function()? onGamePressed;
+  final void Function()? onStorePressed;
+  final void Function()? onProfilePressed;
 
   const BottomNavbar({
     super.key,
-    required this.items,
+    this.onHomePressed,
+    this.onGamePressed,
+    this.onStorePressed,
+    this.onProfilePressed,
   });
 
   @override
@@ -26,34 +32,41 @@ class BottomNavbar extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: items
-              .map(
-                (item) => GestureDetector(
-                  onTap: item.onPressed,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 30.0),
-                    child: Image.asset(
-                      item.iconPath,
-                      width: 30,
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-              )
-              .toList(),
+          children: [
+            _buildBottomNavItem(
+              'assets/images/home.png',
+              onPressed: onHomePressed ?? () {},
+            ),
+            _buildBottomNavItem(
+              'assets/images/game.png',
+              onPressed: onGamePressed ?? () {},
+            ),
+            _buildBottomNavItem(
+              'assets/images/store.png',
+              onPressed: onStorePressed ?? () {},
+            ),
+            _buildBottomNavItem(
+              'assets/images/profile.png',
+              onPressed: onProfilePressed ?? () {},
+            ),
+          ],
         ),
       ],
     );
   }
-}
 
-class BottomNavbarItem {
-  final String iconPath;
-  final VoidCallback onPressed;
-
-  BottomNavbarItem({
-    required this.iconPath,
-    required this.onPressed,
-  });
+  Widget _buildBottomNavItem(String iconPath, {required VoidCallback onPressed}) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30.0),
+        child: Image.asset(
+          iconPath,
+          width: 30,
+          height: 32,
+          fit: BoxFit.contain,
+        ),
+      ),
+    );
+  }
 }
