@@ -1,6 +1,4 @@
 part of 'pages.dart';
-// part of 'topnavbar.dart';
-// part of 'bottomnavbar.dart';
 
 class MainMenuScreen2 extends StatelessWidget {
   const MainMenuScreen2({super.key});
@@ -28,7 +26,7 @@ class MainMenuScreen2 extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const SizedBox(height: 108), // Adjust spacing
+                        const SizedBox(height: 108),
                         Text(
                           "Mulai Ceritamu",
                           style: TextStyle(
@@ -46,7 +44,6 @@ class MainMenuScreen2 extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 28),
-                        // Buttons
                         _buildCustomButton(
                           context,
                           'CHAPTER 1',
@@ -91,32 +88,22 @@ class MainMenuScreen2 extends StatelessWidget {
             left: 0,
             right: 0,
             child: BottomNavbar(
-              items: [
-                BottomNavbarItem(
-                  iconPath: 'assets/images/home.png',
-                  onPressed: () {
-                    // Navigate to Home
-                  },
-                ),
-                BottomNavbarItem(
-                  iconPath: 'assets/images/game.png',
-                  onPressed: () {
-                    // Navigate to Games
-                  },
-                ),
-                BottomNavbarItem(
-                  iconPath: 'assets/images/store.png',
-                  onPressed: () {
-                    // Navigate to Store
-                  },
-                ),
-                BottomNavbarItem(
-                  iconPath: 'assets/images/profile.png',
-                  onPressed: () {
-                    // Navigate to Profile
-                  },
-                ),
-              ],
+              onHomePressed: () {
+                print("Home pressed");
+                // Navigate to Home
+              },
+              onGamePressed: () {
+                print("Game pressed");
+                // Navigate to Games
+              },
+              onStorePressed: () {
+                print("Store pressed");
+                // Navigate to Store
+              },
+              onProfilePressed: () {
+                print("Profile pressed");
+                // Navigate to Profile
+              },
             ),
           ),
         ],
@@ -124,6 +111,7 @@ class MainMenuScreen2 extends StatelessWidget {
     );
   }
 
+  // Define the _buildCustomButton method
   Widget _buildCustomButton(
     BuildContext context,
     String text,

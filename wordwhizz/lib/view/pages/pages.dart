@@ -33,11 +33,14 @@ part 'playmenu2_page.dart';
 part 'mm_minigames_page.dart';
 part 'mg_tebakgambar_page.dart';
 
+
+part 'shop_page.dart';
+
 // part 'character2_page.dart';
 // part 'character3_page.dart';
 // part 'character4_page.dart';
 part 'mainMenu2_page.dart';
 part 'bottomnavbar.dart'; 
 part 'topnavbar.dart'; 
+part 'beforestartgame.dart'; 
 // uji coba 
-
