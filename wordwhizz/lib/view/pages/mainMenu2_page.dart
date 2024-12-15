@@ -1,4 +1,6 @@
-part of pages;
+part of 'pages.dart';
+// part of 'topnavbar.dart';
+// part of 'bottomnavbar.dart';
 
 class MainMenuScreen2 extends StatelessWidget {
   const MainMenuScreen2({super.key});
@@ -6,92 +8,140 @@ class MainMenuScreen2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background_mainmenu2.png'),
-            fit: BoxFit.cover,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Background image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background_mainmenu2.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // "Mulai Ceritamu" Section
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 108.0), // Top padding for the logo
-                child: Center(
-                  child: SizedBox(
-                    width: 329,
-                    height: 56,
-                    child: Text(
-                      "Mulai Ceritamu",
-                      style: TextStyle(
-                        fontFamily: 'BalooChettan 2',
-                        fontSize: 48.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 4.0,
-                            color: Colors.black54,
+          // Content Area
+          SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 108), // Adjust spacing
+                        Text(
+                          "Mulai Ceritamu",
+                          style: TextStyle(
+                            fontFamily: 'BalooChettan 2',
+                            fontSize: 48.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(0.0, 3.0),
+                                blurRadius: 3.0,
+                                color: const Color(0xFF9E9E9E),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 28),
+                        // Buttons
+                        _buildCustomButton(
+                          context,
+                          'CHAPTER 1',
+                          () {},
+                          darkGreen,
+                          'assets/images/button_mainmenuhijau.png',
+                          'assets/images/playmainmenu2.png',
+                        ),
+                        const SizedBox(height: 46),
+                        _buildCustomButton(
+                          context,
+                          'CHAPTER 2',
+                          () {},
+                          yellowColor,
+                          'assets/images/buttonmainmenuyellow.png',
+                          'assets/images/kuncikuning.png',
+                        ),
+                        const SizedBox(height: 100),
+                      ],
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                  height: 28), // Adjust this height to control spacing
-              // Buttons Section
-              Column(
-                children: [
-                  // Chapter 1 Button
-                  _buildCustomButton(context, 'CHAPTER 1', () {
-                    // Add your play button logic here
-                  }, darkGreen, 'assets/images/button_mainmenuhijau.png',
-                      'assets/images/playmainmenu2.png'),
-                  const SizedBox(height: 46), // Spacing between buttons
-                  // Chapter 2 Button
-                  _buildCustomButton(context, 'CHAPTER 2', () {
-                    // Add your exit button logic here
-                  }, yellowColor, 'assets/images/buttonmainmenuyellow.png',
-                      'assets/images/kuncikuning.png'),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          // Top Navbar
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: TopNavbar(
+              onBackPressed: () {
+                Navigator.pop(context);
+              },
+              coinCount: '100',
+              heartCount: '5',
+            ),
+          ),
+          // Bottom Navbar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BottomNavbar(
+              items: [
+                BottomNavbarItem(
+                  iconPath: 'assets/images/home.png',
+                  onPressed: () {
+                    // Navigate to Home
+                  },
+                ),
+                BottomNavbarItem(
+                  iconPath: 'assets/images/game.png',
+                  onPressed: () {
+                    // Navigate to Games
+                  },
+                ),
+                BottomNavbarItem(
+                  iconPath: 'assets/images/store.png',
+                  onPressed: () {
+                    // Navigate to Store
+                  },
+                ),
+                BottomNavbarItem(
+                  iconPath: 'assets/images/profile.png',
+                  onPressed: () {
+                    // Navigate to Profile
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildCustomButton(
-      BuildContext context,
-      String text,
-      VoidCallback onPressed,
-      Color textColor,
-      String backgroundImage,
-      String iconImage) {
+    BuildContext context,
+    String text,
+    VoidCallback onPressed,
+    Color textColor,
+    String backgroundImage,
+    String iconImage,
+  ) {
     return GestureDetector(
       onTap: onPressed,
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Button background image
-          Image.asset(
-            backgroundImage,
-            fit: BoxFit.contain,
-          ),
-          // Button text with specific alignment
+          Image.asset(backgroundImage, fit: BoxFit.contain),
           Padding(
-            padding: const EdgeInsets.only(
-                bottom: 20), // Change these values to position the text
+            padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              // asset buat iconnya
               children: [
                 Text(
                   text,
@@ -111,9 +161,13 @@ class MainMenuScreen2 extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 6, left: 17),
-                  child: Image.asset(iconImage,
-                      width: 25, height: 25, fit: BoxFit.contain),
-                )
+                  child: Image.asset(
+                    iconImage,
+                    width: 25,
+                    height: 25,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ],
             ),
           ),
