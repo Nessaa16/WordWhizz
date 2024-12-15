@@ -1,8 +1,13 @@
 part of 'pages.dart';
 
-class ShopPage extends StatelessWidget {
+class ShopPage extends StatefulWidget {
   const ShopPage({Key? key}) : super(key: key);
 
+  @override
+  _ShopPageState createState() => _ShopPageState();
+}
+
+class _ShopPageState extends State<ShopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,9 +137,8 @@ class ShopPage extends StatelessWidget {
                           _buildSection(
                             'Nyawa',
                             [
-                              _buildItem(
-                                  'Full', '100 koin', 'assets/images/heart_full.png',
-                                  () {
+                              _buildItem('Full', '100 koin',
+                                  'assets/images/heart_full.png', () {
                                 print('Full heart purchased');
                               }),
                               _buildItem(
@@ -297,7 +301,7 @@ class ShopPage extends StatelessWidget {
             ],
           ),
         ),
-        
+
         Positioned(
           bottom: -16,
           left: 9.5,
