@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       // home: WelcomePage(),
       // home: StoryPage(),
       //home: MainMenuScreen(),
-     home: Chapter2(),
+     home: ShopPage(),
       // home: MinigamesScreen(),
       // home: MainMenuScreen(),
     //  home: Chapter1(),
