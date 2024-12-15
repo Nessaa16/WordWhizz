@@ -121,6 +121,7 @@ flutter:
     - assets/images/coins_200.png
     - assets/images/coins_400.png
     - assets/images/coins_600.png
+    - assets/images/heart_full.png
     - assets/images/hearts_2.png
     - assets/images/hearts_4.png
     - assets/images/cardShopPage.png

@@ -18,8 +18,7 @@ class ShopPage extends StatelessWidget {
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start, // Ensure proper alignment
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header
                   Padding(
@@ -109,32 +108,45 @@ class ShopPage extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     child: Center(
                       child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.center, // Center vertically
-                        crossAxisAlignment:
-                            CrossAxisAlignment.center, // Center horizontally
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           _buildSection(
                             'Koin',
                             [
                               _buildItem('200', 'IDR 25K',
-                                  'assets/images/coins_200.png'),
+                                  'assets/images/coins_200.png', () {
+                                print('200 coins purchased');
+                              }),
                               _buildItem('400', 'IDR 50K',
-                                  'assets/images/coins_400.png'),
+                                  'assets/images/coins_400.png', () {
+                                print('400 coins purchased');
+                              }),
                               _buildItem('600', 'IDR 75K',
-                                  'assets/images/coins_600.png'),
+                                  'assets/images/coins_600.png', () {
+                                print('600 coins purchased');
+                              }),
                             ],
                           ),
                           SizedBox(height: 47),
                           _buildSection(
                             'Nyawa',
                             [
-                              _buildItem('Full', '100 koin',
-                                  'assets/images/heart.png'),
                               _buildItem(
-                                  '4', '50 koin', 'assets/images/hearts_4.png'),
+                                  'Full', '100 koin', 'assets/images/heart_full.png',
+                                  () {
+                                print('Full heart purchased');
+                              }),
                               _buildItem(
-                                  '2', '25 koin', 'assets/images/hearts_2.png'),
+                                  '4', '50 koin', 'assets/images/hearts_4.png',
+                                  () {
+                                print('4 hearts purchased');
+                              }),
+                              _buildItem(
+                                  '2', '25 koin', 'assets/images/hearts_2.png',
+                                  () {
+                                print('2 hearts purchased');
+                              }),
                             ],
                           ),
                           SizedBox(height: 47),
@@ -142,11 +154,17 @@ class ShopPage extends StatelessWidget {
                             'Paket',
                             [
                               _buildItem('Pemula', '50 koin',
-                                  'assets/images/bundlePemula.png'),
+                                  'assets/images/bundlePemula.png', () {
+                                print('Pemula package purchased');
+                              }),
                               _buildItem('Elit', '100 koin',
-                                  'assets/images/bundleElit.png'),
+                                  'assets/images/bundleElit.png', () {
+                                print('Elit package purchased');
+                              }),
                               _buildItem('Sultan', '200 koin',
-                                  'assets/images/bundleSultan.png'),
+                                  'assets/images/bundleSultan.png', () {
+                                print('Sultan package purchased');
+                              }),
                             ],
                           ),
                         ],
@@ -161,7 +179,7 @@ class ShopPage extends StatelessWidget {
                       alignment: Alignment.center,
                       child: GestureDetector(
                         onTap: () {
-                          // Fungsi saat tombol ditekan
+                          print('Gacha button pressed');
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -188,95 +206,127 @@ class ShopPage extends StatelessWidget {
   }
 
   Widget _buildSection(String title, List<Widget> items) {
-    return SizedBox(
-      width: 342,
-      height: 214,
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/cardShopPage.png'),
-            fit: BoxFit.cover,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          width: 342,
+          height: 214,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/cardShopPage.png'),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(20),
           ),
-          borderRadius: BorderRadius.circular(20),
+          child: Column(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: items,
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+        if (title == 'Koin')
+          Positioned(
+            bottom: -125,
+            left: -35,
+            child: Transform.rotate(
+              angle: -0.1,
+              child: Image.asset(
+                'assets/images/mascott.png',
+                height: 151,
+                width: 158,
               ),
             ),
-            SizedBox(height: 18),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: items,
-            ),
-          ],
-        ),
-      ),
+          ),
+      ],
     );
   }
 
-  Widget _buildItem(String title, String price, String imagePath) {
-    return Container(
-      width: 85,
-      height: 100,
-      padding: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/shopPage_whiteCard.png'),
-          fit: BoxFit.cover,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/button_green.png'),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+  Widget _buildItem(
+      String title, String price, String imagePath, VoidCallback onTap) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // WhiteCard
+        Container(
+          width: 85,
+          height: 100,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/shopPage_whiteCard.png'),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            children: [
+              // Image
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Image.asset(
+                  imagePath,
+                  height: 40,
                 ),
+              ),
+              // Title
+              Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        Positioned(
+          bottom: -16,
+          left: 9.5,
+          child: GestureDetector(
+            onTap: onTap,
+            child: Container(
+              width: 66,
+              height: 32,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/button_green.png'),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
                 child: Text(
                   price,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
+                    fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             ),
           ),
-          
-          Align(
-            alignment: Alignment.topCenter,
-            child: Image.asset(
-              imagePath,
-              height: 40,
-            ),
-          ),
-          
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
