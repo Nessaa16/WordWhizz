@@ -23,8 +23,13 @@ class MyApp extends StatelessWidget {
 
       // home: WelcomePage(),
       // home: StoryPage(),
+
       // home: MainMenuScreen(),
       // home: Chapter2(),
+
+      //home: MainMenuScreen(),
+      //home: ShopPage(),
+
       // home: MinigamesScreen(),
       // home: MainMenuScreen(),
       // home: Chapter1(),
@@ -32,6 +37,7 @@ class MyApp extends StatelessWidget {
       // home: MainMenuScreen2(),
       // home: Chapter1(),
       home: Beforestartgame(),
+//    home: MainMenuScreen2(),
 
     );
   }
