@@ -70,8 +70,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                   child: ClipOval(
-                    child: Image.network(
-                      'https://placeholder.com/avatar', // Replace with actual avatar URL
+                    child: Image.asset(
+                      'assets/images/avatar_dog.png', // Replace with the correct path to your asset image
                       fit: BoxFit.cover,
                     ),
                   ),
