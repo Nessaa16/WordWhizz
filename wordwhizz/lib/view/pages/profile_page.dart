@@ -11,79 +11,94 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF5BCEFF),
+      backgroundColor: const Color(0xFF5BCEFF),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Back Button and Title
-                Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Membuat elemen dalam Row rata tengah
+                // Teks "Profile" di atas
+                Stack(
                   children: [
-                    IconButton(
-                      icon: Image.asset(
-                        'assets/images/backarrow.png', // Ganti dengan path gambar yang sesuai
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
+                    // Tombol Back menggunakan GestureDetector dan gambar
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(
+                              context); // Navigasi ke halaman sebelumnya
+                        },
+                        child: Image.asset(
+                          'assets/images/backarrow.png', // Path gambar
+                          width: 40, // Lebar gambar
+                          height: 40, // Tinggi gambar
+                          fit: BoxFit.contain, // Mengatur gambar sesuai ukuran
+                        ),
                       ),
-                      onPressed: () => Navigator.pop(context),
                     ),
-                    Expanded(
+                    // Teks "Profile" di tengah
+                    Center(
                       child: Text(
                         'Profile',
-                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 32,
+                          fontSize: 36,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           shadows: [
                             Shadow(
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 3.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Colors.black26,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                        width:
-                            40), // Spacer untuk menyeimbangkan ruang di kanan
                   ],
                 ),
                 const SizedBox(height: 20),
 
-                // Profile Avatar
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/avatar_dog.png', // Replace with the correct path to your asset image
-                  ),
+                // Avatar
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 155,
+                      height: 163,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                      ),
+                      child: Image.asset(
+                        'assets/images/avatar_dog.png', // Ganti dengan path gambar Anda
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
 
                 // Profile Info
-                Text(
-                  'Depede Swangar',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.brown[700],
-                  ),
-                ),
-                const Text(
-                  '14 years old',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.brown,
+                Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Depede Swangar',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown[700],
+                        ),
+                      ),
+                      const Text(
+                        '14 years old',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.brown,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
