@@ -11,7 +11,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
+      backgroundColor: Color(0xFF5BCEFF),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -20,34 +20,39 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 // Back Button and Title
                 Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Membuat elemen dalam Row rata tengah
                   children: [
-                    Container(
-                      child: IconButton(
-                        icon: Image.asset(
-                          'assets/images/backarrow.png', // Ganti dengan path gambar yang sesuai
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.contain,
+                    IconButton(
+                      icon: Image.asset(
+                        'assets/images/backarrow.png', // Ganti dengan path gambar yang sesuai
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.contain,
+                      ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Profile',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
                         ),
-                        onPressed: () => Navigator.pop(context),
                       ),
                     ),
-                    const SizedBox(width: 20),
-                    const Text(
-                      'Profile',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      ),
-                    ),
+                    const SizedBox(
+                        width:
+                            40), // Spacer untuk menyeimbangkan ruang di kanan
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -58,22 +63,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.lightGreen,
-                    border: Border.all(color: Colors.white, width: 4),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
                   ),
-                  child: ClipOval(
-                    child: Image.asset(
-                      'assets/images/avatar_dog.png', // Replace with the correct path to your asset image
-                      fit: BoxFit.cover,
-                    ),
+                  child: Image.asset(
+                    'assets/images/avatar_dog.png', // Replace with the correct path to your asset image
                   ),
                 ),
                 const SizedBox(height: 20),

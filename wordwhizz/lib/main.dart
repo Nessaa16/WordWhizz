@@ -22,23 +22,24 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // home: WelcomePage(),
+      
+      home: WelcomePage(), // login dan signup 
       // home: StoryPage(),
 
       // home: MainMenuScreen(),
       // home: Chapter2(),
 
-      //home: MainMenuScreen(),
+      // home: MainMenuScreen(),
+      // home: BottomNavbar(),
 
-      //home: ShopPage(),
+      // home: ProfilePage(selectedCharacter: '',),
 
       // home: MinigamesScreen(),
-      // home: MainMenuScreen(),
-      // home: Chapter1(),
+      // home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),
-      home: Beforestartgame(),
+      // home: Beforestartgame(),
 //    home: MainMenuScreen2(),
 
 
