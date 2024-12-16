@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       
-      home: WelcomePage(), // login dan signup 
+      // home: WelcomePage(), // login dan signup 
       // home: StoryPage(),
 
       // home: MainMenuScreen(),
@@ -40,8 +40,13 @@ class MyApp extends StatelessWidget {
       // home: MainMenuScreen2(),
       // home: Chapter1(),
       // home: Beforestartgame(),
+
 //    home: MainMenuScreen2(),
 
+
+
+  //  home: MainMenuScreen2(),
+      home: MainMenuScreen(),
 
     );
   }

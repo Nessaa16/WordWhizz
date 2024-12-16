@@ -35,19 +35,47 @@ class BottomNavbar extends StatelessWidget {
           children: [
             _buildBottomNavItem(
               'assets/images/home.png',
-              onPressed: onHomePressed ?? () {},
+              onPressed: onHomePressed ?? () {
+                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MainMenuScreen()
+                                    ),
+                                  );
+              },
             ),
             _buildBottomNavItem(
               'assets/images/game.png',
-              onPressed: onGamePressed ?? () {},
+              onPressed: onGamePressed ?? () {
+                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MinigamesScreen()
+                                    ),
+                                  );
+              },
             ),
             _buildBottomNavItem(
               'assets/images/store.png',
-              onPressed: onStorePressed ?? () {},
+              onPressed: onStorePressed ?? () {
+                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ShopPage()
+                                    ),
+                                  );
+              },
             ),
             _buildBottomNavItem(
               'assets/images/profile.png',
-              onPressed: onProfilePressed ?? () {},
+              onPressed: onProfilePressed ?? () {
+                 Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfilePage(selectedCharacter: '')
+                                    ),
+                                  );
+              },
             ),
           ],
         ),

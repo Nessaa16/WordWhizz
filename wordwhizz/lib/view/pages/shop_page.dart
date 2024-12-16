@@ -32,7 +32,7 @@ class _ShopPageState extends State<ShopPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // Handle back navigation
+                            Navigator.pop(context);
                           },
                           child: Image.asset(
                             'assets/images/backarrow.png',
