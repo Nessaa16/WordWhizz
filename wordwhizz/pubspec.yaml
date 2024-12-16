@@ -137,6 +137,9 @@ flutter:
     - assets/images/navbaratas.png
     - assets/images/navbarbackatas.png
     - assets/images/backnav.png
+    - assets/images/bg_minigames_translate.png
+
+    
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

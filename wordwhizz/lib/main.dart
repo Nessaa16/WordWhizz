@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),
-      home: Beforestartgame(),
-//    home: MainMenuScreen2(),
-
+      // home: Beforestartgame(),
+  //  home: MainMenuScreen2(),
+      home: MainMenuScreen(),
     );
   }
 }

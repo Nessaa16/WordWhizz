@@ -8,6 +8,7 @@ Color yellowColor = const Color(0xFFFFDE00);
 Color bgColor = const Color(0xFF5BCEFF);
 Color dropShadow = const Color(0xFF006691);
 Color fontColor = const Color(0xFF403C3C);
+Color thirdColor = const Color(0xEFF1F5);
 
 TextStyle splashTitle1 = TextStyle(
   fontFamily: 'BalooChettan2',
