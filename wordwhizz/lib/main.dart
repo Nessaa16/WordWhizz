@@ -24,16 +24,24 @@ class MyApp extends StatelessWidget {
 
       // home: WelcomePage(),
       // home: StoryPage(),
+
+      // home: MainMenuScreen(),
+      // home: Chapter2(),
+
       //home: MainMenuScreen(),
-      home: ProfilePage(
-        selectedCharacter: '',
-      ),
+
+      //home: ShopPage(),
+
       // home: MinigamesScreen(),
       // home: MainMenuScreen(),
-      //  home: Chapter1(),
+      // home: Chapter1(),
       // home: TebakGambar(),
+      // home: MainMenuScreen2(),
+      // home: Chapter1(),
+      home: Beforestartgame(),
+//    home: MainMenuScreen2(),
 
-//       home: MainMenuScreen2(),
+
     );
   }
 }
