@@ -139,6 +139,9 @@ flutter:
     - assets/images/backnav.png
     - assets/images/avatar_dog.png
     - assets/images/bg_minigames_translate.png
+    - assets/images/achieve_genius.png
+    - assets/images/achieve_nobuff.png
+    - assets/images/achieve_speedrunner.png
 
     
 
