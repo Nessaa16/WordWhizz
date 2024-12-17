@@ -11,17 +11,45 @@ class Chapter1 extends StatelessWidget {
           // Background
           Positioned.fill(
             child: Image.asset(
-              'assets/images/backgroundc1.png',
-              fit: BoxFit.cover, // Ensures the image scales to cover the screen
+              'assets/images/chapter1.png',
+              fit: BoxFit.cover,
             ),
           ),
-          // Scrollable Content
           SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.only(top: 100, bottom: 100), // Leave space for fixed elements
+              padding: const EdgeInsets.only(top: 7, bottom: 130),
               child: Column(
                 children: [
+                  // Top Bar
+                  TopNavbar(
+                    onBackPressed: () {
+                      Navigator.pop(context);
+                    },
+                    coinCount: '100',
+                    heartCount: '5',
+                  ),
+
+                  // "CHAPTER 1" Title Text
+                  const SizedBox(height: 20),
+                  const Text(
+                    'CHAPTER 1',
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'BalooChettan2',
+                      shadows: [
+                        Shadow(
+                          offset: Offset(4, 5),
+                          blurRadius: 8,
+                          color: Colors.black45,
+                        ),
+                      ],
+                    ),
+                  ),
+
                   // Level Buttons
+                  const SizedBox(height: 40), // Space before level buttons
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -29,11 +57,11 @@ class Chapter1 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 80, top: 80),
+                            padding: const EdgeInsets.only(left: 80, top: 10),
                             child: LevelButton(
-                              imagePath: 'assets/images/1-1.png',
-                              width: 100,
-                              height: 145,
+                              levelNumber: '1-1',
+                              isLocked: false,
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -42,11 +70,11 @@ class Chapter1 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 80, top: 5),
+                            padding: const EdgeInsets.only(right: 80, top: 10),
                             child: LevelButton(
-                              imagePath: 'assets/images/1-2.png',
-                              width: 100,
-                              height: 145,
+                              levelNumber: '1-2',
+                              isLocked: true,
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -55,11 +83,11 @@ class Chapter1 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(left: 80, top: 5),
+                            padding: const EdgeInsets.only(left: 80, top: 10),
                             child: LevelButton(
-                              imagePath: 'assets/images/1-3.png',
-                              width: 100,
-                              height: 145,
+                              levelNumber: '1-3',
+                              isLocked: true,
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -68,11 +96,37 @@ class Chapter1 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 80, top: 5),
+                            padding: const EdgeInsets.only(right: 80, top: 10),
                             child: LevelButton(
-                              imagePath: 'assets/images/1-4.png',
-                              width: 100,
-                              height: 145,
+                              levelNumber: '1-4',
+                              isLocked: true,
+                              onTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 80, top: 10),
+                            child: LevelButton(
+                              levelNumber: '1-5',
+                              isLocked: true,
+                              onTap: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 80, top: 10),
+                            child: LevelButton(
+                              levelNumber: '1-6',
+                              isLocked: true,
+                              onTap: () {},
                             ),
                           ),
                         ],
@@ -83,175 +137,41 @@ class Chapter1 extends StatelessWidget {
               ),
             ),
           ),
-          // Fixed Top Bar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Row(
-                  children: [
-                    // Back Button
-                    GestureDetector(
-                      onTap: () {
-                        // Handle back navigation
-                      },
-                      child: Image.asset(
-                        'assets/images/backarrow.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    const Spacer(),
-                    // Coins Counter
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/coin.png',
-                                height: 35,
-                              ),
-                              const SizedBox(width: 6),
-                              const Text(
-                                '100', // Example coin count
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        // Hearts Counter
-                        Container(
-                          padding: const EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(1),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/images/heart.png',
-                                height: 35,
-                              ),
-                              const SizedBox(width: 6),
-                              const Text(
-                                '5', // Example heart count
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Fixed Bottom Navigation Bar
+
+          // Bottom Navigation Bar
           Positioned(
             bottom: 0,
             left: 0,
             right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Navigation Bar Background
-                  Image.asset(
-                    'assets/images/bottomnav_background.png',
-                    width: double.infinity,
-                    height: 82,
-                    fit: BoxFit.cover,
-                  ),
-                  // Navigation Icons with Manual Padding
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, right: 230),
-                    child: Image.asset(
-                      'assets/images/home.png',
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, right: 80),
-                    child: Image.asset(
-                      'assets/images/game.png',
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 80),
-                    child: Image.asset(
-                      'assets/images/store.png',
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 230),
-                    child: Image.asset(
-                      'assets/images/profile.png',
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
-              ),
+            child: BottomNavbar(
+              onHomePressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MainMenuScreen()),
+                );
+              },
+              onGamePressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MinigamesScreen()),
+                );
+              },
+              onStorePressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShopPage()),
+                );
+              },
+              onProfilePressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(selectedCharacter: '')),
+                );
+              },
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-
-class LevelButton extends StatelessWidget {
-  final String imagePath;
-  final double width;
-  final double height;
-
-  const LevelButton({
-    Key? key,
-    required this.imagePath,
-    required this.width,
-    required this.height,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Handle level navigation here
-      },
-      child: Image.asset(
-        imagePath,
-        width: width,
-        height: height,
-        fit: BoxFit.cover,
       ),
     );
   }

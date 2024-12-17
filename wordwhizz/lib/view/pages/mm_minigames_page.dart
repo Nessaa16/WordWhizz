@@ -27,7 +27,7 @@ class MinigamesScreen extends StatelessWidget {
                       // Back Button
                       GestureDetector(
                         onTap: () {
-                          // Handle back navigation
+                          Navigator.pop(context);
                         },
                         child: Image.asset(
                           'assets/images/backarrow.png',
