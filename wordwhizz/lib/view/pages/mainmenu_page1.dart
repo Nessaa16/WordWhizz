@@ -6,60 +6,78 @@ class MainMenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/forest_background.png'),
-            fit: BoxFit.cover,
+      body: Stack(
+        children: [
+          // Background image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/forest_background.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              // Logo section
-              Padding(
-                padding: const EdgeInsets.only(top: 100.0), // Top padding for the logo
-                child: Center(
-                  child: Container(
-                    width: 250,
-                    height: 250,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'),
-                        fit: BoxFit.contain,
+          // Main content
+          SafeArea(
+            child: Column(
+              children: [
+                // Logo section
+                Padding(
+                  padding: const EdgeInsets.only(top: 100.0), // Top padding for the logo
+                  child: Center(
+                    child: Container(
+                      width: 250,
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/logo.png'),
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              // Adjustable space between logo and buttons
-              const SizedBox(height: 50), // Adjust this height to control the distance
-              // Buttons section
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  children: [
-                    _buildCustomButton(
-                      context,
-                      'Bermain',
-                      () {
-                        // Add your play button logic here
-                      },
-                    ),
-                    const SizedBox(height: 16), // Spacing between buttons
-                    _buildCustomButton(
-                      context,
-                      'Keluar',
-                      () {
-                        // Add your exit button logic here
-                      },
-                    ),
-                  ],
+                // Adjustable space between logo and buttons
+                const SizedBox(height: 50), // Adjust this height to control the distance
+                // Buttons section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      _buildCustomButton(
+                        context,
+                        'Bermain',
+                        () {
+                           Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Chapter1()
+                                    ),
+                                  );
+                        },
+                      ),
+                      const SizedBox(height: 16), // Spacing between buttons
+                      _buildCustomButton(
+                        context,
+                        'Keluar',
+                        () {
+                          // Add your exit button logic here
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          // Bottom navigation bar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: BottomNavbar(),
+          ),
+        ],
       ),
     );
   }

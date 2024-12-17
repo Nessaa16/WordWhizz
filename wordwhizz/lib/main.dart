@@ -16,28 +16,37 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      // home: WelcomePage(),
+      
+      // home: WelcomePage(), // login dan signup 
       // home: StoryPage(),
 
       // home: MainMenuScreen(),
       // home: Chapter2(),
 
-      //home: MainMenuScreen(),
-      //home: ShopPage(),
+      // home: MainMenuScreen(),
+      // home: BottomNavbar(),
+
+      // home: ProfilePage(selectedCharacter: '',),
 
       // home: MinigamesScreen(),
-      // home: MainMenuScreen(),
-      // home: Chapter1(),
+      // home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),
-      home: Beforestartgame(),
+      // home: Beforestartgame(),
+
 //    home: MainMenuScreen2(),
+
+
+
+  //  home: MainMenuScreen2(),
+      home: MainMenuScreen(),
 
     );
   }
