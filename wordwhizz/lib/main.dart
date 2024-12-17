@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
       // home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
-      // home: Chapter1(),
+      home: Chapter2(),
       // home: Beforestartgame(),
 
 //    home: MainMenuScreen2(),
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
 
 
   //  home: MainMenuScreen2(),
-      home: MainMenuScreen(),
+      // home: MainMenuScreen(),
 
     );
   }
