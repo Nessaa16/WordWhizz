@@ -88,8 +88,8 @@ flutter:
     - assets/images/coin.png
     - assets/images/heart.png
     - assets/images/store.png
-    - assets/images/backgroundc1.png
-    - assets/images/backgroundc2.png
+    - assets/images/chapter1.png
+    - assets/images/chapter2.png
     - assets/images/bottomnav_background.png
     - assets/images/animations/Animation.json
     - assets/images/animations/gacha.json
