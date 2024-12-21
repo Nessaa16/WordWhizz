@@ -38,11 +38,12 @@ class MyApp extends StatelessWidget {
       home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
-      // home: Chapter1(),
+      // home: TebakGambar(),
       // home: Beforestartgame(),
 
       // home: DialogPurchasing(),
       
+
     );
   }
 }
