@@ -21,31 +21,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-
-      
       // home: WelcomePage(), // login dan signup 
       // home: StoryPage(),
-
       // home: MainMenuScreen(),
-      home: Chapter2(),
-
+      // home: Chapter2(),
       // home: MainMenuScreen(),
       // home: BottomNavbar(),
-
       // home: ProfilePage(selectedCharacter: '',),
-
       // home: MinigamesScreen(),
       // home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),
+      // home: TebakGambar(),
       // home: Beforestartgame(),
-
-//    home: MainMenuScreen2(),
-
-
-
-  //  home: MainMenuScreen2(),
+      // home: MainMenuScreen2(),
+      // home: MainMenuScreen2(),
       // home: MainMenuScreen(),
 
     );
