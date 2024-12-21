@@ -44,7 +44,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Text(
                         'Profile',
                         style: TextStyle(
-                          fontSize: 36,
+                          fontFamily: 'BalooChettan2',
+                          fontSize: 48,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           shadows: [
@@ -103,6 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Text(
                               'Depede Swangar',
                               style: TextStyle(
+                                fontFamily: 'BalooChettan2',
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.brown[700],
@@ -116,7 +118,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const Text(
                                   '14 years old',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontFamily: 'BalooChettan2',
+                                    fontSize: 20,
                                     color: Colors.brown,
                                   ),
                                 ),
@@ -185,6 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Text(
                             'Achievement',
                             style: TextStyle(
+                              fontFamily: 'BalooChettan2',
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.brown,
@@ -233,7 +237,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Text(
           label,
           style: const TextStyle(
-            fontSize: 16,
+            fontFamily: 'BalooChettan2',
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.brown,
           ),
@@ -241,7 +246,8 @@ class _ProfilePageState extends State<ProfilePage> {
         Text(
           value,
           style: const TextStyle(
-            fontSize: 18,
+            fontFamily: 'BalooChettan2',
+            fontSize: 20,
             color: Colors.brown,
           ),
         ),
@@ -285,6 +291,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(
                   title,
                   style: const TextStyle(
+                    fontFamily: 'BalooChettan2',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -293,6 +300,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text(
                   description,
                   style: const TextStyle(
+                    fontFamily: 'BalooChettan2',
                     fontSize: 14,
                     color: Colors.white,
                   ),
