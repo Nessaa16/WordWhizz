@@ -1,10 +1,14 @@
 part of 'pages.dart';
 
-class LevelButton extends StatelessWidget {
+class LevelButton extends StatefulWidget {
   final String levelNumber;
   final bool isCompleted;
   final bool isLocked;
   final VoidCallback onTap;
+  // karena popup nya akan menyesuaikan dengan levelnya jadi pakai false
+//  di chapter tidak pakai pop up
+  final bool showPopup;
+  final List<Potion> potions;
 
   const LevelButton({
     Key? key,
@@ -12,12 +16,66 @@ class LevelButton extends StatelessWidget {
     this.isCompleted = false,
     this.isLocked = false,
     required this.onTap,
+    this.showPopup = false,
+    required this.potions
   }) : super(key: key);
+
+  @override
+  _LevelButtonState createState() => _LevelButtonState();
+}
+
+class _LevelButtonState extends State<LevelButton> {
+  late bool isLocked;
+  late bool isCompleted;
+
+  @override
+  void initState() {
+    super.initState();
+    isLocked = widget.isLocked;
+    isCompleted = widget.isCompleted;
+  }
+
+  void _handleTap() {
+    if (isLocked) {
+      // gaada apa-apa kalau locked
+      return;
+    }
+    //  kalau complete kan bisa show popup waktu dimainkan
+    if (isCompleted && widget.showPopup) {
+      // kasih pop up sebelum main gamenya
+      _showPopup(context, widget.levelNumber);
+    } else {
+      // ganti iconnya jadi terbuka kalau udah complete
+      setState(() {
+        isCompleted = true;
+        isLocked = false;
+      });
+      if (widget.showPopup) {
+        _showPopup(context, widget.levelNumber);
+      }
+    }
+    widget.onTap();
+  }
+
+  void _showPopup(BuildContext context, String levelNumber) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return BeforeGameAlertDialog(
+          levelNumber: levelNumber,
+          onClose: (){
+            Navigator.of(context).pop(); 
+          },
+          potions: widget.potions
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isLocked ? null : onTap, // Disable tap if locked
+      onTap: _handleTap,
       child: Container(
         width: 100,
         height: 145,
@@ -40,7 +98,7 @@ class LevelButton extends StatelessWidget {
                   ),
                   // Level number text
                   Text(
-                    levelNumber,
+                    widget.levelNumber,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -50,7 +108,7 @@ class LevelButton extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10), // Space between circle and icon
-              
+
               // Horizontally centered Lock or Play Icon
               Center(
                 child: Icon(
@@ -66,7 +124,6 @@ class LevelButton extends StatelessWidget {
     );
   }
 }
-
 
 class LevelButtonPainter extends CustomPainter {
   final bool isLocked;

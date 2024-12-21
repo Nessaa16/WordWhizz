@@ -42,5 +42,9 @@ part 'minigames_translate.dart';
 part 'mainMenu2_page.dart';
 part 'bottomnavbar.dart'; 
 part 'topnavbar.dart'; 
+part 'beforeGameAlertDialog.dart'; 
+part 'potion.dart'; 
+part 'baseCustomDialog.dart'; 
+part 'noHeartAlertDialog.dart'; 
 // part 'beforestartgame.dart'; 
 // uji coba 
