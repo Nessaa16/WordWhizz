@@ -35,19 +35,14 @@ class MyApp extends StatelessWidget {
       // home: ProfilePage(selectedCharacter: '',),
 
       // home: MinigamesScreen(),
-      // home: ShopPage(),
+      home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),
       // home: Beforestartgame(),
 
-//    home: MainMenuScreen2(),
-
-
-
-  //  home: MainMenuScreen2(),
-      home: MainMenuScreen(),
-
+      // home: DialogPurchasing(),
+      
     );
   }
 }

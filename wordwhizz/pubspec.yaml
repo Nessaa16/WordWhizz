@@ -142,6 +142,9 @@ flutter:
     - assets/images/achieve_genius.png
     - assets/images/achieve_nobuff.png
     - assets/images/achieve_speedrunner.png
+    - assets/images/button_kembali.png
+    - assets/images/button_beli.png
+    - assets/images/label_konfirmasi.png
 
     
 
@@ -156,7 +159,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: BalooChettan 2
+    - family: BalooChettan2
       fonts:
         - asset: fonts/BalooChettan2-Regular.ttf
         - asset: fonts/BalooChettan2-Medium.ttf
