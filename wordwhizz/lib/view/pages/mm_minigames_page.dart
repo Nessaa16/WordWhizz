@@ -19,24 +19,30 @@ class MinigamesScreen extends StatelessWidget {
           SafeArea(
             child: Column(
               children: [
-                // Top Bar
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      // Back Button
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset(
-                          'assets/images/backarrow.png',
-                          width: 40, // Match Chapter1 size
-                          height: 40,
-                          fit: BoxFit.contain,
-                        ),
+                // Top Navbar
+                TopNavbar(
+                  onBackPressed: () {
+                    Navigator.pop(context);
+                  },
+                  coinCount: '100',
+                  heartCount: '5',
+                ),
+
+                // "MINIGAMES" Title Text
+                const SizedBox(height: 20),
+                const Text(
+                  'MINIGAMES',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: 'BalooChettan2',
+                    shadows: [
+                      Shadow(
+                        offset: Offset(4, 5),
+                        blurRadius: 8,
+                        color: Colors.black45,
                       ),
-                      const Spacer(),
                     ],
                   ),
                 ),
@@ -44,47 +50,42 @@ class MinigamesScreen extends StatelessWidget {
                 // Grid of Games
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 120),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 55),
                     child: GridView.count(
                       crossAxisCount: 2,
                       mainAxisSpacing: 20,
-                      crossAxisSpacing: 1,
+                      crossAxisSpacing: 30,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        // Add GestureDetector for navigation
-                        GestureDetector(
-                          onTap: () {
-                            // Navigate to the mg_tebakgambar_page.dart
+                        _buildGameCard(
+                          context,
+                          'assets/images/tebakgambar.png',
+                          'Tebak Gambar',
+                          () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => const TebakGambar(),
-                              ),
+                              MaterialPageRoute(builder: (context) => const TebakGambar()),
                             );
                           },
-                          child: Image.asset(
-                            'assets/images/tebakgambar.png',
-                            width: 64,
-                            height: 64,
-                            fit: BoxFit.contain,
-                          ),
                         ),
-                        Image.asset(
+                        _buildGameCard(
+                          context,
                           'assets/images/susunkalimat.png',
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.contain,
+                          'Susun Kalimat',
+                          () {},
                         ),
-                        Image.asset(
+                        _buildGameCard(
+                          context,
                           'assets/images/terjemahkan.png',
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.contain,
+                          'Terjemahkan',
+                          () {},
                         ),
-                        Image.asset(
+                        _buildGameCard(
+                          context,
                           'assets/images/comingsoon.png',
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.contain,
+                          'Coming Soon',
+                          () {},
                         ),
                       ],
                     ),
@@ -92,66 +93,78 @@ class MinigamesScreen extends StatelessWidget {
                 ),
 
                 // Bottom Navigation Bar
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // Navigation Bar Background
-                      Image.asset(
-                        'assets/images/bottomnav_background.png',
-                        width: double.infinity,
-                        height: 82,
-                        fit: BoxFit.cover,
-                      ),
-                      // Navigation Icons with Manual Padding
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, right: 230), // Adjust for 'home'
-                        child: Image.asset(
-                          'assets/images/home.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, right: 80), // Adjust for 'game'
-                        child: Image.asset(
-                          'assets/images/game.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, left: 80), // Adjust for 'store'
-                        child: Image.asset(
-                          'assets/images/store.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10, left: 230), // Adjust for 'profile'
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          width: 32,
-                          height: 32,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ],
-                  ),
+                BottomNavbar(
+                  onHomePressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainMenuScreen()),
+                    );
+                  },
+                  onGamePressed: () {
+                    print("Game pressed");
+                  },
+                  onStorePressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ShopPage()),
+                    );
+                  },
+                  onProfilePressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfilePage(selectedCharacter: '')),
+                    );
+                  },
                 ),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Function to build each game card with white background
+  Widget _buildGameCard(BuildContext context, String imagePath, String title, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              blurRadius: 5,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 70,
+              height: 70,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontFamily: 'BalooChettan2',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

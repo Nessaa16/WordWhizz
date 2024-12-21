@@ -32,7 +32,7 @@ part 'playmenu1_page.dart';
 part 'playmenu2_page.dart';
 part 'mm_minigames_page.dart';
 part 'mg_tebakgambar_page.dart';
-
+part 'level-button.dart';
 
 part 'shop_page.dart';
 part 'dialog_purchasing.dart';
@@ -43,5 +43,5 @@ part 'minigames_translate.dart';
 part 'mainMenu2_page.dart';
 part 'bottomnavbar.dart'; 
 part 'topnavbar.dart'; 
-part 'beforestartgame.dart'; 
+// part 'beforestartgame.dart'; 
 // uji coba 
