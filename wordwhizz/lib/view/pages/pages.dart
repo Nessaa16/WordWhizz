@@ -35,6 +35,7 @@ part 'mg_tebakgambar_page.dart';
 part 'level-button.dart';
 
 part 'shop_page.dart';
+part 'dialog_purchasing.dart';
 part 'minigames_translate.dart';
 // part 'character2_page.dart';
 // part 'character3_page.dart';

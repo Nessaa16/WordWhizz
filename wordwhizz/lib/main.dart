@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       // home: BottomNavbar(),
       // home: ProfilePage(selectedCharacter: '',),
       // home: MinigamesScreen(),
-      // home: ShopPage(),
+      home: ShopPage(),
       // home: TebakGambar(),
       // home: MainMenuScreen2(),
       // home: Chapter1(),

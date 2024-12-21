@@ -44,7 +44,7 @@ class _ShopPageState extends State<ShopPage> {
                         Spacer(),
                         // Coins
                         Container(
-                          width: 80,
+                          width: 90,
                           padding:
                               EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
@@ -55,9 +55,16 @@ class _ShopPageState extends State<ShopPage> {
                             children: [
                               Image.asset('assets/images/coin.png', height: 24),
                               SizedBox(width: 4),
-                              Text('350',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(
+                                '350',
+                                style: TextStyle(
+                                  fontFamily:
+                                      'BalooChettan2', 
+                                  fontSize: 18,
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -76,9 +83,16 @@ class _ShopPageState extends State<ShopPage> {
                               Image.asset('assets/images/heart.png',
                                   height: 24),
                               SizedBox(width: 4),
-                              Text('8',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
+                              Text(
+                                '8',
+                                style: TextStyle(
+                                  fontFamily:
+                                      'BalooChettan2', 
+                                  fontSize: 18,
+                                  color: secondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -93,14 +107,15 @@ class _ShopPageState extends State<ShopPage> {
                       child: Text(
                         'Toko & Gacha',
                         style: TextStyle(
-                          fontSize: 32,
+                          fontFamily: 'BalooChettan2',
+                          fontSize: 48,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           shadows: [
                             Shadow(
                               offset: Offset(2, 2),
                               blurRadius: 3.0,
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.grey.withOpacity(0.5),
                             ),
                           ],
                         ),
@@ -120,15 +135,15 @@ class _ShopPageState extends State<ShopPage> {
                             'Koin',
                             [
                               _buildItem('200', 'IDR 25K',
-                                  'assets/images/coins_200.png', () {
+                                  'assets/images/coins_200.png', 'koin', () {
                                 print('200 coins purchased');
                               }),
                               _buildItem('400', 'IDR 50K',
-                                  'assets/images/coins_400.png', () {
+                                  'assets/images/coins_400.png', 'koin', () {
                                 print('400 coins purchased');
                               }),
                               _buildItem('600', 'IDR 75K',
-                                  'assets/images/coins_600.png', () {
+                                  'assets/images/coins_600.png', 'koin', () {
                                 print('600 coins purchased');
                               }),
                             ],
@@ -138,17 +153,15 @@ class _ShopPageState extends State<ShopPage> {
                             'Nyawa',
                             [
                               _buildItem('Full', '100 koin',
-                                  'assets/images/heart_full.png', () {
+                                  'assets/images/heart_full.png', 'nyawa', () {
                                 print('Full heart purchased');
                               }),
-                              _buildItem(
-                                  '4', '50 koin', 'assets/images/hearts_4.png',
-                                  () {
+                              _buildItem('4', '50 koin',
+                                  'assets/images/hearts_4.png', 'nyawa', () {
                                 print('4 hearts purchased');
                               }),
-                              _buildItem(
-                                  '2', '25 koin', 'assets/images/hearts_2.png',
-                                  () {
+                              _buildItem('2', '25 koin',
+                                  'assets/images/hearts_2.png', 'nyawa', () {
                                 print('2 hearts purchased');
                               }),
                             ],
@@ -157,16 +170,22 @@ class _ShopPageState extends State<ShopPage> {
                           _buildSection(
                             'Paket',
                             [
-                              _buildItem('Pemula', '50 koin',
-                                  'assets/images/bundlePemula.png', () {
+                              _buildItem(
+                                  'Pemula',
+                                  '50 koin',
+                                  'assets/images/bundlePemula.png',
+                                  'paket', () {
                                 print('Pemula package purchased');
                               }),
                               _buildItem('Elit', '100 koin',
-                                  'assets/images/bundleElit.png', () {
+                                  'assets/images/bundleElit.png', 'paket', () {
                                 print('Elit package purchased');
                               }),
-                              _buildItem('Sultan', '200 koin',
-                                  'assets/images/bundleSultan.png', () {
+                              _buildItem(
+                                  'Sultan',
+                                  '200 koin',
+                                  'assets/images/bundleSultan.png',
+                                  'paket', () {
                                 print('Sultan package purchased');
                               }),
                             ],
@@ -216,25 +235,25 @@ class _ShopPageState extends State<ShopPage> {
         Container(
           width: 342,
           height: 214,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/cardShopPage.png'),
               fit: BoxFit.cover,
             ),
-            borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             children: [
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontFamily: 'BalooChettan2',
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: items,
@@ -242,6 +261,7 @@ class _ShopPageState extends State<ShopPage> {
             ],
           ),
         ),
+        // Insert mascott behind nyawa card
         if (title == 'Koin')
           Positioned(
             bottom: -125,
@@ -259,8 +279,8 @@ class _ShopPageState extends State<ShopPage> {
     );
   }
 
-  Widget _buildItem(
-      String title, String price, String imagePath, VoidCallback onTap) {
+  Widget _buildItem(String title, String price, String imagePath,
+      String category, VoidCallback onTap) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -292,7 +312,12 @@ class _ShopPageState extends State<ShopPage> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: 'BalooChettan2',
+                        fontSize: 18,
+                        color: secondaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -306,7 +331,16 @@ class _ShopPageState extends State<ShopPage> {
           bottom: -16,
           left: 9.5,
           child: GestureDetector(
-            onTap: onTap,
+            onTap: () {
+              // Show dynamic dialog based on button clicked
+              DialogPurchasing.showDialogPurchasing(
+                context,
+                title: "Konfirmasi Pembelian",
+                message:
+                    "Apakah kamu yakin ingin membeli $category \"$title\"?",
+                imagePath: imagePath,
+              );
+            },
             child: Container(
               width: 66,
               height: 32,
@@ -321,6 +355,7 @@ class _ShopPageState extends State<ShopPage> {
                 child: Text(
                   price,
                   style: const TextStyle(
+                    fontFamily: 'BalooChettan2',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
