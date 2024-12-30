@@ -81,7 +81,7 @@ class _GachaPageState extends State<GachaPage> {
                         children: [
                           if (_isAnimationPlaying)
                             Lottie.asset(
-                              'assets/images/animations/gacha.json',
+                              'assets/images/animations/Gacha.json',
                               width: 200,
                               height: 200,
                             ),

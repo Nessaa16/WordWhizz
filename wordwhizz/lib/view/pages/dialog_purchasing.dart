@@ -1,28 +1,35 @@
 part of 'pages.dart';
-
 class DialogPurchasing extends StatefulWidget {
   final String title;
   final String message;
   final String imagePath;
+  final VoidCallback? onConfirm;
 
   const DialogPurchasing({
     Key? key,
     this.title = "Konfirmasi",
     this.message = "Apakah kamu yakin ingin membeli nyawa \"Full\"?",
     this.imagePath = 'assets/images/heart_full.png', // Default image
+    this.onConfirm,
   }) : super(key: key);
 
   @override
   State<DialogPurchasing> createState() => _DialogPurchasingState();
 
-  static void showDialogPurchasing(BuildContext context,
-      {String? title, String? message, String? imagePath}) {
+  static void showDialogPurchasing(
+    BuildContext context, {
+    String? title,
+    String? message,
+    String? imagePath,
+    required VoidCallback onConfirm, // Tambahkan parameter ini
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) => DialogPurchasing(
         title: title ?? "Konfirmasi",
         message: message ?? "Apakah kamu yakin ingin membeli nyawa \"Full\"?",
-        imagePath: imagePath ?? 'assets/images/heart_full.png', 
+        imagePath: imagePath ?? 'assets/images/heart_full.png',
+        onConfirm: onConfirm, // Pass ke widget
       ),
     );
   }
@@ -38,9 +45,9 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
         children: [
-          // Main content container
+          // Kontainer utama
           Container(
-            margin: const EdgeInsets.only(top: 40), 
+            margin: const EdgeInsets.only(top: 40),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -64,7 +71,7 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
                       fontFamily: 'BalooChettan2',
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFF8B4513), 
+                      color: Color(0xFF8B4513),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -74,12 +81,12 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(0xFFFF7600), 
+                        color: const Color(0xFFFF7600),
                         width: 10,
                       ),
                     ),
                     child: Image.asset(
-                      widget.imagePath, 
+                      widget.imagePath,
                       width: 50,
                       height: 50,
                       fit: BoxFit.contain,
@@ -100,10 +107,15 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16), 
+                      const SizedBox(width: 16),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () => Navigator.of(context).pop(true),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            if (widget.onConfirm != null) {
+                              widget.onConfirm!(); // Jalankan fungsi onConfirm
+                            }
+                          },
                           child: Image.asset(
                             'assets/images/button_beli.png',
                             width: 166.33,
@@ -118,7 +130,6 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
               ),
             ),
           ),
-          
           Positioned(
             top: -20,
             child: Image.asset(
@@ -132,8 +143,9 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
       ),
     );
   }
+}
 
-  static void showDialogPurchasing(BuildContext context,
+void showDialogPurchasing(BuildContext context,
       {String? title, String? message, String? imagePath}) {
     showDialog(
       context: context,
@@ -145,4 +157,3 @@ class _DialogPurchasingState extends State<DialogPurchasing> {
       ),
     );
   }
-}
