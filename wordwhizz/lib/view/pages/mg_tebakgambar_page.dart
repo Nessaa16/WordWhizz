@@ -13,8 +13,8 @@ class _TebakGambarState extends State<TebakGambar> {
   String correctImage = '';
   bool isAnswerCorrect = false;
   bool isImageSelected = false;
-
-  double progressValue = 0.0; // Nilai progres untuk progress bar
+  double progressValue = 0.0;
+  int score = 0;
 
   final Map<String, String> animals = {
     'Kucing': 'assets/images/mmmg-kucing.png',
@@ -23,11 +23,33 @@ class _TebakGambarState extends State<TebakGambar> {
     'Kelinci': 'assets/images/mmmg-kelinci.png',
   };
 
+  final audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     super.initState();
+    checkPermissions();
     _randomizeWord();
   }
+
+  Future<void> checkPermissions() async {
+  if (!await Permission.microphone.isGranted) {
+    await Permission.microphone.request();
+  }
+}
+
+ Future<void> _playAudio(String sound) async {
+  try {
+    if (sound == 'correct') {
+      await audioPlayer.setSource(AssetSource('sounds/correct_sound.mp3'));
+    } else {
+      await audioPlayer.setSource(AssetSource('sounds/wrong_sound.mp3'));
+    }
+    await audioPlayer.resume();
+  } catch (e) {
+    print('Error playing audio: $e');
+  }
+}
 
   void _randomizeWord() {
     List<String> keys = animals.keys.toList();
@@ -43,22 +65,114 @@ class _TebakGambarState extends State<TebakGambar> {
       selectedImage = imagePath;
       isAnswerCorrect = (selectedImage == correctImage);
       isImageSelected = true;
+
+      if (isAnswerCorrect) {
+        score += 20;
+        _playAudio('correct');
+      } else {
+        _playAudio('wrong');
+      }
     });
+  }
+
+  Future<void> _playWinnerSound() async {
+  try {
+    await audioPlayer.setSource(AssetSource('sounds/success_sound.mp3'));
+    await audioPlayer.resume();
+  } catch (e) {
+    print('Error playing winner sound: $e');
+  }
+}
+
+Future<void> _playWinnerAnimation() async {
+  try {
+    await audioPlayer.setSource(AssetSource('sounds/win_sound.mp3'));
+    await audioPlayer.resume();
+  } catch (e) {
+    print('Error playing winner sound: $e');
+  }
+}
+
+  int _calculateRewardCoins(int score) {
+    if (score >= 100) {
+      return 25;
+    } else if (score >= 80) {
+      return 20;
+    } else if (score >= 60) {
+      return 15;
+    } else if (score >= 40) {
+      return 10;
+    } else if (score >= 20) {
+      return 5;
+    } else {
+      return 0;
+    }
   }
 
   void _nextWord() {
     setState(() {
       if (progressValue < 1.0) {
         progressValue += 0.25;
+        _randomizeWord();
+        selectedImage = null;
+        isImageSelected = false;
       } else {
-        progressValue = 0.0;
-      }
+        _playWinnerAnimation();
+         showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: Lottie.asset(
+            'assets/images/animations/Winner.json',
+            repeat: false,
+            onLoaded: (composition) {
+              Future.delayed(composition.duration, () {
+                Navigator.of(context).pop();
+        int rewardCoins = _calculateRewardCoins(score);
+        _playWinnerSound();
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => DialogWin(
+            skor: score,
+            hadiah: rewardCoins,
+            onClose: () async {
+              await _addCoinsToFirebase(rewardCoins);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+             },
+                  ),
+                );
+              });
+            },
+          ),
+        ),
+      );
+    }
+  });
+}
 
-      _randomizeWord();
-      selectedImage = null;
-      isImageSelected = false;
-    });
+  Future<void> _addCoinsToFirebase(int rewardCoins) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(userRef);
+        if (snapshot.exists) {
+          int currentCoins = snapshot.get('coins') ?? 0;
+          transaction.update(userRef, {'coins': currentCoins + rewardCoins});
+        }
+      });
+    }
   }
+
+    @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +186,6 @@ class _TebakGambarState extends State<TebakGambar> {
               fit: BoxFit.cover,
             ),
           ),
-
           SafeArea(
             child: Column(
               children: [
@@ -195,8 +308,8 @@ class _TebakGambarState extends State<TebakGambar> {
                               'Lanjutkan',
                               style: TextStyle(
                                 color: isAnswerCorrect
-                                    ? Colors.green // Warna hijau jika benar
-                                    : const Color(0xFFFF7600), // Warna orange jika salah
+                                    ? Colors.green
+                                    : const Color(0xFFFF7600),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),

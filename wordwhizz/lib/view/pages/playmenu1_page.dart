@@ -1,17 +1,21 @@
 part of 'pages.dart';
 
-class Chapter1 extends StatelessWidget {
+class Chapter1 extends StatefulWidget {
   const Chapter1({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    // list potions
-    List<Potion> potions = [
-      Potion(image: 'assets/images/greenpotion.png', quantity: 5),
-      Potion(image: 'assets/images/orangepotion.png', quantity: 3),
-      Potion(image: 'assets/images/bluepotion.png', quantity: 7),
-    ];
+  _Chapter1State createState() => _Chapter1State();
+}
 
+class _Chapter1State extends State<Chapter1> {
+   List<Potion> potions = [
+    Potion(image: 'assets/images/greenpotion.png', quantity: 0),
+    Potion(image: 'assets/images/orangepotion.png', quantity: 0),
+    Potion(image: 'assets/images/bluepotion.png', quantity: 0),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
@@ -27,13 +31,10 @@ class Chapter1 extends StatelessWidget {
               padding: const EdgeInsets.only(top: 7, bottom: 130),
               child: Column(
                 children: [
-                  // Top Bar
                   TopNavbar(
                     onBackPressed: () {
                       Navigator.pop(context);
                     },
-                    coinCount: '100',
-                    heartCount: '5',
                   ),
 
                   // "CHAPTER 1" Title Text
@@ -56,7 +57,7 @@ class Chapter1 extends StatelessWidget {
                   ),
 
                   // Level Buttons
-                  const SizedBox(height: 40), // Space before level buttons
+                  const SizedBox(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -70,12 +71,11 @@ class Chapter1 extends StatelessWidget {
                               isLocked: false,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions 
+                              potions: potions,
                             ),
                           ),
                         ],
                       ),
-                      // buat level yang lain 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -86,7 +86,7 @@ class Chapter1 extends StatelessWidget {
                               isLocked: true,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions 
+                              potions: potions,
                             ),
                           ),
                         ],
@@ -101,7 +101,7 @@ class Chapter1 extends StatelessWidget {
                               isLocked: true,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions 
+                              potions: potions,
                             ),
                           ),
                         ],
@@ -116,7 +116,7 @@ class Chapter1 extends StatelessWidget {
                               isLocked: true,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions 
+                              potions: potions,
                             ),
                           ),
                         ],
@@ -131,7 +131,7 @@ class Chapter1 extends StatelessWidget {
                               isLocked: true,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions
+                              potions: potions,
                             ),
                           ),
                         ],
@@ -146,7 +146,7 @@ class Chapter1 extends StatelessWidget {
                               isLocked: true,
                               onTap: () {},
                               showPopup: true,
-                              potions: potions
+                              potions: potions,
                             ),
                           ),
                         ],
@@ -155,40 +155,6 @@ class Chapter1 extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-          ),
-
-          // Bottom Navigation Bar
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomNavbar(
-              onHomePressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MinigamesScreen()),
-                );
-              },
-              onGamePressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MinigamesScreen()),
-                );
-              },
-              onStorePressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ShopPage()),
-                );
-              },
-              onProfilePressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProfilePage(selectedCharacter: '')),
-                );
-              },
             ),
           ),
         ],

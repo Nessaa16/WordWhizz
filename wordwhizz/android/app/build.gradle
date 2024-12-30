@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.wordwhizz"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "25.2.9519653" //diubah
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -27,7 +27,7 @@ android {
         applicationId = "com.example.wordwhizz"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

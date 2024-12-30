@@ -3,7 +3,7 @@ part of 'pages.dart';
 // ini class buat potionnya 
 class Potion {
   final String image; 
-  final int quantity; 
+  int quantity; 
   bool selected; 
 
   Potion({
@@ -14,5 +14,8 @@ class Potion {
 
   void toggleSelection(){
     selected = !selected; 
+  }
+    void updateQuantity(int newQuantity) {
+    quantity = newQuantity;
   }
 }
