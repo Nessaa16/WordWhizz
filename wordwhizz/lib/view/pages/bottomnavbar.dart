@@ -19,7 +19,7 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  int _selectedIndex = 0; 
+  int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;
 
@@ -52,11 +52,10 @@ class _BottomNavbarState extends State<BottomNavbar> {
         break;
       case 3:
         widget.onProfilePressed?.call() ??
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ProfilePage(selectedCharacter: '')),
+                  builder: (context) => ProfilePage(selectedCharacter: '')),
             );
         break;
     }

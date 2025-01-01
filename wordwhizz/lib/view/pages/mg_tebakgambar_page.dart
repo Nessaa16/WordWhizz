@@ -17,10 +17,10 @@ class _TebakGambarState extends State<TebakGambar> {
   int score = 0;
 
   final Map<String, String> animals = {
-    'Kucing': 'assets/images/mmmg-kucing.png',
-    'Anjing': 'assets/images/mmmg-anjing.png',
-    'Beruang': 'assets/images/mmmg-beruang.png',
-    'Kelinci': 'assets/images/mmmg-kelinci.png',
+    'cat': 'assets/images/mmmg-kucing.png',
+    'dog': 'assets/images/mmmg-anjing.png',
+    'bear': 'assets/images/mmmg-beruang.png',
+    'rabbit': 'assets/images/mmmg-kelinci.png',
   };
 
   final audioPlayer = AudioPlayer();
@@ -33,23 +33,23 @@ class _TebakGambarState extends State<TebakGambar> {
   }
 
   Future<void> checkPermissions() async {
-  if (!await Permission.microphone.isGranted) {
-    await Permission.microphone.request();
-  }
-}
-
- Future<void> _playAudio(String sound) async {
-  try {
-    if (sound == 'correct') {
-      await audioPlayer.setSource(AssetSource('sounds/correct_sound.mp3'));
-    } else {
-      await audioPlayer.setSource(AssetSource('sounds/wrong_sound.mp3'));
+    if (!await Permission.microphone.isGranted) {
+      await Permission.microphone.request();
     }
-    await audioPlayer.resume();
-  } catch (e) {
-    print('Error playing audio: $e');
   }
-}
+
+  Future<void> _playAudio(String sound) async {
+    try {
+      if (sound == 'correct') {
+        await audioPlayer.setSource(AssetSource('sounds/correct_sound.mp3'));
+      } else {
+        await audioPlayer.setSource(AssetSource('sounds/wrong_sound.mp3'));
+      }
+      await audioPlayer.resume();
+    } catch (e) {
+      print('Error playing audio: $e');
+    }
+  }
 
   void _randomizeWord() {
     List<String> keys = animals.keys.toList();
@@ -76,22 +76,22 @@ class _TebakGambarState extends State<TebakGambar> {
   }
 
   Future<void> _playWinnerSound() async {
-  try {
-    await audioPlayer.setSource(AssetSource('sounds/success_sound.mp3'));
-    await audioPlayer.resume();
-  } catch (e) {
-    print('Error playing winner sound: $e');
+    try {
+      await audioPlayer.setSource(AssetSource('sounds/success_sound.mp3'));
+      await audioPlayer.resume();
+    } catch (e) {
+      print('Error playing winner sound: $e');
+    }
   }
-}
 
-Future<void> _playWinnerAnimation() async {
-  try {
-    await audioPlayer.setSource(AssetSource('sounds/win_sound.mp3'));
-    await audioPlayer.resume();
-  } catch (e) {
-    print('Error playing winner sound: $e');
+  Future<void> _playWinnerAnimation() async {
+    try {
+      await audioPlayer.setSource(AssetSource('sounds/win_sound.mp3'));
+      await audioPlayer.resume();
+    } catch (e) {
+      print('Error playing winner sound: $e');
+    }
   }
-}
 
   int _calculateRewardCoins(int score) {
     if (score >= 100) {
@@ -118,44 +118,45 @@ Future<void> _playWinnerAnimation() async {
         isImageSelected = false;
       } else {
         _playWinnerAnimation();
-         showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => Center(
-          child: Lottie.asset(
-            'assets/images/animations/Winner.json',
-            repeat: false,
-            onLoaded: (composition) {
-              Future.delayed(composition.duration, () {
-                Navigator.of(context).pop();
-        int rewardCoins = _calculateRewardCoins(score);
-        _playWinnerSound();
         showDialog(
           context: context,
           barrierDismissible: false,
-          builder: (context) => DialogWin(
-            skor: score,
-            hadiah: rewardCoins,
-            onClose: () async {
-              await _addCoinsToFirebase(rewardCoins);
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-             },
-                  ),
-                );
-              });
-            },
+          builder: (context) => Center(
+            child: Lottie.asset(
+              'assets/images/animations/Winner.json',
+              repeat: false,
+              onLoaded: (composition) {
+                Future.delayed(composition.duration, () {
+                  Navigator.of(context).pop();
+                  int rewardCoins = _calculateRewardCoins(score);
+                  _playWinnerSound();
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => DialogWin(
+                      skor: score,
+                      hadiah: rewardCoins,
+                      onClose: () async {
+                        await _addCoinsToFirebase(rewardCoins);
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  );
+                });
+              },
+            ),
           ),
-        ),
-      );
-    }
-  });
-}
+        );
+      }
+    });
+  }
 
   Future<void> _addCoinsToFirebase(int rewardCoins) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
 
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(userRef);
@@ -167,12 +168,11 @@ Future<void> _playWinnerAnimation() async {
     }
   }
 
-    @override
+  @override
   void dispose() {
     audioPlayer.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -191,13 +191,15 @@ Future<void> _playWinnerAnimation() async {
               children: [
                 // Progress Bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: LinearProgressIndicator(
                       value: progressValue,
                       backgroundColor: Colors.grey[300],
-                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(Colors.blue),
                       minHeight: 12,
                     ),
                   ),
@@ -205,9 +207,11 @@ Future<void> _playWinnerAnimation() async {
 
                 // Question Text
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30),
@@ -228,7 +232,8 @@ Future<void> _playWinnerAnimation() async {
                 // Word to Guess
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 16),
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(30),
@@ -246,7 +251,8 @@ Future<void> _playWinnerAnimation() async {
                 // Grid of Animals
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25, vertical: 30),
                     child: GridView.count(
                       crossAxisCount: 2,
                       mainAxisSpacing: 20,
@@ -267,9 +273,12 @@ Future<void> _playWinnerAnimation() async {
                 if (isImageSelected) // Tampilkan hanya jika user sudah memilih jawaban
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 16),
                     decoration: BoxDecoration(
-                      color: isAnswerCorrect ? const Color(0xFF76C043) : const Color(0xFFE74C3C),
+                      color: isAnswerCorrect
+                          ? const Color(0xFF76C043)
+                          : const Color(0xFFE74C3C),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(24),
                         topRight: Radius.circular(24),
@@ -292,7 +301,8 @@ Future<void> _playWinnerAnimation() async {
                         GestureDetector(
                           onTap: _nextWord,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(20),
