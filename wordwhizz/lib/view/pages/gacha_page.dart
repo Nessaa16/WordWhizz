@@ -34,7 +34,6 @@ class _GachaPageState extends State<GachaPage> {
     }
 
     try {
-      // Fetch the current user data
       final userRef = _firestore.collection('users').doc(userId);
       final userData = await userRef.get();
 
@@ -45,7 +44,6 @@ class _GachaPageState extends State<GachaPage> {
       final currentData = userData.data() ?? {};
       int currentCoins = currentData['coins'] ?? 0;
 
-      // Check if the user has enough coins to play the gacha
       if (currentCoins < 50) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -54,21 +52,17 @@ class _GachaPageState extends State<GachaPage> {
         return;
       }
 
-      // Subtract 50 coins from the user's balance
       currentCoins -= 50;
 
-      // Update user data with the new coin count
       await userRef.update({
         'coins': currentCoins,
       });
 
-      // Proceed with the gacha spin
       setState(() {
         _isAnimationPlaying = true;
         _currentReward = null;
       });
 
-      // Simulate Gacha animation delay
       await Future.delayed(const Duration(seconds: 3), () {
         final random = Random();
         final randomIndex = random.nextInt(_rewards.length);
@@ -78,7 +72,6 @@ class _GachaPageState extends State<GachaPage> {
           _isAnimationPlaying = false;
         });
 
-        // Update user reward in Firestore
         _updateUserReward(_currentReward!);
       });
     } catch (e) {
@@ -97,7 +90,6 @@ class _GachaPageState extends State<GachaPage> {
 
       final userRef = _firestore.collection('users').doc(userId);
 
-      // Fetch user data
       final userData = await userRef.get();
       if (!userData.exists) {
         throw Exception("User data not found");
@@ -107,7 +99,6 @@ class _GachaPageState extends State<GachaPage> {
       int currentCoins = currentData['coins'] ?? 0;
       int currentLives = currentData['lives'] ?? 0;
 
-      // Handle coins reward
       if (reward['reward']!.contains('gold')) {
         final goldAmount = int.tryParse(reward['reward']!.split(' ')[1]) ?? 0;
         currentCoins += goldAmount;
@@ -116,7 +107,6 @@ class _GachaPageState extends State<GachaPage> {
         currentLives += 1;
       }
 
-      // Update user data with the new coin count
       await userRef.update({
         'coins': currentCoins,
         'lives': currentLives,
@@ -141,7 +131,6 @@ class _GachaPageState extends State<GachaPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -150,7 +139,6 @@ class _GachaPageState extends State<GachaPage> {
               ),
             ),
           ),
-          // Top Navbar
           Positioned(
             top: 0,
             left: 0,
@@ -161,7 +149,6 @@ class _GachaPageState extends State<GachaPage> {
               },
             ),
           ),
-          // Main content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -195,17 +182,14 @@ class _GachaPageState extends State<GachaPage> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              // Display the image for the reward
                               Image.asset(
-                                _currentReward![
-                                    'image']!, // Access the image path from the map
-                                width: 100, // You can adjust the size as needed
+                                _currentReward!['image']!,
+                                width: 100,
                                 height: 100,
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                _currentReward![
-                                    'reward']!, // Access the reward text from the map
+                                _currentReward!['reward']!,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 20,
