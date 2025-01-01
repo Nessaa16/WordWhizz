@@ -9,10 +9,10 @@ class GachaPage extends StatefulWidget {
 
 class _GachaPageState extends State<GachaPage> {
   final List<Map<String, String>> _rewards = [
-    {'reward': '⭐⭐⭐ lives', 'image': 'assets/images/heart.png'},
-    {'reward': '⭐⭐⭐ lives', 'image': 'assets/images/heart.png'},
-    {'reward': '⭐⭐⭐ lives', 'image': 'assets/images/heart.png'},
-    {'reward': '⭐⭐⭐ lives', 'image': 'assets/images/heart.png'},
+    {'reward': '⭐ 15 gold', 'image': 'assets/images/coins_200.png'},
+    {'reward': '⭐ 15 gold', 'image': 'assets/images/coins_200.png'},
+    {'reward': '⭐⭐ orange potion', 'image': 'assets/images/orangepotion.png'},
+    {'reward': '⭐ 15 gold', 'image': 'assets/images/coins_200.png'},
     {'reward': '⭐ 15 gold', 'image': 'assets/images/coins_200.png'},
     {'reward': '⭐⭐ green potion', 'image': 'assets/images/greenpotion.png'},
     {'reward': '⭐⭐ 100 gold', 'image': 'assets/images/coins_600.png'},
