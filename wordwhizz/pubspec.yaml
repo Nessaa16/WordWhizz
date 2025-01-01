@@ -60,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/bgsplash.png
+    - assets/images/background_gacha.png
     - assets/images/bgsplash2.png
     - assets/images/bgsplash3.png
     - assets/images/mascott.png

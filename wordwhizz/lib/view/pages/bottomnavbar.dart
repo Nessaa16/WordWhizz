@@ -31,21 +31,21 @@ class _BottomNavbarState extends State<BottomNavbar> {
     switch (index) {
       case 0:
         widget.onHomePressed?.call() ??
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MainMenuScreen()),
             );
         break;
       case 1:
         widget.onGamePressed?.call() ??
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MinigamesScreen()),
             );
         break;
       case 2:
         widget.onStorePressed?.call() ??
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ShopPage()),
             );
