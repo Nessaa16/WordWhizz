@@ -12,6 +12,9 @@ class Chapter2 extends StatelessWidget {
       Potion(image: 'assets/images/bluepotion.png', quantity: 7),
     ];
 
+    // asumsi untuk hatinya sekarang lagi kosong atau tidak
+    int heartCount = 0;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -68,7 +71,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-1',
                               isLocked: false,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions 
                             ),
@@ -84,7 +103,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-2',
                               isLocked: true,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions 
                             ),
@@ -99,7 +134,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-3',
                               isLocked: true,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions 
                             ),
@@ -114,7 +165,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-4',
                               isLocked: true,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions 
                             ),
@@ -129,7 +196,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-5',
                               isLocked: true,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions
                             ),
@@ -144,7 +227,23 @@ class Chapter2 extends StatelessWidget {
                             child: LevelButton(
                               levelNumber: '2-6',
                               isLocked: true,
-                              onTap: () {},
+                              onTap: () {
+                                if (heartCount == 0) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => NoHeartAlertDialog(
+                                        onClose: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        onBuyHearts: () {
+                                          // Navigate to purchase shop page
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // Proceed with the game
+                                  }
+                              },
                               showPopup: true,
                               potions: potions
                             ),

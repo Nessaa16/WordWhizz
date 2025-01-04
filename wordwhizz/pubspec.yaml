@@ -146,8 +146,9 @@ flutter:
     - assets/images/orangepotion.png
     - assets/images/bluepotion.png
     - assets/images/greenpotion.png
-
-    
+    - assets/images/hatimerah.png
+    - assets/images/silangnyahati.png
+    - assets/images/victorystar.png
 
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
