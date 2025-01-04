@@ -47,7 +47,14 @@ class MainMenuScreen2 extends StatelessWidget {
                         _buildCustomButton(
                           context,
                           'CHAPTER 1',
-                          () {},
+                          () {
+                               Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Chapter1()
+                                    ),
+                                  );
+                          },
                           darkGreen,
                           'assets/images/button_mainmenuhijau.png',
                           'assets/images/playmainmenu2.png',
@@ -77,32 +84,6 @@ class MainMenuScreen2 extends StatelessWidget {
             child: TopNavbar(
               onBackPressed: () {
                 Navigator.pop(context);
-              },
-              coinCount: '100',
-              heartCount: '5',
-            ),
-          ),
-          // Bottom Navbar
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomNavbar(
-              onHomePressed: () {
-                print("Home pressed");
-                // Navigate to Home
-              },
-              onGamePressed: () {
-                print("Game pressed");
-                // Navigate to Games
-              },
-              onStorePressed: () {
-                print("Store pressed");
-                // Navigate to Store
-              },
-              onProfilePressed: () {
-                print("Profile pressed");
-                // Navigate to Profile
               },
             ),
           ),

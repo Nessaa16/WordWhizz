@@ -2,9 +2,12 @@ part of 'pages.dart';
 
 class MinigamesScreen extends StatelessWidget {
   const MinigamesScreen({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
+    String coinCount = "0";
+    String heartCount = "0";
     return Scaffold(
       body: Stack(
         children: [
@@ -24,8 +27,6 @@ class MinigamesScreen extends StatelessWidget {
                   onBackPressed: () {
                     Navigator.pop(context);
                   },
-                  coinCount: '100',
-                  heartCount: '5',
                 ),
 
                 // "MINIGAMES" Title Text
@@ -90,33 +91,6 @@ class MinigamesScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-
-                // Bottom Navigation Bar
-                BottomNavbar(
-                  onHomePressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainMenuScreen()),
-                    );
-                  },
-                  onGamePressed: () {
-                    print("Game pressed");
-                  },
-                  onStorePressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ShopPage()),
-                    );
-                  },
-                  onProfilePressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ProfilePage(selectedCharacter: '')),
-                    );
-                  },
                 ),
               ],
             ),

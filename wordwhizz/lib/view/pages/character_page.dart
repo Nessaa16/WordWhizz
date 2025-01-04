@@ -7,6 +7,15 @@ class CharacterPage extends StatefulWidget {
   State<CharacterPage> createState() => _CharacterPageState();
 }
 
+_saveSelectedCharacter(String characterName) async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+      'selectedCharacter': characterName,
+    });
+  }
+}
+
 class _CharacterPageState extends State<CharacterPage>
     with SingleTickerProviderStateMixin {
   final List<Map<String, String>> _characters = [
@@ -35,7 +44,7 @@ class _CharacterPageState extends State<CharacterPage>
   int _currentIndex = 3;
   late AnimationController _animationController;
   late Animation<Offset> _animation;
- 
+
   @override
   void initState() {
     super.initState();
@@ -45,8 +54,8 @@ class _CharacterPageState extends State<CharacterPage>
     )..repeat(reverse: true);
 
     _animation = Tween<Offset>(
-      begin: Offset(0, 0), 
-      end: Offset(0, -0.05), 
+      begin: Offset(0, 0),
+      end: Offset(0, -0.05),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -205,15 +214,13 @@ class _CharacterPageState extends State<CharacterPage>
 
                             // Choose Button
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                await _saveSelectedCharacter(
+                                    currentCharacter['name']!);
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ProfilePage(
-                                      selectedCharacter:
-                                          currentCharacter['name']!,
-                                    ),
-                                  ),
+                                      builder: (context) => MainMenuScreen()),
                                 );
                               },
                               child: Stack(
@@ -251,3 +258,4 @@ class _CharacterPageState extends State<CharacterPage>
     );
   }
 }
+

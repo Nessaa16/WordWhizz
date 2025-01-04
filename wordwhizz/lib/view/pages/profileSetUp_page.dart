@@ -11,6 +11,7 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
   final _loginKey = GlobalKey<FormState>();
   final ctrlUsername = TextEditingController();
   final ctrlEmail = TextEditingController();
+  final ctrlCharacter = TextEditingController();
   final ctrlPass = TextEditingController();
   final ctrlDate = TextEditingController();
   bool isHide = true;
@@ -36,11 +37,22 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
           'birthdate': ctrlDate.text,
           'coins': 200,
           'lives': 2,
-          'potionbiru': 0,
-          'potionhijau': 0,
-          'potionkuning': 0,
+          'selectedCharacter': '',
+          'potionbiru': 2,
+          'potionhijau': 2,
+          'potionkuning': 2,
           'createdAt': Timestamp.now(),
         });
+
+          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .get();
+
+      var userData = userDoc.data() as Map<String, dynamic>;
+
+      String coinCount = userData['coins'].toString();
+      String heartCount = userData['lives'].toString();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Akun berhasil dibuat!")),

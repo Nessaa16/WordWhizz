@@ -1,17 +1,55 @@
 part of 'pages.dart';
 // part 'mainMenu2_page.dart';
-
-class TopNavbar extends StatelessWidget {
+class TopNavbar extends StatefulWidget {
   final VoidCallback onBackPressed;
-  final String coinCount;
-  final String heartCount;
 
   const TopNavbar({
     super.key,
     required this.onBackPressed,
-    required this.coinCount,
-    required this.heartCount,
   });
+
+  @override
+  _TopNavbarState createState() => _TopNavbarState();
+}
+
+class _TopNavbarState extends State<TopNavbar> {
+  String coinCount = "0";
+  String heartCount = "0";
+  StreamSubscription<DocumentSnapshot>? _userSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupUserDataStream();
+  }
+
+  void _setupUserDataStream() {
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Set up a real-time listener for user data
+      _userSubscription = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists && mounted) {
+          setState(() {
+            coinCount = (snapshot.data()?['coins'] ?? 0).toString();
+            heartCount = (snapshot.data()?['lives'] ?? 0).toString();
+          });
+        }
+      }, onError: (error) {
+        print("Error listening to user data: $error");
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    // Cancel the subscription when the widget is disposed
+    _userSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,28 +58,34 @@ class TopNavbar extends StatelessWidget {
         padding: const EdgeInsets.all(18.0),
         child: Row(
           children: [
-            GestureDetector(
-              onTap: onBackPressed,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Image.asset(
-                    'assets/images/navbarbackatas.png',
-                    width: 46,
-                    height: 46,
-                    fit: BoxFit.contain,
-                  ),
-                  Positioned(
-                    child: Image.asset(
-                      'assets/images/backnav.png',
-                      width: 24,
-                      height: 24,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+        GestureDetector(
+  onTap: () {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainMenuScreen()), 
+    );
+  },
+  child: Stack(
+    alignment: Alignment.center,
+    children: [
+      Image.asset(
+        'assets/images/navbarbackatas.png',
+        width: 46,
+        height: 46,
+        fit: BoxFit.contain,
+      ),
+      Positioned(
+        child: Image.asset(
+          'assets/images/backnav.png',
+          width: 24,
+          height: 24,
+          fit: BoxFit.contain,
+        ),
+      ),
+    ],
+  ),
+),
+
             const Spacer(),
             Row(
               children: [
@@ -85,7 +129,7 @@ class TopNavbar extends StatelessWidget {
             style: TextStyle(
               color: secondaryColor,
               fontFamily: 'BalooChettan 2',
-              fontSize: 18, // Adjust font size to fit
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),

@@ -51,7 +51,7 @@ class MainMenuScreen extends StatelessWidget {
                            Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Chapter1()
+                                      builder: (context) => MainMenuScreen2()
                                     ),
                                   );
                         },
@@ -59,9 +59,9 @@ class MainMenuScreen extends StatelessWidget {
                       const SizedBox(height: 16), // Spacing between buttons
                       _buildCustomButton(
                         context,
-                        'Keluar',
+                        'Ganti Akun',
                         () {
-                          // Add your exit button logic here
+                          _logout(context);
                         },
                       ),
                     ],
@@ -81,6 +81,14 @@ class MainMenuScreen extends StatelessWidget {
       ),
     );
   }
+
+   void _logout(BuildContext context) async {
+    await AuthService().signout(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => WelcomePage()),  
+    );
+   }
 
   Widget _buildCustomButton(BuildContext context, String text, VoidCallback onPressed) {
     return GestureDetector(
