@@ -66,7 +66,7 @@ class MinigamesScreen extends StatelessWidget {
                           () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const TebakGambar()),
+                              MaterialPageRoute(builder: (context) => const TebakGambar(isStoryGame: false)),
                             );
                           },
                         ),

@@ -51,5 +51,6 @@ part 'potion.dart';
 part 'baseCustomDialog.dart'; 
 part 'noHeartAlertDialog.dart'; 
 part 'dialog_win.dart'; 
+part 'victoryAlertDialog.dart'; 
 // part 'beforestartgame.dart'; 
 // uji coba 
