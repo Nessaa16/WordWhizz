@@ -1,5 +1,4 @@
 part of 'pages.dart';
-
 class Chapter1 extends StatefulWidget {
   const Chapter1({Key? key}) : super(key: key);
 
@@ -8,11 +7,52 @@ class Chapter1 extends StatefulWidget {
 }
 
 class _Chapter1State extends State<Chapter1> {
-   List<Potion> potions = [
+  List<Potion> potions = [
     Potion(image: 'assets/images/greenpotion.png', quantity: 0),
     Potion(image: 'assets/images/orangepotion.png', quantity: 0),
     Potion(image: 'assets/images/bluepotion.png', quantity: 0),
   ];
+
+  Future<void> _fetchPotions() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Ambil data user dari Firestore
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+
+        if (userDoc.exists) {
+          final userData = userDoc.data() as Map<String, dynamic>;
+          setState(() {
+            potions = [
+              Potion(
+                image: 'assets/images/greenpotion.png',
+                quantity: userData['potionhijau'] ?? 0,
+              ),
+              Potion(
+                image: 'assets/images/orangepotion.png',
+                quantity: userData['potionkuning'] ?? 0,
+              ),
+              Potion(
+                image: 'assets/images/bluepotion.png',
+                quantity: userData['potionbiru'] ?? 0,
+              ),
+            ];
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching potions: $e');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPotions(); 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +76,6 @@ class _Chapter1State extends State<Chapter1> {
                       Navigator.pop(context);
                     },
                   ),
-
-                  // "CHAPTER 1" Title Text
                   const SizedBox(height: 20),
                   const Text(
                     'CHAPTER 1',
@@ -55,8 +93,6 @@ class _Chapter1State extends State<Chapter1> {
                       ],
                     ),
                   ),
-
-                  // Level Buttons
                   const SizedBox(height: 40),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

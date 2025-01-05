@@ -1,6 +1,7 @@
 part of 'pages.dart';
 
-class BeforeGameAlertDialog extends StatelessWidget implements BaseCustomDialog {
+class BeforeGameAlertDialog extends StatelessWidget
+    implements BaseCustomDialog {
   final String levelNumber;
   final VoidCallback onClose;
   final List<Potion> potions;
@@ -76,7 +77,8 @@ class BeforeGameAlertDialog extends StatelessWidget implements BaseCustomDialog 
                     GestureDetector(
                       onTap: () {
                         potion.toggleSelection();
-                        (context as Element).markNeedsBuild(); // Rebuild the widget
+                        (context as Element)
+                            .markNeedsBuild(); // Rebuild the widget
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -87,9 +89,13 @@ class BeforeGameAlertDialog extends StatelessWidget implements BaseCustomDialog 
                               width: 45.59,
                               height: 41,
                               decoration: BoxDecoration(
-                                color: potion.selected ? Colors.yellow : Colors.white,
+                                color: potion.selected
+                                    ? Colors.yellow
+                                    : Colors.white,
                                 border: Border.all(
-                                  color: potion.selected ? Colors.red : Colors.transparent,
+                                  color: potion.selected
+                                      ? Colors.red
+                                      : Colors.transparent,
                                   width: 2,
                                 ),
                               ),
@@ -136,14 +142,44 @@ class BeforeGameAlertDialog extends StatelessWidget implements BaseCustomDialog 
               borderRadius: BorderRadius.circular(45.0),
             ),
             child: TextButton(
-              onPressed: () {
-                _reduceLives(context);
-                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StoryPage()
-                                    ),
-                                  );
+              onPressed: () async {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  final docSnapshot = await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(user.uid)
+                      .get();
+                  if (docSnapshot.exists) {
+                    final userData = docSnapshot.data();
+                    if (userData != null) {
+                      int currentLives = userData['lives'] ?? 0;
+                      if (currentLives > 0) {
+                        _reduceLives(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Splashscreen(
+                              navigateTo: StoryPage(),
+                            ),
+                          ),
+                        );
+                      } else {
+                        // Show NoHeartAlertDialog
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) => NoHeartAlertDialog(
+                            onClose: () => Navigator.of(context).pop(),
+                            onBuyHearts: () {
+                              // Implement logic to buy hearts
+                              // For example, navigate to a store page
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                      }
+                    }
+                  }
+                }
               },
               child: const Text(
                 'Mulai',
@@ -161,38 +197,42 @@ class BeforeGameAlertDialog extends StatelessWidget implements BaseCustomDialog 
     ];
   }
 
-void _reduceLives(BuildContext context) async {
-  final user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    // Fetch the latest user data from Firebase
-    final docSnapshot = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-    if (docSnapshot.exists) {
-      final userData = docSnapshot.data();
-      if (userData != null) {
-        int currentLives = userData['lives'] ?? 0; // Ensure this is fetched from Firebase
-        int newLives = currentLives - 2;
+  void _reduceLives(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Fetch the latest user data from Firebase
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (docSnapshot.exists) {
+        final userData = docSnapshot.data();
+        if (userData != null) {
+          int currentLives =
+              userData['lives'] ?? 0; // Ensure this is fetched from Firebase
+          int newLives = currentLives - 2;
 
-        // Ensure the newLives value doesn't go below 0
-        if (newLives < 0) {
-          newLives = 0;
-        }
+          // Ensure the newLives value doesn't go below 0
+          if (newLives < 0) {
+            newLives = 0;
+          }
 
-        // Update lives in Firebase
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-          'lives': newLives,
-        });
+          // Update lives in Firebase
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .update({
+            'lives': newLives,
+          });
 
           Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => StoryPage()
-                                    ),
-                                  );
+            context,
+            MaterialPageRoute(builder: (context) => StoryPage()),
+          );
+        }
       }
     }
   }
-}
-
 
   @override
   AlertDialog buildDialog(BuildContext context) {
@@ -239,7 +279,8 @@ void _reduceLives(BuildContext context) async {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 60), // Add space for the floating title
+                    const SizedBox(
+                        height: 60), // Add space for the floating title
                     buildContent(context), // Custom content widget
                     ...buildActions(context), // Custom actions
                   ],

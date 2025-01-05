@@ -1,51 +1,98 @@
 part of 'pages.dart';
 
 class StoryPage extends StatefulWidget {
-  const StoryPage({super.key});
+  const StoryPage({Key? key}) : super(key: key);
 
   @override
   State<StoryPage> createState() => _StoryPageState();
 }
 
 class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
-
-  // Daftar cerita
-  final List<String> _storyParts = [
-    "[Namamu] sedang berlibur di sebuah pulau yang terkenal dengan keindahan alamnya. Saat menjelajahi hutan belantara, [Namamu] menemukan sebuah gua yang belum pernah dijelajahi sebelumnya. Di dalam gua, terdapat sebuah portal yang memancarkan cahaya biru. Dengan rasa penasaran yang besar, [Namamu] memutuskan untuk masuk ke dalam portal.",
-    "Portal itu membawa [Namamu] ke sebuah pulau yang sangat aneh. Pulau ini dipenuhi dengan tanaman dan hewan yang bisa berbicara. Penduduk pulau ini sangat ramah, tetapi mereka hanya bisa berkomunikasi dalam bahasa Inggris. Untuk bisa meminta bantuan mereka dan menemukan jalan pulang, [Namamu] harus belajar bahasa Inggris dengan cepat."
+  final List<StoryContent> _storyContents = [
+    StoryContent(
+      text: "[Namamu] sedang berlibur di sebuah pulau yang terkenal dengan keindahan alamnya. Saat menjelajahi hutan belantara, [Namamu] menemukan sebuah gua yang belum pernah dijelajahi sebelumnya. Di dalam gua, terdapat sebuah portal yang memancarkan cahaya biru. Dengan rasa penasaran yang besar, [Namamu] memutuskan untuk masuk ke dalam portal.",
+      isMonsterTalking: false,
+      buttonText: "Maju",
+      backgroundImage: 'assets/images/bg_pulau_story.png',
+    ),
+    StoryContent(
+      text: "Portal itu membawa [Namamu] ke sebuah pulau yang sangat aneh. Pulau ini dipenuhi dengan tanaman dan monster yang bisa berbicara. Penduduk pulau ini sangat ramah, tetapi mereka hanya bisa berkomunikasi dalam bahasa Inggris. Untuk bisa meminta bantuan mereka dan menemukan jalan pulang, [Namamu] harus belajar bahasa Inggris dengan cepat.",
+      isMonsterTalking: false,
+      buttonText: "Ikuti",
+      backgroundImage: 'assets/images/portal.png',
+    ),
+    StoryContent(
+      text: "Welcome to our city! What? you can't speak our languages??",
+      isMonsterTalking: true,
+      buttonText: "Mengangguk",
+      backgroundImage: 'assets/images/chapter1.png',
+    ),
+    StoryContent(
+      text: "i'll give you this then!",
+      isMonsterTalking: true,
+      buttonText: "Ambil tablet",
+      backgroundImage: 'assets/images/chapter1.png',
+    ),
+     StoryContent(
+      text: "What are you waiting for? Open it!",
+      isMonsterTalking: true,
+      buttonText: "Buka tablet",
+      backgroundImage: 'assets/images/chapter1.png',
+    ),
   ];
 
-  // Daftar gambar latar belakang
-  final List<String> _backgroundImages = [
-    'assets/images/portal.png', // Gambar latar belakang pertama
-    'assets/images/bg_pulau_story.png', // Gambar latar belakang kedua
-  ];
+  int _currentIndex = 0;
+  String username = "Pemain";
+  String selectedCharacter = "Karakter Default";
 
-  int _currentStoryIndex = 0; // Indeks cerita saat ini
-  int _currentBackgroundIndex = 0; // Indeks gambar latar belakang saat ini
-  late AnimationController _animationController;
-  late Animation<Offset> _animation;
-  
+  late AnimationController _bounceController;
+  late Animation<Offset> _bounceAnimation;
   late AnimationController _popupController;
   late Animation<double> _popupAnimation;
+  late AudioPlayer _audioPlayer;
+  late AudioPlayer _walkingPlayer; 
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
+    _initializeAnimations();
+    _fetchUserData();
+
+    _audioPlayer = AudioPlayer(); 
+    _walkingPlayer = AudioPlayer();
+    _playSoundEffect();
+  }
+
+   Future<void> _playSoundEffect() async {
+    String soundEffect;
+
+    if (_currentIndex == 0) {
+      soundEffect = 'sounds/beach.mp3';
+    } else if (_currentIndex == 1) {
+      soundEffect = 'sounds/portal.mp3'; 
+    } else {
+      soundEffect = 'sounds/city.mp3'; 
+    }
+
+    await _audioPlayer.setSource(AssetSource(soundEffect));
+    await _audioPlayer.setVolume(0.5); 
+    await _audioPlayer.resume();
+  }
+
+  void _initializeAnimations() {
+    _bounceController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
-    )..repeat(reverse: true); // Ulangi animasi dengan efek reverse
+    )..repeat(reverse: true);
 
-    _animation = Tween<Offset>(
-      begin: Offset(0, 0), // Posisi awal
-      end: Offset(0, -0.1), // Bergerak sedikit ke atas
+    _bounceAnimation = Tween<Offset>(
+      begin: const Offset(0, 0),
+      end: const Offset(0, -0.1),
     ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut, // Gunakan efek ease in dan ease out
+      parent: _bounceController,
+      curve: Curves.easeInOut,
     ));
 
-    // Inisialisasi controller untuk animasi pop-up
     _popupController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -59,36 +106,91 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
       curve: Curves.easeOut,
     ));
 
-    // Jalankan animasi pop-up saat halaman dimuat
     _popupController.forward();
   }
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _popupController.dispose(); // Dispose controller pop-up
-    super.dispose();
+   Future<void> _playWalkingSound() async {
+    await _walkingPlayer.setSource(AssetSource('sounds/walking.mp3'));
+    await _walkingPlayer.setVolume(0.5);
+    await _walkingPlayer.resume();
   }
 
-  void _nextStoryPart() {
+  Future<void> _fetchUserData() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        var userData = userDoc.data() as Map<String, dynamic>;
+        setState(() {
+          username = userData['username'] ?? "Pemain";
+          selectedCharacter = userData['selectedCharacter'] ?? "Karakter Default";
+        });
+      }
+    } catch (e) {
+      debugPrint("Error fetching user data: $e");
+    }
+  }
+
+  String _replacePlaceholders(String text) {
+    return text
+        .replaceAll("[Namamu]", username)
+        .replaceAll("[Karaktermu]", selectedCharacter);
+  }
+void _nextStoryPart() async {
+  if (_storyContents[_currentIndex].buttonText == "Buka tablet") {
+    // Cek apakah ini bagian dari cerita atau mini-game
+    bool isStoryGame = true;
+
+    // Navigate to the mini-game
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Splashscreen(
+          navigateTo: TebakGambar(isStoryGame: isStoryGame),
+        ),
+      ),
+    );
+
+    await _addCoins(20);
+  } else {
     setState(() {
-      if (_currentStoryIndex < _storyParts.length - 1) {
-        _currentStoryIndex++; // Pindah ke bagian cerita berikutnya
-      } else {
-        // Jika sudah di bagian terakhir, bisa direset atau ditangani sesuai kebutuhan
-        _currentStoryIndex = 0; // Contoh: kembali ke awal
-      }
+      if (_currentIndex < _storyContents.length - 1) {
+        _currentIndex++;
+        _popupController.forward(from: 0.0);
+        if (_storyContents[_currentIndex].buttonText == "Maju") {
+          _playWalkingSound();
+        }
 
-      // Ubah gambar latar belakang
-      if (_currentBackgroundIndex < _backgroundImages.length - 1) {
-        _currentBackgroundIndex++; // Pindah ke gambar latar belakang berikutnya
-      } else {
-        _currentBackgroundIndex = 0; // Kembali ke gambar latar belakang pertama
+        _playSoundEffect();
       }
-
-      // Jalankan animasi pop-up saat tombol ditekan
-      _popupController.forward(from: 0.0);
     });
+  }
+}
+
+Future<void> _addCoins(int coins) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('users').doc(user.uid);
+      
+      await userDocRef.update({
+        'coins': FieldValue.increment(coins),
+      });
+    }
+  } catch (e) {
+    debugPrint("Error updating coins: $e");
+  }
+}
+  @override
+  void dispose() {
+    _bounceController.dispose();
+    _popupController.dispose();
+    _audioPlayer.stop();
+    super.dispose();
   }
 
   @override
@@ -98,108 +200,40 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
         children: [
           Positioned.fill(
             child: Image.asset(
-              _backgroundImages[_currentBackgroundIndex], // Gambar latar belakang sesuai indeks
+              _storyContents[_currentIndex].backgroundImage,
               fit: BoxFit.cover,
             ),
           ),
-          SafeArea(
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.3),
+                  ],
+                ),
+              ),
+            ),
+          ),
+         SafeArea(
             bottom: false,
             child: ListView(
-              padding: EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(20.0),
               children: [
-                // Title dengan animasi pop-up
-                ScaleTransition(
-                  scale: _popupAnimation,
-                  child: Text(
-                    "Story Page",
-                    style: TextStyle(
-                      fontFamily: 'BalooChettan2',
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [
-                        Shadow(
-                          offset: Offset (2.0, 2.0),
-                          blurRadius: 4.0,
-                          color: Colors.black54,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Animated Cat Image dengan animasi pop-up
-                ScaleTransition(
-                  scale: _popupAnimation,
-                  child: AnimatedBuilder(
-                    animation: _animation,
-                    builder: (_, child) => Transform.translate(
-                      offset: _animation.value,
-                      child: child,
-                    ),
-                    child: Image.asset(
-                      'assets/images/kucing.png',
-                      height: 220,
-                      width: 170,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Card dengan cerita
-                ScaleTransition(
-                  scale: _popupAnimation,
-                  child: Card(
-                    color: primaryColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        _storyParts[_currentStoryIndex], // Tampilkan bagian cerita saat ini
-                        style: story_content,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Tombol dengan animasi pop-up
-                ScaleTransition(
-                  scale: _popupAnimation,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      height: 70,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          elevation: 0,
-                        ),
-                        onPressed: () {
-                          _nextStoryPart(); // Panggil fungsi untuk pindah ke bagian cerita berikutnya
-                        },
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/button1.png',
-                              height: 70,
-                            ),
-                            Positioned(
-                              child: Text(
-                                _currentStoryIndex == _storyParts.length - 1 ? "Samperin" : "Maju", // Ubah teks tombol
-                                style: button1,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30),
+                if (_storyContents[_currentIndex].isMonsterTalking) ...[
+                  const SizedBox(height: 100),
+                  _buildMonsterWithChatBubble(),
+                ] else ...[
+                  _buildMonsterOnly(),
+                  const SizedBox(height: 20),
+                ],
+                if (!_storyContents[_currentIndex].isMonsterTalking)
+                  _buildNarrationBox(),
+                const SizedBox(height: 30),
+                _buildNextButton(),
               ],
             ),
           ),
@@ -207,153 +241,144 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
       ),
     );
   }
+
+  Widget _buildMonsterWithChatBubble() {
+    return ScaleTransition(
+      scale: _popupAnimation,
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: primaryColor,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Text(
+              _replacePlaceholders(_storyContents[_currentIndex].text),
+              style: const TextStyle(
+                fontFamily: 'BalooChettan2',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 10),
+          SlideTransition(
+            position: _bounceAnimation,
+            child: Image.asset(
+              'assets/images/fluffy.png',
+              height: 200,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMonsterOnly() {
+    return ScaleTransition(
+      scale: _popupAnimation,
+      child: SlideTransition(
+        position: _bounceAnimation,
+        child: Image.asset(
+          'assets/images/kucing.png',
+          height: 200,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNarrationBox() {
+    return ScaleTransition(
+      scale: _popupAnimation,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: primaryColor.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.amber.shade700,
+            width: 4,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 15,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            _replacePlaceholders(_storyContents[_currentIndex].text),
+            style: const TextStyle(
+              fontFamily: 'BalooChettan2',
+              fontSize: 18,
+              color: Colors.white,
+              height: 1.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNextButton() {
+    return ScaleTransition(
+      scale: _popupAnimation,
+      child: Align(
+        alignment: Alignment.center,
+        child: ElevatedButton(
+          onPressed: _nextStoryPart,
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.zero,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0),
+            ),
+            elevation: 0,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Image.asset(
+                'assets/images/button1.png',
+                height: 70,
+              ),
+              Text(
+                _storyContents[_currentIndex].buttonText,
+                style: button1,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-// class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
-//   AnimationController? _animationController;
-//   Animation<Offset>? _animation;
+class StoryContent {
+  final String text;
+  final bool isMonsterTalking;
+  final String buttonText;
+  final String backgroundImage;
 
-//   // Daftar cerita
-//   final List<String> _storyParts = [
-//     "[Namamu] sedang berlibur di sebuah pulau yang terkenal dengan keindahan alamnya. Saat menjelajahi hutan belantara, [Namamu] menemukan sebuah gua yang belum pernah dijelajahi sebelumnya. Di dalam gua, terdapat sebuah portal yang memancarkan cahaya biru. Dengan rasa penasaran yang besar, [Namamu] memutuskan untuk masuk ke dalam portal.",
-//     "Portal itu membawa [Namamu] ke sebuah pulau yang sangat aneh. Pulau ini dipenuhi dengan tanaman dan hewan yang bisa berbicara. Penduduk pulau ini sangat ramah, tetapi mereka hanya bisa berkomunikasi dalam bahasa Inggris. Untuk bisa meminta bantuan mereka dan menemukan jalan pulang, [Namamu] harus belajar bahasa Inggris dengan cepat."
-//   ];
-
-//   int _currentStoryIndex = 0; // Indeks cerita saat ini
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _animationController = AnimationController(
-//       duration: const Duration(seconds: 2),
-//       vsync: this,
-//     )..addStatusListener((status) {
-//         if (status == AnimationStatus.completed) {
-//           _animationController?.forward(from: 0.0); // Restart from beginning
-//         }
-//       });
-
-//     _animation = Tween<Offset>(
-//       begin: Offset(0.0, -1.0), // Start off-screen above the visible area
-//       end: Offset(0.0, 0.0), // Move to its intended position
-//     ).animate(_animationController!);
-//   }
-
-//   @override
-//   void dispose() {
-//     _animationController?.dispose();
-//     super.dispose();
-//   }
-
-//   void _nextStoryPart() {
-//     setState(() {
-//       if (_currentStoryIndex < _storyParts.length - 1) {
-//         _currentStoryIndex++; // Pindah ke bagian cerita berikutnya
-//       } else {
-//         // Jika sudah di bagian terakhir, bisa direset atau ditangani sesuai kebutuhan
-//         _currentStoryIndex = 0; // Contoh: kembali ke awal
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Stack(
-//         children: [
-//           Positioned.fill(
-//             child: Image.asset(
-//               'assets/images/portal.png',
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-//           SafeArea(
-//             bottom: false,
-//             child: ListView(
-//               padding: EdgeInsets.all(20.0),
-//               children: [
-//                 // Title
-//                 Text(
-//                   "Story Page",
-//                   style: TextStyle(
-//                     fontFamily: 'BalooChettan2',
-//                     fontSize: 32.0,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.white,
-//                     shadows: [
-//                       Shadow(
-//                         offset: Offset(2.0, 2.0),
-//                         blurRadius: 4.0,
-//                         color: Colors.black54,
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 SizedBox(height: 30),
-//                 // Animated Cat Image
-//                 AnimatedBuilder(
-//                   animation: _animation!,
-//                   builder: (_, child) => Transform.translate(
-//                     offset: _animation!.value,
-//                     child: child,
-//                   ),
-//                   child: Image.asset(
-//                     'assets/images/kucing.png',
-//                     height: 220,
-//                     width: 170,
-//                   ),
-//                 ),
-//                 SizedBox(height: 30),
-//                 Card(
-//                   color: primaryColor,
-//                   child: Padding(
-//                     padding: const EdgeInsets.all(20.0),
-//                     child: Text(
-//                       _storyParts[
-//                           _currentStoryIndex], // Tampilkan bagian cerita saat ini
-//                       style: story_content,
-//                       textAlign: TextAlign.center,
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(height: 30),
-//                 Align(
-//                   alignment: Alignment.center,
-//                   child: Container(
-//                     height: 70,
-//                     child: ElevatedButton(
-//                       style: ElevatedButton.styleFrom(
-//                         padding: EdgeInsets.zero,
-//                         backgroundColor: Colors.transparent,
-//                         shape: RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(0),
-//                         ),
-//                         elevation: 0,
-//                       ),
-//                       onPressed: () {
-//                         _nextStoryPart(); // Panggil fungsi untuk pindah ke bagian cerita berikutnya
-//                       },
-//                       child: Stack(
-//                         alignment: Alignment.center,
-//                         children: [
-//                           Image.asset(
-//                             'assets/images/button1.png',
-//                             height: 70,
-//                           ),
-//                           Positioned(
-//                             child: Text("Maju", style: button1),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(height: 30),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  StoryContent({
+    required this.text,
+    required this.isMonsterTalking,
+    required this.buttonText,
+    required this.backgroundImage,
+  });
+}

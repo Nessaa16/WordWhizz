@@ -1,7 +1,7 @@
 part of 'pages.dart';
-
 class TebakGambar extends StatefulWidget {
-  const TebakGambar({Key? key}) : super(key: key);
+  final bool isStoryGame;
+  const TebakGambar({Key? key, required this.isStoryGame}) : super(key: key);
 
   @override
   _TebakGambarState createState() => _TebakGambarState();
@@ -36,6 +36,17 @@ class _TebakGambarState extends State<TebakGambar> {
     if (!await Permission.microphone.isGranted) {
       await Permission.microphone.request();
     }
+  }
+
+  void showWinDialog(BuildContext context, int skor, int hadiah, int coins) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return widget.isStoryGame
+            ? VictoryDialog(coins: coins, onClose: () {  },) // dialog untuk game cerita
+            : DialogWin(skor: skor, hadiah: hadiah, onClose: () {  },); // dialog untuk minigames
+      },
+    );
   }
 
   Future<void> _playAudio(String sound) async {
@@ -73,15 +84,6 @@ class _TebakGambarState extends State<TebakGambar> {
         _playAudio('wrong');
       }
     });
-  }
-
-  Future<void> _playWinnerSound() async {
-    try {
-      await audioPlayer.setSource(AssetSource('sounds/success_sound.mp3'));
-      await audioPlayer.resume();
-    } catch (e) {
-      print('Error playing winner sound: $e');
-    }
   }
 
   Future<void> _playWinnerAnimation() async {
@@ -129,20 +131,8 @@ class _TebakGambarState extends State<TebakGambar> {
                 Future.delayed(composition.duration, () {
                   Navigator.of(context).pop();
                   int rewardCoins = _calculateRewardCoins(score);
-                  _playWinnerSound();
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => DialogWin(
-                      skor: score,
-                      hadiah: rewardCoins,
-                      onClose: () async {
-                        await _addCoinsToFirebase(rewardCoins);
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  );
+                  _playWinnerAnimation();
+                  showWinDialog(context, score, rewardCoins, rewardCoins); // Panggil dialog sesuai tipe game
                 });
               },
             ),
@@ -375,3 +365,4 @@ class _TebakGambarState extends State<TebakGambar> {
     );
   }
 }
+

@@ -69,6 +69,7 @@ flutter:
     - assets/images/button1.png
     - assets/images/buttonLeft.png
     - assets/images/buttonRight.png
+    - assets/images/silangnyahati.png
     - assets/images/deskripsiTikus.png
     - assets/images/deskripsiKucing.png
     - assets/images/deskripsiKerbau.png
@@ -138,6 +139,7 @@ flutter:
     - assets/images/shopPage_whiteCard.png
     - assets/images/background_mainmenu2.png
     - assets/images/buttonputih.png
+    - assets/images/fluffy.png
     - assets/images/button_mainmenuhijau.png
     - assets/images/buttonmainmenuyellow.png
     - assets/images/playmainmenu2.png
@@ -159,6 +161,10 @@ flutter:
     - assets/images/label_konfirmasi.png
     - assets/sounds/correct_sound.mp3
     - assets/sounds/wrong_sound.mp3
+    - assets/sounds/portal.mp3
+    - assets/sounds/city.mp3
+    - assets/sounds/beach.mp3
+    - assets/sounds/walking.mp3
     - assets/sounds/success_sound.mp3
     - assets/sounds/get_gacha.mp3
     - assets/sounds/win_sound.mp3

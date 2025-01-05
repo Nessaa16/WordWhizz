@@ -38,7 +38,7 @@ class _GachaPageState extends State<GachaPage> {
       final userData = await userRef.get();
 
       if (!userData.exists) {
-        throw Exception("User data not found");
+        throw Exception("User data tidak dapat ditemukan");
       }
 
       final currentData = userData.data() ?? {};
@@ -47,7 +47,7 @@ class _GachaPageState extends State<GachaPage> {
       if (currentCoins < 50) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text('You need at least 50 coins to play the gacha')),
+              content: Text('Kamu butuh 50 koin untuk dapat bermain gacha')),
         );
         return;
       }
@@ -82,43 +82,59 @@ class _GachaPageState extends State<GachaPage> {
   }
 
   Future<void> _updateUserReward(Map<String, String> reward) async {
-    try {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
-      if (userId == null) {
-        throw Exception("User not logged in");
-      }
-
-      final userRef = _firestore.collection('users').doc(userId);
-
-      final userData = await userRef.get();
-      if (!userData.exists) {
-        throw Exception("User data not found");
-      }
-
-      final currentData = userData.data() ?? {};
-      int currentCoins = currentData['coins'] ?? 0;
-      int currentLives = currentData['lives'] ?? 0;
-
-      if (reward['reward']!.contains('gold')) {
-        final goldAmount = int.tryParse(reward['reward']!.split(' ')[1]) ?? 0;
-        currentCoins += goldAmount;
-      }
-      if (reward['reward']!.contains('lives')) {
-        currentLives += 1;
-      }
-
-      await userRef.update({
-        'coins': currentCoins,
-        'lives': currentLives,
-        'lastGachaReward': reward['reward'],
-        'lastGachaImage': reward['image'],
-      });
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("User not logged in");
     }
+
+    final userRef = _firestore.collection('users').doc(userId);
+
+    final userData = await userRef.get();
+    if (!userData.exists) {
+      throw Exception("User data not found");
+    }
+
+    final currentData = userData.data() ?? {};
+    int currentCoins = currentData['coins'] ?? 0;
+    int currentLives = currentData['lives'] ?? 0;
+    int potionBiru = currentData['potionbiru'] ?? 0;
+    int potionHijau = currentData['potionhijau'] ?? 0;
+    int potionKuning = currentData['potionkuning'] ?? 0;
+
+    // Update reward logic
+    if (reward['reward']!.contains('gold')) {
+      final goldAmount = int.tryParse(reward['reward']!.split(' ')[1]) ?? 0;
+      currentCoins += goldAmount;
+    }
+    if (reward['reward']!.contains('lives')) {
+      currentLives += 1;
+    }
+    if (reward['reward']!.contains('blue Potion')) {
+      potionBiru += 1;
+    }
+    if (reward['reward']!.contains('green potion')) {
+      potionHijau += 1;
+    }
+    if (reward['reward']!.contains('orange potion')) {
+      potionKuning += 1;
+    }
+
+    await userRef.update({
+      'coins': currentCoins,
+      'lives': currentLives,
+      'potionbiru': potionBiru,
+      'potionhijau': potionHijau,
+      'potionkuning': potionKuning,
+      'lastGachaReward': reward['reward'],
+      'lastGachaImage': reward['image'],
+    });
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${e.toString()}')),
+    );
   }
+}
 
   void _hideRewardScreen() {
     setState(() {
