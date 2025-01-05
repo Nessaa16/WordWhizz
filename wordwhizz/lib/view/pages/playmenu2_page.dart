@@ -35,8 +35,6 @@ class Chapter2 extends StatelessWidget {
                     onBackPressed: () {
                       Navigator.pop(context);
                     },
-                    coinCount: '100',
-                    heartCount: '5',
                   ),
 
                   // "CHAPTER 1" Title Text

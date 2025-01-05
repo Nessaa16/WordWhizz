@@ -7,7 +7,87 @@ class ShopPage extends StatefulWidget {
   _ShopPageState createState() => _ShopPageState();
 }
 
-class _ShopPageState extends State<ShopPage> {
+class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final audioPlayer = AudioPlayer();
+
+  Future<void> _purchaseItem(String category, String title) async {
+  try {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId == null) {
+      throw Exception("Pengguna tidak ditemukan. Silakan login kembali.");
+    }
+
+    final userRef = _firestore.collection('users').doc(userId);
+
+    final userData = await userRef.get();
+    if (!userData.exists) {
+      throw Exception("Data pengguna tidak ditemukan.");
+    }
+
+    final currentData = userData.data() ?? {};
+    int currentCoins = currentData['coins'] ?? 0;
+    int currentLives = currentData['lives'] ?? 0;
+
+    if (category == 'koin') {
+      if (title == '200') currentCoins += 200;
+      if (title == '400') currentCoins += 400;
+      if (title == '600') currentCoins += 600;
+    } else if (category == 'nyawa') {
+      if (title == '10' && currentCoins >= 100) {
+        currentCoins -= 100;
+        currentLives += 10; 
+      } else if (title == '4' && currentCoins >= 50) {
+        currentCoins -= 50;
+        currentLives += 4;
+      } else if (title == '2' && currentCoins >= 25) {
+        currentCoins -= 25;
+        currentLives += 2;
+      } else {
+        throw Exception("Koin tidak cukup untuk membeli nyawa \"$title\".");
+      }
+    }
+
+    await userRef.update({
+      'coins': currentCoins,
+      'lives': currentLives,
+    });
+
+    await _firestore.collection('purchases').add({
+      'userId': userId,
+      'category': category,
+      'title': title,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+    _playBuyingSound();
+   showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DialogSuccess(
+          category: category,
+          title: title,
+          onClose: () {
+            Navigator.pop(context); 
+          },
+        );
+      },
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Gagal membeli item: ${e.toString()}')),
+    );
+  }
+}
+
+Future<void> _playBuyingSound() async {
+  try {
+    await audioPlayer.setSource(AssetSource('sounds/buying.mp3'));
+    await audioPlayer.resume();
+  } catch (e) {
+    print('Error playing buying sound: $e');
+  }
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,66 +106,11 @@ class _ShopPageState extends State<ShopPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Image.asset(
-                            'assets/images/backarrow.png',
-                            width: 40,
-                            height: 40,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        Spacer(),
-                        // Coins
-                        Container(
-                          width: 80,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset('assets/images/coin.png', height: 24),
-                              SizedBox(width: 4),
-                              Text('350',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        // Hearts
-                        Container(
-                          width: 80,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset('assets/images/heart.png',
-                                  height: 24),
-                              SizedBox(width: 4),
-                              Text('8',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  TopNavbar(
+                    onBackPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-
                   // Title
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -93,14 +118,15 @@ class _ShopPageState extends State<ShopPage> {
                       child: Text(
                         'Toko & Gacha',
                         style: TextStyle(
-                          fontSize: 32,
+                          fontFamily: 'BalooChettan2',
+                          fontSize: 48,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                           shadows: [
                             Shadow(
                               offset: Offset(2, 2),
                               blurRadius: 3.0,
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.grey.withOpacity(0.5),
                             ),
                           ],
                         ),
@@ -119,56 +145,27 @@ class _ShopPageState extends State<ShopPage> {
                           _buildSection(
                             'Koin',
                             [
-                              _buildItem('200', 'IDR 25K',
-                                  'assets/images/coins_200.png', () {
-                                print('200 coins purchased');
-                              }),
-                              _buildItem('400', 'IDR 50K',
-                                  'assets/images/coins_400.png', () {
-                                print('400 coins purchased');
-                              }),
-                              _buildItem('600', 'IDR 75K',
-                                  'assets/images/coins_600.png', () {
-                                print('600 coins purchased');
-                              }),
+                              _buildItem('200', 'IDR 25K', 'assets/images/coins_200.png', 'koin'),
+                              _buildItem('400', 'IDR 50K', 'assets/images/coins_400.png', 'koin'),
+                              _buildItem('600', 'IDR 75K', 'assets/images/coins_600.png', 'koin'),
                             ],
                           ),
                           SizedBox(height: 47),
                           _buildSection(
                             'Nyawa',
                             [
-                              _buildItem('Full', '100 koin',
-                                  'assets/images/heart_full.png', () {
-                                print('Full heart purchased');
-                              }),
-                              _buildItem(
-                                  '4', '50 koin', 'assets/images/hearts_4.png',
-                                  () {
-                                print('4 hearts purchased');
-                              }),
-                              _buildItem(
-                                  '2', '25 koin', 'assets/images/hearts_2.png',
-                                  () {
-                                print('2 hearts purchased');
-                              }),
+                              _buildItem('10', '100 koin', 'assets/images/heart_full.png', 'nyawa'),
+                              _buildItem('4', '50 koin', 'assets/images/hearts_4.png', 'nyawa'),
+                              _buildItem('2', '25 koin', 'assets/images/hearts_2.png', 'nyawa'),
                             ],
                           ),
                           SizedBox(height: 47),
                           _buildSection(
                             'Paket',
                             [
-                              _buildItem('Pemula', '50 koin',
-                                  'assets/images/bundlePemula.png', () {
-                                print('Pemula package purchased');
-                              }),
-                              _buildItem('Elit', '100 koin',
-                                  'assets/images/bundleElit.png', () {
-                                print('Elit package purchased');
-                              }),
-                              _buildItem('Sultan', '200 koin',
-                                  'assets/images/bundleSultan.png', () {
-                                print('Sultan package purchased');
-                              }),
+                              _buildItem('Pemula', '50 koin', 'assets/images/bundlePemula.png', 'paket'),
+                              _buildItem('Elit', '100 koin', 'assets/images/bundleElit.png', 'paket'),
+                              _buildItem('Sultan', '200 koin', 'assets/images/bundleSultan.png', 'paket'),
                             ],
                           ),
                         ],
@@ -183,7 +180,11 @@ class _ShopPageState extends State<ShopPage> {
                       alignment: Alignment.center,
                       child: GestureDetector(
                         onTap: () {
-                          print('Gacha button pressed');
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => GachaPage()),
+                          );
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -216,25 +217,25 @@ class _ShopPageState extends State<ShopPage> {
         Container(
           width: 342,
           height: 214,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/cardShopPage.png'),
               fit: BoxFit.cover,
             ),
-            borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             children: [
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontFamily: 'BalooChettan2',
+                  fontSize: 32,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: items,
@@ -242,25 +243,11 @@ class _ShopPageState extends State<ShopPage> {
             ],
           ),
         ),
-        if (title == 'Koin')
-          Positioned(
-            bottom: -125,
-            left: -35,
-            child: Transform.rotate(
-              angle: -0.1,
-              child: Image.asset(
-                'assets/images/mascott.png',
-                height: 151,
-                width: 158,
-              ),
-            ),
-          ),
       ],
     );
   }
 
-  Widget _buildItem(
-      String title, String price, String imagePath, VoidCallback onTap) {
+  Widget _buildItem(String title, String price, String imagePath, String category) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -292,7 +279,12 @@ class _ShopPageState extends State<ShopPage> {
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
                       title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: 'BalooChettan2',
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -306,7 +298,15 @@ class _ShopPageState extends State<ShopPage> {
           bottom: -16,
           left: 9.5,
           child: GestureDetector(
-            onTap: onTap,
+            onTap: () {
+              DialogPurchasing.showDialogPurchasing(
+                context,
+                title: "Konfirmasi Pembelian",
+                message: "Apakah kamu yakin ingin membeli $category \"$title\"?",
+                imagePath: imagePath,
+                onConfirm: () => _purchaseItem(category, title),
+              );
+            },
             child: Container(
               width: 66,
               height: 32,
@@ -321,6 +321,7 @@ class _ShopPageState extends State<ShopPage> {
                 child: Text(
                   price,
                   style: const TextStyle(
+                    fontFamily: 'BalooChettan2',
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 12,

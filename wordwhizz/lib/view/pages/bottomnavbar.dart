@@ -1,12 +1,10 @@
-// import 'package:flutter/material.dart';
 part of 'pages.dart';
-// part 'mainMenu2_page.dart';
 
-class BottomNavbar extends StatelessWidget {
-  final void Function()? onHomePressed;
-  final void Function()? onGamePressed;
-  final void Function()? onStorePressed;
-  final void Function()? onProfilePressed;
+class BottomNavbar extends StatefulWidget {
+  final Function()? onHomePressed;
+  final Function()? onGamePressed;
+  final Function()? onStorePressed;
+  final Function()? onProfilePressed;
 
   const BottomNavbar({
     super.key,
@@ -15,6 +13,53 @@ class BottomNavbar extends StatelessWidget {
     this.onStorePressed,
     this.onProfilePressed,
   });
+
+  @override
+  _BottomNavbarState createState() => _BottomNavbarState();
+}
+
+class _BottomNavbarState extends State<BottomNavbar> {
+  int _selectedIndex = 0;
+
+  int get selectedIndex => _selectedIndex;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        widget.onHomePressed?.call() ??
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainMenuScreen()),
+            );
+        break;
+      case 1:
+        widget.onGamePressed?.call() ??
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MinigamesScreen()),
+            );
+        break;
+      case 2:
+        widget.onStorePressed?.call() ??
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ShopPage()),
+            );
+        break;
+      case 3:
+        widget.onProfilePressed?.call() ??
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfilePage(selectedCharacter: '')),
+            );
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,66 +78,84 @@ class BottomNavbar extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildBottomNavItem(
-              'assets/images/home.png',
-              onPressed: onHomePressed ??
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MainMenuScreen()),
-                    );
-                  },
-            ),
-            _buildBottomNavItem(
-              'assets/images/game.png',
-              onPressed: onGamePressed ??
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MinigamesScreen()),
-                    );
-                  },
-            ),
-            _buildBottomNavItem(
-              'assets/images/store.png',
-              onPressed: onStorePressed ??
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ShopPage()),
-                    );
-                  },
-            ),
-            _buildBottomNavItem(
-              'assets/images/profile.png',
-              onPressed: onProfilePressed ??
-                  () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ProfilePage(selectedCharacter: '')),
-                    );
-                  },
-            ),
+            for (int i = 0; i < 4; i++)
+              _buildBottomNavItem(
+                iconPath: _getIconPath(i),
+                label: _getLabel(i),
+                index: i,
+              ),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildBottomNavItem(String iconPath,
-      {required VoidCallback onPressed}) {
+  String _getIconPath(int index) {
+    switch (index) {
+      case 0:
+        return 'assets/images/home.png';
+      case 1:
+        return 'assets/images/game.png';
+      case 2:
+        return 'assets/images/store.png';
+      case 3:
+        return 'assets/images/profile.png';
+      default:
+        return '';
+    }
+  }
+
+  String _getLabel(int index) {
+    switch (index) {
+      case 0:
+        return 'Home';
+      case 1:
+        return 'Game';
+      case 2:
+        return 'Shop';
+      case 3:
+        return 'Profile';
+      default:
+        return '';
+    }
+  }
+
+  Widget _buildBottomNavItem({
+    required String iconPath,
+    required String label,
+    required int index,
+  }) {
+    bool isSelected = _selectedIndex == index;
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () => _onItemTapped(index),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 30.0),
-        child: Image.asset(
-          iconPath,
-          width: 30,
-          height: 32,
-          fit: BoxFit.contain,
+        padding: const EdgeInsets.only(bottom: 25),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: isSelected ? secondaryColor : Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+              child: Image.asset(
+                iconPath,
+                width: 30,
+                height: 32,
+                fit: BoxFit.contain,
+              ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'BalooChettan2',
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: isSelected ? secondaryColor : Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );

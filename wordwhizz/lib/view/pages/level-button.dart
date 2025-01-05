@@ -27,6 +27,7 @@ class LevelButton extends StatefulWidget {
 class _LevelButtonState extends State<LevelButton> {
   late bool isLocked;
   late bool isCompleted;
+  String currentHeartCount = "0";
 
   @override
   void initState() {
@@ -63,10 +64,11 @@ class _LevelButtonState extends State<LevelButton> {
       builder: (BuildContext context) {
         return BeforeGameAlertDialog(
           levelNumber: levelNumber,
-          onClose: (){
-            Navigator.of(context).pop(); 
+          currentHeartCount: currentHeartCount,
+          onClose: () {
+            Navigator.of(context).pop();
           },
-          potions: widget.potions
+          potions: widget.potions,
         );
       },
     );

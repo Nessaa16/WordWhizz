@@ -1,24 +1,30 @@
 
+import 'dart:async';
 import 'dart:math';
 
 // library pages; 
 
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:wordwhizz/services/auth_service.dart';
 import 'package:wordwhizz/shared/shared.dart';
 import 'package:wordwhizz/view/pages/splashscreen.dart';
 import 'package:wordwhizz/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/intl.dart';
 
 part 'welcome_page.dart';
 part 'login_page.dart';
 part 'profileSetUp_page.dart';
 part 'rules_page.dart';
 part 'character_page.dart';
+part 'dialog_success.dart';
 
 part 'profile_page.dart';
 part 'gacha_page.dart';
@@ -35,10 +41,8 @@ part 'mg_tebakgambar_page.dart';
 part 'level-button.dart';
 
 part 'shop_page.dart';
+part 'dialog_purchasing.dart';
 part 'minigames_translate.dart';
-// part 'character2_page.dart';
-// part 'character3_page.dart';
-// part 'character4_page.dart';
 part 'mainMenu2_page.dart';
 part 'bottomnavbar.dart'; 
 part 'topnavbar.dart'; 
@@ -46,6 +50,8 @@ part 'beforeGameAlertDialog.dart';
 part 'potion.dart'; 
 part 'baseCustomDialog.dart'; 
 part 'noHeartAlertDialog.dart'; 
+
 part 'victoryAlertDialog.dart'; 
+part 'dialog_win.dart'; 
 // part 'beforestartgame.dart'; 
 // uji coba 
