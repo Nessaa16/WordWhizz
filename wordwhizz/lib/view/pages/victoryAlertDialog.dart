@@ -1,4 +1,6 @@
-part of 'pages.dart';class VictoryDialog extends StatelessWidget implements BaseCustomDialog {
+part of 'pages.dart';
+
+class VictoryDialog extends StatelessWidget {
   final int coins;
   final VoidCallback onClose;
 
@@ -8,29 +10,33 @@ part of 'pages.dart';class VictoryDialog extends StatelessWidget implements Base
     required this.onClose,
   }) : super(key: key);
 
-  @override
+ @override
   Widget buildTitle(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
         Image.asset(
           'assets/images/pitabeforestartgame.png',
-          width: 306.0,
-          height: 91.4,
           fit: BoxFit.cover,
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 25),
-          child: Text(
-            'Berhasil!',
-            style: TextStyle(
-              fontFamily: 'BalooChettan 2',
-              fontSize: 32.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              overflow: TextOverflow.ellipsis, // Changed from visible to ellipsis
+        Positioned(
+          bottom: 40,
+          child: Material(
+            type: MaterialType.transparency,
+            child: DefaultTextStyle(
+              style: const TextStyle(
+                fontFamily: 'BalooChettan2',
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              child: Text(
+                'Berhasil!',
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.visible,
+              ),
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       ],
@@ -42,37 +48,60 @@ part of 'pages.dart';class VictoryDialog extends StatelessWidget implements Base
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text(
-          'Hadiah',
-          style: TextStyle(
-            fontFamily: 'BalooChettan2',
-            fontSize: 20,
-            color: Color(0xFFFF6B00),
-            fontWeight: FontWeight.bold,
-            overflow: TextOverflow.ellipsis, // Changed from visible to ellipsis
+        Material(
+          type: MaterialType.transparency,
+          child: DefaultTextStyle(
+            style: TextStyle(
+              fontFamily: 'BalooChettan2',
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
+            ),
+            child: Text(
+              'Stage 1-1 selesai',
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.visible,
+            ),
           ),
         ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/coins_200.png',
-              height: 34.17,
-              width: 46.83,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              coins.toString(),
-              style: const TextStyle(
-                fontFamily: 'BalooChettan2',
-                fontSize: 18,
-                color: Color(0xFF8B4513),
-                fontWeight: FontWeight.bold,
-                overflow: TextOverflow.ellipsis, // Changed from visible to ellipsis
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/coins_200.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  const SizedBox(width: 8),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: DefaultTextStyle(
+                      style: TextStyle(
+                        fontFamily: 'BalooChettan2',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                      ),
+                      child: Text(
+                        '$coins',
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -81,36 +110,41 @@ part of 'pages.dart';class VictoryDialog extends StatelessWidget implements Base
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: GestureDetector(
-          onTap: () {
-            // Close the dialog and navigate to the PlayMenu
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => Chapter1()),
-            );
-          },
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 50),
+            width: 166.13,
+            height: 58.17,
             decoration: BoxDecoration(
-              color: const Color(0xFFFF6B00),
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0xFF8B4513),
-                  offset: Offset(0, 4),
-                ),
-              ],
+              image: DecorationImage(
+                image: AssetImage('assets/images/button1.png'),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(45.0),
             ),
-            child: const Text(
-              'Lanjutkan',
-              style: TextStyle(
-                fontFamily: 'BalooChettan2',
-                fontSize: 24,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                overflow: TextOverflow.ellipsis, // Changed from visible to ellipsis
+            child: TextButton(
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Chapter1()),
+                );
+              },
+              child: Material(
+                type: MaterialType.transparency,
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    fontFamily: 'BalooChettan2',
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    'Lanjutkan',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
               ),
             ),
           ),
@@ -120,59 +154,43 @@ part of 'pages.dart';class VictoryDialog extends StatelessWidget implements Base
   }
 
   @override
-  AlertDialog buildDialog(BuildContext context) {
-    return AlertDialog(
-      titlePadding: EdgeInsets.zero, // Remove default title padding
-      title: SizedBox.shrink(), // Remove the default title space
-      backgroundColor: Colors.white, // Ensure this is set
-      contentPadding: EdgeInsets.only(top: 60.0), // Adjust content padding
-      content: buildContent(context),
-      actions: buildActions(context),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
-      clipBehavior: Clip.none, // Ensure content can overflow
+      clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        // Background overlay
         Positioned.fill(
           child: GestureDetector(
             onTap: onClose,
             child: Container(
-              color: Colors.black54, // Semi-transparent background
+              color: Colors.black54,
             ),
           ),
         ),
-        // Dialog content
         Positioned(
           top: MediaQuery.of(context).size.height / 4,
           child: Stack(
-            clipBehavior: Clip.none, // Ensure title can overflow
+            clipBehavior: Clip.none,
             alignment: Alignment.topCenter,
             children: <Widget>[
-              // Main dialog box
               Container(
-                width: 306.0, // Set the desired width
-                height: 332.0, // Set the desired height
+                width: 306.0,
+                height: 332.0,
                 decoration: BoxDecoration(
-                  color: Colors.white, // Background color for the entire dialog
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 60), // Add space for the floating title
-                    buildContent(context), // Custom content widget
-                    ...buildActions(context), // Custom actions
+                    const SizedBox(height: 60),
+                    buildContent(context),
+                    ...buildActions(context),
                   ],
                 ),
               ),
-              // Floating title widget
               Positioned(
-                top: -50, // Adjust this value for the "3D" floating effect
+                top: -50,
                 child: buildTitle(context),
               ),
             ],
