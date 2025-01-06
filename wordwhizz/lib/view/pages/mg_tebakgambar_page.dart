@@ -39,15 +39,29 @@ class _TebakGambarState extends State<TebakGambar> {
   }
 
   void showWinDialog(BuildContext context, int skor, int hadiah, int coins) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return widget.isStoryGame
-            ? VictoryDialog(coins: coins, onClose: () {  },) // dialog untuk game cerita
-            : DialogWin(skor: skor, hadiah: hadiah, onClose: () {  },); // dialog untuk minigames
-      },
-    );
-  }
+  _playSuccessAnimation();
+  showDialog(
+    context: context,
+    builder: (context) {
+      return widget.isStoryGame
+          ? VictoryDialog(
+              coins: coins,
+              onClose: () {
+              
+                Navigator.of(context).pop();
+              },
+            )
+          : DialogWin(
+              skor: skor,
+              hadiah: hadiah,
+              onClose: () {
+             
+                Navigator.of(context).pop();
+              },
+            );
+    },
+  );
+}
 
   Future<void> _playAudio(String sound) async {
     try {
@@ -95,6 +109,15 @@ class _TebakGambarState extends State<TebakGambar> {
     }
   }
 
+  Future<void> _playSuccessAnimation() async {
+    try {
+      await audioPlayer.setSource(AssetSource('sounds/success_sound.mp3'));
+      await audioPlayer.resume();
+    } catch (e) {
+      print('Error playing winner sound: $e');
+    }
+  }
+
   int _calculateRewardCoins(int score) {
     if (score >= 100) {
       return 25;
@@ -111,38 +134,43 @@ class _TebakGambarState extends State<TebakGambar> {
     }
   }
 
-  void _nextWord() {
-    setState(() {
-      if (progressValue < 1.0) {
-        progressValue += 0.25;
-        _randomizeWord();
-        selectedImage = null;
-        isImageSelected = false;
-      } else {
-        _playWinnerAnimation();
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => Center(
-            child: Lottie.asset(
-              'assets/images/animations/Winner.json',
-              repeat: false,
-              onLoaded: (composition) {
-                Future.delayed(composition.duration, () {
-                  Navigator.of(context).pop();
-                  int rewardCoins = _calculateRewardCoins(score);
-                  _playWinnerAnimation();
-                  showWinDialog(context, score, rewardCoins, rewardCoins); // Panggil dialog sesuai tipe game
-                });
-              },
-            ),
+ void _nextWord() {
+  setState(() {
+    if (progressValue < 1.0) {
+      progressValue += 0.25;
+      _randomizeWord();
+      selectedImage = null;
+      isImageSelected = false;
+    } else {
+      _playWinnerAnimation();
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(
+          child: Lottie.asset(
+            'assets/images/animations/Winner.json',
+            repeat: false,
+            onLoaded: (composition) async {  
+              await Future.delayed(composition.duration);
+              if (mounted) {  
+                Navigator.of(context).pop();
+                int rewardCoins = _calculateRewardCoins(score);
+              
+                
+                _playWinnerAnimation();
+                showWinDialog(context, score, rewardCoins, rewardCoins);
+                await _addCoinsToFirebase(rewardCoins);
+              }
+            },
           ),
-        );
-      }
-    });
-  }
+        ),
+      );
+    }
+  });
+}
 
-  Future<void> _addCoinsToFirebase(int rewardCoins) async {
+ Future<void> _addCoinsToFirebase(int rewardCoins) async {
+  try {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       DocumentReference userRef =
@@ -151,12 +179,15 @@ class _TebakGambarState extends State<TebakGambar> {
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         DocumentSnapshot snapshot = await transaction.get(userRef);
         if (snapshot.exists) {
-          int currentCoins = snapshot.get('coins') ?? 0;
+          int currentCoins = (snapshot.data() as Map<String, dynamic>)['coins'] ?? 0;
           transaction.update(userRef, {'coins': currentCoins + rewardCoins});
         }
       });
     }
+  } catch (e) {
+    print('Error adding coins to Firebase: $e');
   }
+}
 
   @override
   void dispose() {

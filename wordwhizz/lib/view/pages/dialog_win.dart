@@ -157,7 +157,12 @@ class DialogWin extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.0),
             ),
             child: TextButton(
-              onPressed: onClose,
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => MinigamesScreen()),
+                );
+              },
               child: Material(
                 type: MaterialType.transparency,
                 child: DefaultTextStyle(
