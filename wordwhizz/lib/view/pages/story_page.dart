@@ -43,7 +43,7 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
 
   int _currentIndex = 0;
   String username = "Pemain";
-  String selectedCharacter = "Karakter Default";
+  String selectedCharacter = "";
 
   late AnimationController _bounceController;
   late Animation<Offset> _bounceAnimation;
@@ -126,7 +126,7 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
         var userData = userDoc.data() as Map<String, dynamic>;
         setState(() {
           username = userData['username'] ?? "Pemain";
-          selectedCharacter = userData['selectedCharacter'] ?? "Karakter Default";
+          selectedCharacter = userData['selectedCharacter'] ?? "";
         });
       }
     } catch (e) {
@@ -141,7 +141,6 @@ class _StoryPageState extends State<StoryPage> with TickerProviderStateMixin {
   }
 void _nextStoryPart() async {
   if (_storyContents[_currentIndex].buttonText == "Buka tablet") {
-    // Cek apakah ini bagian dari cerita atau mini-game
     bool isStoryGame = true;
 
     // Navigate to the mini-game
@@ -154,7 +153,6 @@ void _nextStoryPart() async {
       ),
     );
 
-    await _addCoins(20);
   } else {
     setState(() {
       if (_currentIndex < _storyContents.length - 1) {

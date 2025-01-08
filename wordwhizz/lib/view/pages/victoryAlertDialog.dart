@@ -10,7 +10,7 @@ class VictoryDialog extends StatelessWidget {
     required this.onClose,
   }) : super(key: key);
 
- @override
+  @override
   Widget buildTitle(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
@@ -124,7 +124,7 @@ class VictoryDialog extends StatelessWidget {
               borderRadius: BorderRadius.circular(45.0),
             ),
             child: TextButton(
-                onPressed: () {
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Chapter1()),

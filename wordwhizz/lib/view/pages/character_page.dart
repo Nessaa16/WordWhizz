@@ -43,9 +43,7 @@ class _CharacterPageState extends State<CharacterPage>
 
   int _currentIndex = 3;
   late AnimationController _animationController;
-  late Animation<Offset> _animation;
-
-  @override
+  late Animation<Offset> _animation; @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
@@ -54,8 +52,8 @@ class _CharacterPageState extends State<CharacterPage>
     )..repeat(reverse: true);
 
     _animation = Tween<Offset>(
-      begin: Offset(0, 0),
-      end: Offset(0, -0.05),
+      begin: const Offset(0, 0),
+      end: const Offset(0, -0.05),
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeInOut,
@@ -66,6 +64,16 @@ class _CharacterPageState extends State<CharacterPage>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  Future<void> _saveSelectedCharacter(String characterName) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({'selectedCharacter': characterName});
+    }
   }
 
   void _changeCharacter(int direction) {
@@ -104,12 +112,12 @@ class _CharacterPageState extends State<CharacterPage>
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:
-                                  List.generate(_characters.length, (index) {
+                              children: List.generate(_characters.length,
+                                  (index) {
                                 return AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5),
                                   height: 8,
                                   width: 8,
                                   decoration: BoxDecoration(
@@ -122,15 +130,11 @@ class _CharacterPageState extends State<CharacterPage>
                               }),
                             ),
                             const SizedBox(height: 30),
-
-                            // Logo
                             Image.asset(
                               'assets/images/logo.png',
                               height: constraints.maxHeight * 0.2,
                               width: constraints.maxWidth * 0.6,
                             ),
-
-                            // Title
                             const Text(
                               "Pilih Karaktermu",
                               style: TextStyle(
@@ -149,8 +153,6 @@ class _CharacterPageState extends State<CharacterPage>
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 10),
-
-                            // Character Name
                             Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
@@ -164,13 +166,16 @@ class _CharacterPageState extends State<CharacterPage>
                                 ],
                               ),
                               padding: const EdgeInsets.all(20),
-                              child: Text(currentCharacter['name']!,
-                                  style: character),
+                              child: Text(
+                                currentCharacter['name']!,
+                                style: const TextStyle(
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
-
                             const SizedBox(height: 20),
-
-                            // Character options
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -200,19 +205,13 @@ class _CharacterPageState extends State<CharacterPage>
                                 ),
                               ],
                             ),
-
                             const SizedBox(height: 20),
-
-                            // Character description
                             Image.asset(
                               currentCharacter['description']!,
                               height: constraints.maxHeight * 0.18,
                               width: constraints.maxWidth * 0.6,
                             ),
-
                             const Spacer(),
-
-                            // Choose Button
                             GestureDetector(
                               onTap: () async {
                                 await _saveSelectedCharacter(
@@ -258,4 +257,3 @@ class _CharacterPageState extends State<CharacterPage>
     );
   }
 }
-
