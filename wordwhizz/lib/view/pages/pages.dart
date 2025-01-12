@@ -1,9 +1,7 @@
-
 import 'dart:async';
 import 'dart:math';
 
-// library pages; 
-
+// library pages;
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +23,7 @@ part 'profileSetUp_page.dart';
 part 'rules_page.dart';
 part 'character_page.dart';
 part 'dialog_success.dart';
-
+part 'payment.dart';
 part 'profile_page.dart';
 part 'gacha_page.dart';
 part 'story_page.dart';
@@ -44,13 +42,13 @@ part 'shop_page.dart';
 part 'dialog_purchasing.dart';
 part 'minigames_translate.dart';
 part 'mainMenu2_page.dart';
-part 'bottomnavbar.dart'; 
-part 'topnavbar.dart'; 
-part 'beforeGameAlertDialog.dart'; 
-part 'potion.dart'; 
-part 'baseCustomDialog.dart'; 
-part 'noHeartAlertDialog.dart'; 
-part 'dialog_win.dart'; 
-part 'victoryAlertDialog.dart'; 
-// part 'beforestartgame.dart'; 
-// uji coba 
+part 'bottomnavbar.dart';
+part 'topnavbar.dart';
+part 'beforeGameAlertDialog.dart';
+part 'potion.dart';
+part 'baseCustomDialog.dart';
+part 'noHeartAlertDialog.dart';
+part 'dialog_win.dart';
+part 'victoryAlertDialog.dart';
+// part 'beforestartgame.dart';
+// uji coba

@@ -12,81 +12,81 @@ class _ShopPageState extends State<ShopPage> with TickerProviderStateMixin {
   final audioPlayer = AudioPlayer();
 
   Future<void> _purchaseItem(String category, String title) async {
-  try {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) {
-      throw Exception("Pengguna tidak ditemukan. Silakan login kembali.");
-    }
-
-    final userRef = _firestore.collection('users').doc(userId);
-
-    final userData = await userRef.get();
-    if (!userData.exists) {
-      throw Exception("Data pengguna tidak ditemukan.");
-    }
-
-    final currentData = userData.data() ?? {};
-    int currentCoins = currentData['coins'] ?? 0;
-    int currentLives = currentData['lives'] ?? 0;
-
-    if (category == 'koin') {
-      if (title == '200') currentCoins += 200;
-      if (title == '400') currentCoins += 400;
-      if (title == '600') currentCoins += 600;
-    } else if (category == 'nyawa') {
-      if (title == '10' && currentCoins >= 100) {
-        currentCoins -= 100;
-        currentLives += 10; 
-      } else if (title == '4' && currentCoins >= 50) {
-        currentCoins -= 50;
-        currentLives += 4;
-      } else if (title == '2' && currentCoins >= 25) {
-        currentCoins -= 25;
-        currentLives += 2;
-      } else {
-        throw Exception("Koin tidak cukup untuk membeli nyawa \"$title\".");
+    try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null) {
+        throw Exception("Pengguna tidak ditemukan. Silakan login kembali.");
       }
+
+      final userRef = _firestore.collection('users').doc(userId);
+
+      final userData = await userRef.get();
+      if (!userData.exists) {
+        throw Exception("Data pengguna tidak ditemukan.");
+      }
+
+      final currentData = userData.data() ?? {};
+      int currentCoins = currentData['coins'] ?? 0;
+      int currentLives = currentData['lives'] ?? 0;
+
+      if (category == 'koin') {
+        if (title == '200') currentCoins += 200;
+        if (title == '400') currentCoins += 400;
+        if (title == '600') currentCoins += 600;
+      } else if (category == 'nyawa') {
+        if (title == '10' && currentCoins >= 100) {
+          currentCoins -= 100;
+          currentLives += 10;
+        } else if (title == '4' && currentCoins >= 50) {
+          currentCoins -= 50;
+          currentLives += 4;
+        } else if (title == '2' && currentCoins >= 25) {
+          currentCoins -= 25;
+          currentLives += 2;
+        } else {
+          throw Exception("Koin tidak cukup untuk membeli nyawa \"$title\".");
+        }
+      }
+
+      await userRef.update({
+        'coins': currentCoins,
+        'lives': currentLives,
+      });
+
+      await _firestore.collection('purchases').add({
+        'userId': userId,
+        'category': category,
+        'title': title,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      _playBuyingSound();
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return DialogSuccess(
+            category: category,
+            title: title,
+            onClose: () {
+              Navigator.pop(context);
+            },
+          );
+        },
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Gagal membeli item: ${e.toString()}')),
+      );
     }
-
-    await userRef.update({
-      'coins': currentCoins,
-      'lives': currentLives,
-    });
-
-    await _firestore.collection('purchases').add({
-      'userId': userId,
-      'category': category,
-      'title': title,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
-    _playBuyingSound();
-   showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DialogSuccess(
-          category: category,
-          title: title,
-          onClose: () {
-            Navigator.pop(context); 
-          },
-        );
-      },
-    );
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Gagal membeli item: ${e.toString()}')),
-    );
   }
-}
 
-Future<void> _playBuyingSound() async {
-  try {
-    await audioPlayer.setSource(AssetSource('sounds/buying.mp3'));
-    await audioPlayer.resume();
-  } catch (e) {
-    print('Error playing buying sound: $e');
+  Future<void> _playBuyingSound() async {
+    try {
+      await audioPlayer.setSource(AssetSource('sounds/buying.mp3'));
+      await audioPlayer.resume();
+    } catch (e) {
+      print('Error playing buying sound: $e');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -145,27 +145,36 @@ Future<void> _playBuyingSound() async {
                           _buildSection(
                             'Koin',
                             [
-                              _buildItem('200', 'IDR 25K', 'assets/images/coins_200.png', 'koin'),
-                              _buildItem('400', 'IDR 50K', 'assets/images/coins_400.png', 'koin'),
-                              _buildItem('600', 'IDR 75K', 'assets/images/coins_600.png', 'koin'),
+                              _buildItem('200', 'IDR 25K',
+                                  'assets/images/coins_200.png', 'koin'),
+                              _buildItem('400', 'IDR 50K',
+                                  'assets/images/coins_400.png', 'koin'),
+                              _buildItem('600', 'IDR 75K',
+                                  'assets/images/coins_600.png', 'koin'),
                             ],
                           ),
                           SizedBox(height: 47),
                           _buildSection(
                             'Nyawa',
                             [
-                              _buildItem('10', '100 koin', 'assets/images/heart_full.png', 'nyawa'),
-                              _buildItem('4', '50 koin', 'assets/images/hearts_4.png', 'nyawa'),
-                              _buildItem('2', '25 koin', 'assets/images/hearts_2.png', 'nyawa'),
+                              _buildItem('10', '100 koin',
+                                  'assets/images/heart_full.png', 'nyawa'),
+                              _buildItem('4', '50 koin',
+                                  'assets/images/hearts_4.png', 'nyawa'),
+                              _buildItem('2', '25 koin',
+                                  'assets/images/hearts_2.png', 'nyawa'),
                             ],
                           ),
                           SizedBox(height: 47),
                           _buildSection(
                             'Paket',
                             [
-                              _buildItem('Pemula', '50 koin', 'assets/images/bundlePemula.png', 'paket'),
-                              _buildItem('Elit', '100 koin', 'assets/images/bundleElit.png', 'paket'),
-                              _buildItem('Sultan', '200 koin', 'assets/images/bundleSultan.png', 'paket'),
+                              _buildItem('Pemula', '50 koin',
+                                  'assets/images/bundlePemula.png', 'paket'),
+                              _buildItem('Elit', '100 koin',
+                                  'assets/images/bundleElit.png', 'paket'),
+                              _buildItem('Sultan', '200 koin',
+                                  'assets/images/bundleSultan.png', 'paket'),
                             ],
                           ),
                         ],
@@ -247,7 +256,8 @@ Future<void> _playBuyingSound() async {
     );
   }
 
-  Widget _buildItem(String title, String price, String imagePath, String category) {
+  Widget _buildItem(
+      String title, String price, String imagePath, String category) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -302,9 +312,25 @@ Future<void> _playBuyingSound() async {
               DialogPurchasing.showDialogPurchasing(
                 context,
                 title: "Konfirmasi Pembelian",
-                message: "Apakah kamu yakin ingin membeli $category \"$title\"?",
+                message:
+                    "Apakah kamu yakin ingin membeli $category \"$title\"?",
                 imagePath: imagePath,
-                onConfirm: () => _purchaseItem(category, title),
+                onConfirm: () {
+                  if (category == 'koin') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentPage(
+                          category: category,
+                          title: title,
+                          onSuccess: () => _purchaseItem(category, title),
+                        ),
+                      ),
+                    );
+                  } else {
+                    _purchaseItem(category, title);
+                  }
+                },
               );
             },
             child: Container(
