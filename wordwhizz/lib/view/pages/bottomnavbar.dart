@@ -108,13 +108,13 @@ class _BottomNavbarState extends State<BottomNavbar> {
   String _getLabel(int index) {
     switch (index) {
       case 0:
-        return 'Home';
+        return 'Beranda';
       case 1:
-        return 'Game';
+        return 'Permainan';
       case 2:
-        return 'Shop';
+        return 'Toko';
       case 3:
-        return 'Profile';
+        return 'Profil';
       default:
         return '';
     }

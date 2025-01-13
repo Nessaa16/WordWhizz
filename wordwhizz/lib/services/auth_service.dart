@@ -38,7 +38,7 @@ class AuthService {
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login successful!")),
+        SnackBar(content: Text("Berhasil masuk!")),
       );
 
     } on FirebaseAuthException catch (e) {
