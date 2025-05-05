@@ -29,6 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animated_splash_screen: ^1.3.0
+  audioplayers: ^6.1.0
   cloud_firestore: ^5.5.1
   cupertino_icons: ^1.0.8
   firebase_auth: ^5.3.4
@@ -36,8 +37,11 @@ dependencies:
   firebase_ui_auth: ^1.16.0
   flutter:
     sdk: flutter
+  flutter_sound: ^9.17.8
   google_fonts: ^6.2.1
   lottie: ^3.1.3
+  permission_handler: ^11.3.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -56,6 +60,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/bgsplash.png
+    - assets/images/background_gacha.png
     - assets/images/bgsplash2.png
     - assets/images/bgsplash3.png
     - assets/images/mascott.png
@@ -64,6 +69,7 @@ flutter:
     - assets/images/button1.png
     - assets/images/buttonLeft.png
     - assets/images/buttonRight.png
+    - assets/images/silangnyahati.png
     - assets/images/deskripsiTikus.png
     - assets/images/deskripsiKucing.png
     - assets/images/deskripsiKerbau.png
@@ -72,7 +78,98 @@ flutter:
     - assets/images/kucing.png
     - assets/images/kerbau.png
     - assets/images/rubah.png
+    - assets/images/forest_background.png
+    - assets/images/profile.png
+    - assets/images/game.png
+    - assets/images/stars.png
+    - assets/images/home.png
+    - assets/images/1-1.png
+    - assets/images/1-2.png
+    - assets/images/1-3.png
+    - assets/images/1-4.png
+    - assets/images/2-1.png
+    - assets/images/2-2.png
+    - assets/images/2-3.png
+    - assets/images/2-4.png
+    - assets/images/backarrow.png
+    - assets/images/coin.png
+    - assets/images/heart.png
+    - assets/images/store.png
+    - assets/images/chapter1.png
+    - assets/images/chapter2.png
+    - assets/images/bottomnav_background.png
     - assets/images/animations/Animation.json
+    - assets/images/animations/Winner.json
+    - assets/images/animations/Gacha.json
+    - assets/images/animations/Payment.json
+    - assets/images/portal.png
+    - assets/images/comingsoon.png
+    - assets/images/terjemahkan.png
+    - assets/images/susunkalimat.png
+    - assets/images/tebakgambar.png
+    - assets/images/backgroundminigames1.png
+    - assets/images/bg_pulau_story.png
+    - assets/images/mmmg-benar.png
+    - assets/images/mmmg-lanjutkanbenar.png
+    - assets/images/mmmg-salah.png
+    - assets/images/mmmg-lanjutkansalah.png
+    - assets/images/mmmg-beruang.png
+    - assets/images/mmmg-kelinci.png
+    - assets/images/mmmg-anjing.png
+    - assets/images/mmmg-kucing.png
+    - assets/images/mmmg-pilihgambar.png
+    - assets/images/tebakgambarbackground.png
+    - assets/images/0bar.png
+    - assets/images/1bar.png
+    - assets/images/2bar.png
+    - assets/images/3bar.png
+    - assets/images/bgShopPage.png
+    - assets/images/bundleElit.png
+    - assets/images/bundlePemula.png
+    - assets/images/bundleSultan.png
+    - assets/images/coins_200.png
+    - assets/images/coins_400.png
+    - assets/images/coins_600.png
+    - assets/images/heart_full.png
+    - assets/images/hearts_2.png
+    - assets/images/hearts_4.png
+    - assets/images/cardShopPage.png
+    - assets/images/button_gacha.png
+    - assets/images/button_green.png
+    - assets/images/shopPage_whiteCard.png
+    - assets/images/background_mainmenu2.png
+    - assets/images/buttonputih.png
+    - assets/images/fluffy.png
+    - assets/images/button_mainmenuhijau.png
+    - assets/images/buttonmainmenuyellow.png
+    - assets/images/playmainmenu2.png
+    - assets/images/kuncikuning.png
+    - assets/images/navbaratas.png
+    - assets/images/navbarbackatas.png
+    - assets/images/backnav.png
+    - assets/images/avatar_dog.png
+    - assets/images/bg_minigames_translate.png
+    - assets/images/achieve_genius.png
+    - assets/images/achieve_nobuff.png
+    - assets/images/achieve_speedrunner.png
+    - assets/images/pitabeforestartgame.png
+    - assets/images/orangepotion.png
+    - assets/images/bluepotion.png
+    - assets/images/greenpotion.png
+    - assets/images/button_kembali.png
+    - assets/images/button_beli.png
+    - assets/images/label_konfirmasi.png
+    - assets/sounds/correct_sound.mp3
+    - assets/sounds/wrong_sound.mp3
+    - assets/sounds/portal.mp3
+    - assets/sounds/city.mp3
+    - assets/sounds/beach.mp3
+    - assets/sounds/walking.mp3
+    - assets/sounds/success_sound.mp3
+    - assets/sounds/get_gacha.mp3
+    - assets/sounds/win_sound.mp3
+    - assets/sounds/buying.mp3
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -84,7 +181,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: BalooChettan 2
+    - family: BalooChettan2
       fonts:
         - asset: fonts/BalooChettan2-Regular.ttf
         - asset: fonts/BalooChettan2-Medium.ttf

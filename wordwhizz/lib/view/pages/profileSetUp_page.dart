@@ -11,6 +11,7 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
   final _loginKey = GlobalKey<FormState>();
   final ctrlUsername = TextEditingController();
   final ctrlEmail = TextEditingController();
+  final ctrlCharacter = TextEditingController();
   final ctrlPass = TextEditingController();
   final ctrlDate = TextEditingController();
   bool isHide = true;
@@ -34,8 +35,24 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
           'username': ctrlUsername.text,
           'email': ctrlEmail.text,
           'birthdate': ctrlDate.text,
+          'coins': 200,
+          'lives': 2,
+          'selectedCharacter': '',
+          'potionbiru': 2,
+          'potionhijau': 2,
+          'potionkuning': 2,
           'createdAt': Timestamp.now(),
         });
+
+          DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user?.uid)
+          .get();
+
+      var userData = userDoc.data() as Map<String, dynamic>;
+
+      String coinCount = userData['coins'].toString();
+      String heartCount = userData['lives'].toString();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Akun berhasil dibuat!")),
@@ -72,24 +89,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
             child: ListView(
               padding: EdgeInsets.all(20.0),
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) {
-                    return AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      margin: EdgeInsets.symmetric(horizontal: 5),
-                      height: 8,
-                      width: 8,
-                      decoration: BoxDecoration(
-                        color: _currentIndex == index
-                            ? Color.fromARGB(255, 50, 44, 97)
-                            : Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                    );
-                  }),
-                ),
-                SizedBox(height: 30),
                 Center(
                   child: Image.asset(
                     'assets/images/logo.png',
@@ -147,7 +146,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Nama Pengguna",
                             hintText: "Masukkan Nama Pengguna",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -187,7 +185,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Email",
                             hintText: "Masukkan Email",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -217,7 +214,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Kata Sandi",
                             hintText: "Masukkan Kata Sandi",
                             hintStyle: TextStyle(color: Colors.grey),
                             prefixIcon: Icon(
@@ -264,19 +260,19 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate:
-                                  DateTime(1900), // Earliest selectable date
+                                  DateTime(1900), 
                               lastDate:
-                                  DateTime.now(), // Latest selectable date
+                                  DateTime.now(), 
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
                                     colorScheme: ColorScheme.light(
                                       primary: Color.fromARGB(
-                                          255, 50, 44, 97), // Header color
+                                          255, 50, 44, 97), 
                                       onPrimary:
-                                          Colors.white, // Header text color
+                                          Colors.white,
                                       onSurface:
-                                          Colors.black, // Body text color
+                                          Colors.black, 
                                     ),
                                   ),
                                   child: child!,
@@ -289,7 +285,7 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                                   "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
                               setState(() {
                                 ctrlDate.text =
-                                    formattedDate; // Update the controller with the selected date
+                                    formattedDate; 
                               });
                             }
                           },
@@ -307,7 +303,6 @@ class _ProfilesetupPageState extends State<ProfilesetupPage> {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: "Tanggal Lahir",
                                 hintText: "DD/MM/YYYY",
                                 hintStyle: TextStyle(color: Colors.grey),
                                 prefixIcon: Icon(Icons.calendar_month_rounded),

@@ -8,6 +8,8 @@ Color yellowColor = const Color(0xFFFFDE00);
 Color bgColor = const Color(0xFF5BCEFF);
 Color dropShadow = const Color(0xFF006691);
 Color fontColor = const Color(0xFF403C3C);
+Color thirdColor = const Color(0xEFF1F5);
+Color white = const Color.fromARGB(255, 255, 255, 255);
 
 TextStyle splashTitle1 = TextStyle(
   fontFamily: 'BalooChettan2',
@@ -63,4 +65,11 @@ TextStyle character = TextStyle(
   fontSize: 20.0,
   fontWeight: FontWeight.bold,
   color: secondaryColor,
+);
+
+TextStyle story_content = const TextStyle(
+  fontFamily: 'BalooChettan2',
+  fontSize: 15.0,
+  // fontWeight: FontWeight.bold,
+  color: Colors.white,
 );
